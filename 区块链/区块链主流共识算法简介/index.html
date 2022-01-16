@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"stack165.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?3306a25d0f129077188cc6978f6ec07b";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  <meta name="description" content="本文主要是参考网上资料自己对区块链共识算法做的一个汇总和简介">
+<meta property="og:type" content="article">
+<meta property="og:title" content="区块链主流共识算法简介">
+<meta property="og:url" content="https://stack165.github.io/%E5%8C%BA%E5%9D%97%E9%93%BE/%E5%8C%BA%E5%9D%97%E9%93%BE%E4%B8%BB%E6%B5%81%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="Stack">
+<meta property="og:description" content="本文主要是参考网上资料自己对区块链共识算法做的一个汇总和简介">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/8dbe03b7d28b49e4b876dc31e331389f.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU3RhY2tfc2NhdHRlcg==,size_17,color_FFFFFF,t_70,g_se,x_16">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/eeeecb2916e44fc1943b1999032a0fda.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU3RhY2tfc2NhdHRlcg==,size_17,color_FFFFFF,t_70,g_se,x_16">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/623f8963cee2419cbcb106ac76a4d248.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU3RhY2tfc2NhdHRlcg==,size_17,color_FFFFFF,t_70,g_se,x_16">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/7136bb9a884b4fd395e3d313041b898f.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU3RhY2tfc2NhdHRlcg==,size_17,color_FFFFFF,t_70,g_se,x_16">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/4532d0ae10e143aca4ac0a459fdf3194.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU3RhY2tfc2NhdHRlcg==,size_17,color_FFFFFF,t_70,g_se,x_16">
+<meta property="article:published_time" content="2022-01-16T10:19:29.000Z">
+<meta property="article:modified_time" content="2022-01-16T10:19:50.183Z">
+<meta property="article:author" content="Stack">
+<meta property="article:tag" content="Blockchain">
+<meta property="article:tag" content="共识算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/8dbe03b7d28b49e4b876dc31e331389f.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU3RhY2tfc2NhdHRlcg==,size_17,color_FFFFFF,t_70,g_se,x_16">
+
+<link rel="canonical" href="https://stack165.github.io/%E5%8C%BA%E5%9D%97%E9%93%BE/%E5%8C%BA%E5%9D%97%E9%93%BE%E4%B8%BB%E6%B5%81%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95%E7%AE%80%E4%BB%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>区块链主流共识算法简介 | Stack</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-216798436-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-216798436-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3306a25d0f129077188cc6978f6ec07b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Stack</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Stack的小站</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/Stack165" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://stack165.github.io/%E5%8C%BA%E5%9D%97%E9%93%BE/%E5%8C%BA%E5%9D%97%E9%93%BE%E4%B8%BB%E6%B5%81%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95%E7%AE%80%E4%BB%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/asuka.jpg">
+      <meta itemprop="name" content="Stack">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stack">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          区块链主流共识算法简介
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-01-16 18:19:29 / 修改时间：18:19:50" itemprop="dateCreated datePublished" datetime="2022-01-16T18:19:29+08:00">2022-01-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/" itemprop="url" rel="index"><span itemprop="name">区块链</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+            <div class="post-description">本文主要是参考网上资料自己对区块链共识算法做的一个汇总和简介</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>本文主要是参考网上资料自己对区块链共识算法做的一个汇总和简介<br>主要参考文章<a target="_blank" rel="noopener" href="https://www.tuoniaox.com/news/p-287193.html">一文读懂11个主流共识算法, 彻底搞懂PoS,PoW,dPoW,PBFT,dBFT这些究竟是什么鬼</a></p>
+<h1 id="何为共识算法"><a href="#何为共识算法" class="headerlink" title="何为共识算法"></a>何为共识算法</h1><p><strong>所谓共识，简单理解就是指大家都达成一致的意思</strong>。其实在现实生活中，有很多需要达成共识的场景，比如开会讨论，双方或多方签订一份合作协议等。</p>
+<p><strong>而在区块链系统中，每个节点必须要做的事情就是让自己的账本跟其他节点的账本保持一致</strong>如果是在传统的软件结构中，这几乎就不是问题，因为有一个中心服务器存在，也就是所谓的主库，其他的从库向主库看齐就行了。</p>
+<p>在现实生活中，很多事情人们也都是按照这种思路来的，比如企业老板发布一个通知，员工照着做。但是区块链是一个分布式的对等网络结构，在这个结构中<strong>没有哪个节点是“老大”，一切都要商量着来</strong>。</p>
+<p><strong>所以在区块链系统中，如何让每个节点通过一个规则将各自的数据保持一致是一个很核心的问题，这个问题的解决方案就是制定一套共识算法。</strong></p>
+<h2 id="拜占庭将军问题是什么？"><a href="#拜占庭将军问题是什么？" class="headerlink" title="拜占庭将军问题是什么？"></a>拜占庭将军问题是什么？</h2><p>一组<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%8B%9C%E5%8D%A0%E5%BA%AD%E5%B8%9D%E5%9C%8B" title="拜占庭帝国">拜占庭</a>将军分别各率领一支军队共同围困一座城市。<strong>为了简化问题，将各支军队的行动策略限定为进攻或撤离两种。</strong>因为部分军队进攻部分军队撤离可能会造成灾难性后果，因此各位将军<strong>必须通过投票来达成一致策略</strong>，即所有军队一起进攻或所有军队一起撤离。因为各位将军分处城市不同方向，他们只能通过信使互相联系。在投票过程中每位将军都将自己投票给进攻还是撤退的信息通过信使分别通知其他所有将军，这样一来每位将军<strong>根据自己的投票和其他所有将军送来的信息就可以知道共同的投票结果而决定行动策略</strong>。</p>
+<p><em><strong>图1：三个将军均为忠诚的场景 <strong>（2：1 进攻）</strong></strong></em><br><img src="https://img-blog.csdnimg.cn/8dbe03b7d28b49e4b876dc31e331389f.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU3RhY2tfc2NhdHRlcg==,size_17,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<p><strong>当三个将军中存在一个叛徒时，将可能扰乱正常的作战计划</strong>。图2展示了General C为叛徒的一种场景，他给General A和General B发送了不同的消息，在这种场景下General A通过投票得到进攻：撤退=1:2，最终将作出撤退的行动计划；General B通过投票得到进攻：撤退=2:1，最终将作出进攻的行动计划。结果只有General B发起了进攻并战败。</p>
+<p><em><strong>图二：两忠一叛</strong>（A：1：2撤退；B：2：1进攻）</em><em>（作战失败）</em>**<br><img src="https://img-blog.csdnimg.cn/eeeecb2916e44fc1943b1999032a0fda.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU3RhY2tfc2NhdHRlcg==,size_17,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<p>事实上，对于三个将军中存在一个叛徒的场景，想要总能达到一致的行动方案是不可能的。详细的证明可参看Leslie Lamport的论文。此外，论文中给出了一个更加普适的结论：如果存在m个叛将，那么至少需要3m+1个将军，才能最终达到一致的行动方案。</p>
+<h3 id="两种解决方案："><a href="#两种解决方案：" class="headerlink" title="两种解决方案："></a>两种解决方案：</h3><h4 id="1、口信消息型解决方案"><a href="#1、口信消息型解决方案" class="headerlink" title="1、口信消息型解决方案"></a>1、口信消息型解决方案</h4><p>首先, 对于口信消息(Oral message)的定义如下：</p>
+<ul>
+<li>A1. 任何已经发送的消息都将被正确传达;</li>
+<li>A2. 消息的接收者知道是谁发送了消息;</li>
+<li>A3. 消息的缺席可以被检测。</li>
+</ul>
+<p>基于口信消息的定义，我们可以知， 口信消息不能被篡改但是可以被伪造。即使出现了伪造或错误的讯息。只要有问题的将军的数量不到三分之一，仍可以达到“拜占庭容错”。</p>
+<p>原因是把同样的标准下放到“军官与士官的问题”时，在背叛的军士官不足三分之一的情况下，有问题的军士官可以很容易的被纠出来。</p>
+<p>结论：<strong>以函式来表示，将军的总数为<em>n</em>，<em>n</em>里面背叛者的数量为<em>t</em>，则只要<em>n</em> &gt; 3<em>t</em>就可以容错。</strong></p>
+<h4 id="2、签名消息型解决方案"><a href="#2、签名消息型解决方案" class="headerlink" title="2、签名消息型解决方案"></a>2、签名消息型解决方案</h4><p>**<br><code>    </code>同样，对签名消息的定义是在口信消息定义的基础上增加了如下两条：</p>
+<ul>
+<li><strong>A4. 忠诚将军的签名无法伪造，而且对他签名消息的内容进行任何更改都会被发现；</strong></li>
+<li><strong>A5. 任何人都能验证将军签名的真伪。</strong></li>
+</ul>
+<p>基于签名消息的定义，我们可以知道，签名消息无法被伪造或者篡改。为了深入理解签名消息型解决方案，我们同样以3三将军问题为例进行推导。 图3是忠将率先发起作战协商的场景，General A率先向General B、C发送了进攻消息，一旦叛将General C篡改了来自General A的消息，那么General B将将发现作战信息被General C篡改，General B将执行General A发送的消息。</p>
+<p><img src="https://img-blog.csdnimg.cn/623f8963cee2419cbcb106ac76a4d248.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU3RhY2tfc2NhdHRlcg==,size_17,color_FFFFFF,t_70,g_se,x_16" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-vsTTRcXj-1639145968161)(Aspose.Words.0dd1078f-aaf0-4aef-882d-5a11b3a55f53.001.jpeg)]"></p>
+<p><em><strong>图3. 忠将率先发起作战协商</strong></em></p>
+<p>图4是叛将率先发起作战协商的场景，叛将General C率先发送了误导的作战信息，那么General A、B将发现General C发送的作战信息不一致，因此判定其为叛将。可对其进行处理后再进行作战信息协商。</p>
+<p><img src="https://img-blog.csdnimg.cn/7136bb9a884b4fd395e3d313041b898f.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU3RhY2tfc2NhdHRlcg==,size_17,color_FFFFFF,t_70,g_se,x_16" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-j3Yu0AyG-1639145968161)(Aspose.Words.0dd1078f-aaf0-4aef-882d-5a11b3a55f53.001.jpeg)]"></p>
+<p><em><strong>图4. 叛将率先发起作战协商</strong></em></p>
+<p><strong>签名消息型解决方案可以处理任何数量叛将的场景。</strong></p>
+<h1 id="主流共识算法"><a href="#主流共识算法" class="headerlink" title="主流共识算法"></a>主流共识算法</h1><h2 id="1-工作量证明（PoW，Proof-of-Work）"><a href="#1-工作量证明（PoW，Proof-of-Work）" class="headerlink" title="1. 工作量证明（PoW，Proof of Work）"></a>1. 工作量证明（<strong>PoW</strong>，Proof of Work）</h2><p><strong>优点</strong>：自 2009 年以来得到了广泛测试，目前依然得到广泛的使用。</p>
+<p><strong>缺点</strong>：速度慢；耗能巨大，对环境不好；易受“规模经济”（economies of scale）的影响。</p>
+<p><strong>使用者</strong>：Bitcoin、Ethereum、Litecoin、Dogecoin等。</p>
+<p><strong>类型</strong>：有竞争共识（Competitive consensus）。</p>
+<p>简单来说就是要求使用者进行一些耗时适当的复杂运算，并且答案能被服务方快速验算，以此耗用的时间、设备与能源做为担保成本，以确保服务与资源是被真正的需求所使用。</p>
+<p>货币上应用（bitcoin）:</p>
+<p>由分散在各处的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%A8%88%E7%AE%97%E6%A9%9F" title="计算机">计算机</a>，竞赛谁能最早找出，搭配原本要打包的资料的穷举猜测值，谁就等同获得该区块的打包权（记帐权）。此猜测值被找出后，与资料、杂凑值一起打包成块后广播，经多数节点确认与承认，打包者就能获得打包该区块所提供的奖励。一般采用工作量证明的加密货币，好比比特币，会设定成随著参与竞赛的算力增减，而调整找寻猜测值的难度，以维持合理的运作速度。</p>
+<p><strong>工作量证明和安全性:</strong></p>
+<p>矿工会因挖矿而收到回报。 对于所有矿工的一个子集而言，他们几乎没有动机去开辟一条属于自己的新链——因为这破坏了系统。 区块链依赖于唯一状态来作为其真实性的来源。 同时使用者要始终选择最长的或者最重的链。</p>
+<p>工作量证明机制是为扩展链的长度。 最长的链是最可信的，因为它完成了最多的计算工作。 在 PoW 系统中，几乎不可能创建一个新区块去擦除交易信息、创建假区块或者维持第二个链。 这是因为恶意矿工需要比其他所有人更快地计算出区块。</p>
+<p>要一直创建恶意但有效的区块，你需要有超过 51% 的全网采矿能力去打败其他人。 这样你就需要大量的计算算力才能完成这样一个“工作”。 而能源支出可能甚至超出你做这样一次攻击所取得的成果。</p>
+<h2 id="2-权益证明（PoS，Proof-of-Stake）"><a href="#2-权益证明（PoS，Proof-of-Stake）" class="headerlink" title="2. 权益证明（PoS，Proof of Stake）"></a>2. <strong>权益证明（PoS，Proof of Stake）</strong></h2><p><strong>优点</strong>：节能；攻击者代价更大；不易受“规模经济”的影响。</p>
+<p><strong>缺点</strong>：「无利害关系」(Nothing at stake)攻击问题。</p>
+<p><strong>使用者</strong>：Ethereum（即将推出）、Peercoin、Nxt。</p>
+<p><strong>类型</strong>：有竞争共识。</p>
+<p>正是因为PoW算法在挖矿过程中对环境和电力的浪费极大，PoS才作为一种代替算法。</p>
+<p>POS也称股权证明，类似于财产储存在银行，这种模式会根据你持有数字货币的量和时间，分配给你相应的利息。让获得担任验证者工作的人获得奖励以吸引更多的人参与。此奖励通常会依照验证者持有的货币数量来计算，当持有的量越多获得的奖励也越高。</p>
+<p><img src="https://img-blog.csdnimg.cn/4532d0ae10e143aca4ac0a459fdf3194.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU3RhY2tfc2NhdHRlcg==,size_17,color_FFFFFF,t_70,g_se,x_16" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-UvbAyxfv-1639145968162)(Aspose.Words.0dd1078f-aaf0-4aef-882d-5a11b3a55f53.002.jpeg)]"></p>
+<h2 id="3-延迟工作量证明（dPoW，Delayed-Proof-of-Work）"><a href="#3-延迟工作量证明（dPoW，Delayed-Proof-of-Work）" class="headerlink" title="3. 延迟工作量证明（dPoW，Delayed Proof-of-Work）"></a>3. <strong>延迟工作量证明（dPoW，Delayed Proof-of-Work）</strong></h2><p><strong>PoB（Proof of Burn）叫做焚烧证明机制，是一种通过焚烧自己手中的代币来表决谁拥有对网络的领导地位的承诺</strong>。焚烧代币的数量越多，能获得网络领导地位的概率越高。PoB是分布式共识的一种方法，也是工作量证明机制的替代方法。它也可以用来引导一种加密货币。</p>
+<p><code>    </code>在基于DPoW的区块链中，矿工挖矿所获得的不再是奖励的代币，而是可以焚烧的“wood”——燃木。矿工使用自己的算力，通过哈希算法，最终证明自己的工作量之后，获取对应的wood，wood不可交易。当wood积攒到一定量之后，可以前往燃烧场地燃烧wood。</p>
+<p><code>    </code><strong>通过一组算法计算后，燃烧较多wood的人或者BP或者一组BP可以获取下个事件段出块的权利，成功出块后获取奖励（代币）</strong>。由于一个时间段内可能会有多人燃烧wood，下一个时间段出块的概率由自己燃烧wood数量决定。焚烧的越多，下一段时间可以获得出块权利的概率越高。</p>
+<h2 id="4-授权-PoS（DPoS，Delegated-Proof-of-Stake）"><a href="#4-授权-PoS（DPoS，Delegated-Proof-of-Stake）" class="headerlink" title="4. 授权 PoS（DPoS，Delegated Proof-of-Stake）"></a>4. <strong>授权 PoS（DPoS，Delegated Proof-of-Stake）</strong></h2><p><strong>优点</strong>：节能；快速；高流量博客网站 Steemit 就使用了它。EOS 的块时间是 0.5 秒。</p>
+<p><strong>缺点</strong>：略为中心化；拥有高权益的参与者可投票使自己成为一名验证者（这是近期已在 EOS 中出现的问题）。</p>
+<p><strong>采用者</strong>：BitShares、Steemit、EOS、Lisk、Ark。</p>
+<p><strong>类型</strong>：协同型共识</p>
+<p><strong>它的原理是让每一个持有比特股的人进行投票，由此产生101位代表 , 我们可以将其理解为101个超级节点或者矿池，而这101个超级节点彼此的权利是完全相等的</strong>。</p>
+<p>类似人民代表大会制度。</p>
+<h2 id="除了以上介绍的4种共识算法还有一些主流的共识算法如："><a href="#除了以上介绍的4种共识算法还有一些主流的共识算法如：" class="headerlink" title="除了以上介绍的4种共识算法还有一些主流的共识算法如："></a>除了以上介绍的4种共识算法还有一些主流的共识算法如：</h2><p><strong>实用拜占庭容错算法（PBFT：Practical Byzantine Fault Tolerance）</strong></p>
+<p><strong>授权拜占庭容错算法（dBFT，Delegated Byzantine Fault Tolerance）</strong></p>
+<p><strong>权威证明（PoA，Proof-of-Authority）</strong></p>
+<p><strong>所用时间证明（PoET，Proof of Elapsed Time）</strong></p>
+<p><strong>权益流通证明（PoSV，Proof of Stake Velocity）</strong></p>
+<p><strong>恒星共识（Stellar Consensus）</strong></p>
+<p><strong>活动证明（PoActivity，Proof Of Activity）</strong></p>
+<p>具体可以参考资料【1】</p>
+<p>参考资料及链接：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://www.tuoniaox.com/news/p-287193.html">一文读懂11个主流共识算法, 彻底搞懂PoS,PoW,dPoW,PBFT,dBFT这些究竟是什么鬼</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%8B%9C%E5%8D%A0%E5%BA%AD%E5%B0%86%E5%86%9B%E9%97%AE%E9%A2%98">拜占庭将军问题 维基百科，自由的百科全书</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1yJ411v7xV?from=search&seid=3576527907523534091&spm_id_from=333.337.0.0">拜占庭将军问题是什么？区块链如何防范恶意节点？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.microsoft.com/en-us/research/uploads/prod/2016/12/The-Byzantine-Generals-Problem.pdf">拜占庭将军问题论文《The Byzantine Generals Problem 》</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.tuoniaox.com/news/p-417071.html">一文读懂拜占庭将军问题</a></li>
+</ol>
+<p>一些论坛及网站：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://www.tuoniaox.com/news/p-417071.html">鸵鸟区块链</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.8btc.com/">巴比特</a></li>
+<li><a target="_blank" rel="noopener" href="http://ethfans.org/">Ethfans</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>给stack打赏一包辣条</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="Stack 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Stack
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://stack165.github.io/%E5%8C%BA%E5%9D%97%E9%93%BE/%E5%8C%BA%E5%9D%97%E9%93%BE%E4%B8%BB%E6%B5%81%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95%E7%AE%80%E4%BB%8B/" title="区块链主流共识算法简介">https://stack165.github.io/区块链/区块链主流共识算法简介/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/en" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Blockchain/" rel="tag"><i class="fa fa-tag"></i> Blockchain</a>
+              <a href="/tags/%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95/" rel="tag"><i class="fa fa-tag"></i> 共识算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E5%8C%BA%E5%9D%97%E9%93%BE/Win10%E4%BD%BF%E7%94%A8Geth%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E6%9C%89%E9%93%BE%E3%80%81%E8%BF%9E%E6%8E%A5%E5%8F%AF%E8%A7%86%E5%8C%96%E9%92%B1%E5%8C%85%E5%8F%8A%E6%8C%96%E7%9F%BF/" rel="prev" title="Win10使用Geth客户端搭建以太坊私有链、连接可视化钱包及挖矿">
+      <i class="fa fa-chevron-left"></i> Win10使用Geth客户端搭建以太坊私有链、连接可视化钱包及挖矿
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%95%E4%B8%BA%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">何为共识算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%9C%E5%8D%A0%E5%BA%AD%E5%B0%86%E5%86%9B%E9%97%AE%E9%A2%98%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">2.1.</span> <span class="nav-text">拜占庭将军问题是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E7%A7%8D%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A"><span class="nav-number">2.1.1.</span> <span class="nav-text">两种解决方案：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E5%8F%A3%E4%BF%A1%E6%B6%88%E6%81%AF%E5%9E%8B%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">1、口信消息型解决方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E7%AD%BE%E5%90%8D%E6%B6%88%E6%81%AF%E5%9E%8B%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">2、签名消息型解决方案</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BB%E6%B5%81%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">主流共识算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%B7%A5%E4%BD%9C%E9%87%8F%E8%AF%81%E6%98%8E%EF%BC%88PoW%EF%BC%8CProof-of-Work%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">1. 工作量证明（PoW，Proof of Work）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%9D%83%E7%9B%8A%E8%AF%81%E6%98%8E%EF%BC%88PoS%EF%BC%8CProof-of-Stake%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">2. 权益证明（PoS，Proof of Stake）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%BB%B6%E8%BF%9F%E5%B7%A5%E4%BD%9C%E9%87%8F%E8%AF%81%E6%98%8E%EF%BC%88dPoW%EF%BC%8CDelayed-Proof-of-Work%EF%BC%89"><span class="nav-number">3.3.</span> <span class="nav-text">3. 延迟工作量证明（dPoW，Delayed Proof-of-Work）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%8E%88%E6%9D%83-PoS%EF%BC%88DPoS%EF%BC%8CDelegated-Proof-of-Stake%EF%BC%89"><span class="nav-number">3.4.</span> <span class="nav-text">4. 授权 PoS（DPoS，Delegated Proof-of-Stake）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%A4%E4%BA%86%E4%BB%A5%E4%B8%8A%E4%BB%8B%E7%BB%8D%E7%9A%844%E7%A7%8D%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95%E8%BF%98%E6%9C%89%E4%B8%80%E4%BA%9B%E4%B8%BB%E6%B5%81%E7%9A%84%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95%E5%A6%82%EF%BC%9A"><span class="nav-number">3.5.</span> <span class="nav-text">除了以上介绍的4种共识算法还有一些主流的共识算法如：</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stack"
+      src="/images/asuka.jpg">
+  <p class="site-author-name" itemprop="name">Stack</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Stack165" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Stack165" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:stack165@outlook.com" title="E-Mail → mailto:stack165@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/stacks1iver" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;stacks1iver" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/en" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Stack</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">15k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">14 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest-nomobile.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":-10},"mobile":{"show":false,"scale":0.05},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script></body>
+</html>
