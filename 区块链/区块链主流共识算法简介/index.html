@@ -43,7 +43,7 @@ var _hmt = _hmt || [];
 <meta property="og:image" content="https://img-blog.csdnimg.cn/7136bb9a884b4fd395e3d313041b898f.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU3RhY2tfc2NhdHRlcg==,size_17,color_FFFFFF,t_70,g_se,x_16">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/4532d0ae10e143aca4ac0a459fdf3194.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU3RhY2tfc2NhdHRlcg==,size_17,color_FFFFFF,t_70,g_se,x_16">
 <meta property="article:published_time" content="2022-01-16T10:19:29.000Z">
-<meta property="article:modified_time" content="2022-01-16T10:36:27.731Z">
+<meta property="article:modified_time" content="2022-01-16T15:01:31.157Z">
 <meta property="article:author" content="Stack">
 <meta property="article:tag" content="Blockchain">
 <meta property="article:tag" content="共识算法">
@@ -159,6 +159,11 @@ var _hmt = _hmt || [];
     <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
 
   </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
@@ -214,7 +219,7 @@ var _hmt = _hmt || [];
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-01-16 18:19:29 / 修改时间：18:36:27" itemprop="dateCreated datePublished" datetime="2022-01-16T18:19:29+08:00">2022-01-16</time>
+              <time title="创建时间：2022-01-16 18:19:29 / 修改时间：23:01:31" itemprop="dateCreated datePublished" datetime="2022-01-16T18:19:29+08:00">2022-01-16</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -260,7 +265,7 @@ var _hmt = _hmt || [];
 <h2 id="拜占庭将军问题是什么？"><a href="#拜占庭将军问题是什么？" class="headerlink" title="拜占庭将军问题是什么？"></a>拜占庭将军问题是什么？</h2><p>一组<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%8B%9C%E5%8D%A0%E5%BA%AD%E5%B8%9D%E5%9C%8B" title="拜占庭帝国">拜占庭</a>将军分别各率领一支军队共同围困一座城市。<strong>为了简化问题，将各支军队的行动策略限定为进攻或撤离两种。</strong>因为部分军队进攻部分军队撤离可能会造成灾难性后果，因此各位将军<strong>必须通过投票来达成一致策略</strong>，即所有军队一起进攻或所有军队一起撤离。因为各位将军分处城市不同方向，他们只能通过信使互相联系。在投票过程中每位将军都将自己投票给进攻还是撤退的信息通过信使分别通知其他所有将军，这样一来每位将军<strong>根据自己的投票和其他所有将军送来的信息就可以知道共同的投票结果而决定行动策略</strong>。</p>
 <p><em><strong>图1：三个将军均为忠诚的场景 <strong>（2：1 进攻）</strong></strong></em><br><img src="https://img-blog.csdnimg.cn/8dbe03b7d28b49e4b876dc31e331389f.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU3RhY2tfc2NhdHRlcg==,size_17,color_FFFFFF,t_70,g_se,x_16"></p>
 <p><strong>当三个将军中存在一个叛徒时，将可能扰乱正常的作战计划</strong>。图2展示了General C为叛徒的一种场景，他给General A和General B发送了不同的消息，在这种场景下General A通过投票得到进攻：撤退=1:2，最终将作出撤退的行动计划；General B通过投票得到进攻：撤退=2:1，最终将作出进攻的行动计划。结果只有General B发起了进攻并战败。</p>
-<p><em><strong>图二：两忠一叛</strong>（A：1：2撤退；B：2：1进攻）</em><em>（作战失败）</em>**<br><img src="https://img-blog.csdnimg.cn/eeeecb2916e44fc1943b1999032a0fda.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU3RhY2tfc2NhdHRlcg==,size_17,color_FFFFFF,t_70,g_se,x_16"></p>
+<p><em><strong>图二：两忠一叛</strong>（A：1：2撤退；B：2：1进攻）</em>（作战失败）<br><img src="https://img-blog.csdnimg.cn/eeeecb2916e44fc1943b1999032a0fda.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU3RhY2tfc2NhdHRlcg==,size_17,color_FFFFFF,t_70,g_se,x_16"></p>
 <p>事实上，对于三个将军中存在一个叛徒的场景，想要总能达到一致的行动方案是不可能的。详细的证明可参看Leslie Lamport的论文。此外，论文中给出了一个更加普适的结论：如果存在m个叛将，那么至少需要3m+1个将军，才能最终达到一致的行动方案。</p>
 <h3 id="两种解决方案："><a href="#两种解决方案：" class="headerlink" title="两种解决方案："></a>两种解决方案：</h3><h4 id="1、口信消息型解决方案"><a href="#1、口信消息型解决方案" class="headerlink" title="1、口信消息型解决方案"></a>1、口信消息型解决方案</h4><p>首先, 对于口信消息(Oral message)的定义如下：</p>
 <ul>
@@ -386,7 +391,10 @@ var _hmt = _hmt || [];
     <a href="/%E5%8C%BA%E5%9D%97%E9%93%BE/Win10%E4%BD%BF%E7%94%A8Geth%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E6%9C%89%E9%93%BE%E3%80%81%E8%BF%9E%E6%8E%A5%E5%8F%AF%E8%A7%86%E5%8C%96%E9%92%B1%E5%8C%85%E5%8F%8A%E6%8C%96%E7%9F%BF/" rel="prev" title="Win10使用Geth客户端搭建以太坊私有链、连接可视化钱包及挖矿">
       <i class="fa fa-chevron-left"></i> Win10使用Geth客户端搭建以太坊私有链、连接可视化钱包及挖矿
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/%E7%AE%97%E6%B3%95/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%88AVL%EF%BC%89%E7%9A%84%E5%AE%9E%E7%8E%B0/" rel="next" title="平衡二叉树（AVL）的实现">
+      平衡二叉树（AVL）的实现 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -461,19 +469,20 @@ var _hmt = _hmt || [];
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">3</span>
+          
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -528,13 +537,13 @@ var _hmt = _hmt || [];
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">15k</span>
+    <span title="站点总字数">31k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">14 分钟</span>
+    <span title="站点阅读时长">28 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>

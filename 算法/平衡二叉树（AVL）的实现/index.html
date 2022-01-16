@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"stack165.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?3306a25d0f129077188cc6978f6ec07b";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  <meta name="description" content="平衡二叉树（AVL）的详细(c++）实现,介绍了二叉排序树和平衡二叉树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="平衡二叉树（AVL）的实现">
+<meta property="og:url" content="https://stack165.github.io/%E7%AE%97%E6%B3%95/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%88AVL%EF%BC%89%E7%9A%84%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="Stack">
+<meta property="og:description" content="平衡二叉树（AVL）的详细(c++）实现,介绍了二叉排序树和平衡二叉树">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/be73d12b0f7040c0a5f046c4fa3e5bf6.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/160e9f85c1de48088afac94ee2d11152.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/c36960fbaa854d8f84dc7406996a22e6.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/057070eb80f74f618f8587033cc9ce9a.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/617862f6b28145bf82ebdf474e7394b7.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/75f8be3c974943d892f6a84b2e1f48be.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/7bda08f6f3394b1c8528504193587ecc.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/8746c089e7944db29c22ca3074eff902.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/0d9dfdbf34794c009db986306291ace9.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/e6ced174d8fc4516beeeb1deb854a034.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/4b66101f3d414b118e6c4e421446d56c.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ea6dde196fe6415c9c839239ed061761.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/9ee069f3fc484807ad10692778c6e490.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/bb222e7f042e467ca66fea0d4a166553.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/80c5e170e3af4bbe9a2e2c1c541d1e34.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/84d35f0edf214ad6a4a7cdd227efd85f.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2022-01-16T14:43:48.000Z">
+<meta property="article:modified_time" content="2022-01-16T15:05:33.103Z">
+<meta property="article:author" content="Stack">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="cpp">
+<meta property="article:tag" content="c">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/be73d12b0f7040c0a5f046c4fa3e5bf6.png">
+
+<link rel="canonical" href="https://stack165.github.io/%E7%AE%97%E6%B3%95/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%88AVL%EF%BC%89%E7%9A%84%E5%AE%9E%E7%8E%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>平衡二叉树（AVL）的实现 | Stack</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-216798436-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-216798436-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3306a25d0f129077188cc6978f6ec07b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Stack</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Stack的小站</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/Stack165" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://stack165.github.io/%E7%AE%97%E6%B3%95/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%88AVL%EF%BC%89%E7%9A%84%E5%AE%9E%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/asuka.jpg">
+      <meta itemprop="name" content="Stack">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stack">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          平衡二叉树（AVL）的实现
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-01-16 22:43:48 / 修改时间：23:05:33" itemprop="dateCreated datePublished" datetime="2022-01-16T22:43:48+08:00">2022-01-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>10 分钟</span>
+            </span>
+            <div class="post-description">平衡二叉树（AVL）的详细(c++）实现,介绍了二叉排序树和平衡二叉树</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="平衡二叉树概念"><a href="#平衡二叉树概念" class="headerlink" title="平衡二叉树概念"></a>平衡二叉树概念</h1><blockquote>
+<p>平衡二叉排序树（Balanced Binary Tree），因由前苏联数学家Adelson-Velskii 和<br>Landis于1962年首先提出的，所以又称为AVL树。</p>
+</blockquote>
+<p>平衡二叉树是一种特殊的二叉排序树，理解平衡二叉树首先要理解什么是二叉排序树。<br>如果已经了解二叉排序树可以直接看下面平衡二叉树内容。</p>
+<h1 id="二叉排序树（Binary-Sort-Tree）"><a href="#二叉排序树（Binary-Sort-Tree）" class="headerlink" title="二叉排序树（Binary Sort Tree）"></a>二叉排序树（Binary Sort Tree）</h1><p>所谓二叉排序树(BST)即：<br>（1）若该树的<strong>左</strong>子树不为空，那么<strong>左</strong>子树所以结点的值均<strong>小</strong>于其根结点的值。<br>（2）若该树的<strong>右</strong>子树不为空，那么<strong>右</strong>子树所以结点的值均<strong>大</strong>于其根结点的值。<br>（3）该树的左右子树也均为二叉排序树。<br>依此定义，我们可以通过比较根结点的值一层层地定位到所要查找的值。</p>
+<p>例：如下图是一棵二叉排序树<br><img src="https://img-blog.csdnimg.cn/be73d12b0f7040c0a5f046c4fa3e5bf6.png"><br>比如我们要查找7，那么先从根结点开始比较，8&gt;7查找左子树 <strong>—-&gt;</strong> 3&lt;7查找右子树 <strong>—-&gt;</strong> 6&gt;7查找右子树 <strong>—-&gt;</strong> 最后7=7，找到了7。<br>这种查找算法与折半查找相似，也是逐步缩小搜索范围。<br>若中序遍历上图，则可以得到一个按数值大小排序的递增序列：1，3，4，6，7，8，10，13，15。</p>
+<h2 id="二叉排序树的储存结构"><a href="#二叉排序树的储存结构" class="headerlink" title="二叉排序树的储存结构"></a>二叉排序树的储存结构</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">BSTNode</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> data=<span class="number">0</span>;<span class="comment">//数据项</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">BSTNode</span> *<span class="title">lchild</span>=</span><span class="literal">NULL</span>,*rchild=<span class="literal">NULL</span>;<span class="comment">//左右子树</span></span><br><span class="line">&#125;BSTNode,*BSTree.</span><br></pre></td></tr></table></figure>
+
+<h2 id="二叉排序树的查找算法（递归查找）"><a href="#二叉排序树的查找算法（递归查找）" class="headerlink" title="二叉排序树的查找算法（递归查找）"></a>二叉排序树的查找算法（递归查找）</h2><p>BSTree T 为二叉树根节点 ，int e 为查找的关键字。时间复制度为O(log2 n)。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">searchTree</span><span class="params">(BSTree T,<span class="keyword">int</span> e)</span><span class="comment">//在二叉树中查找给定关键字(函数返回值为成功1,失败0)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (T==<span class="literal">NULL</span>)<span class="comment">//无法查找到给定关键字</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (e==T-&gt;data)<span class="comment">//查找到关键字</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (e&lt;T-&gt;data)<span class="comment">//小于根结点，向左子树查找</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">searchTree</span>(T-&gt;lchild,e);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(e&gt;T-&gt;data)<span class="comment">//大于根结点，向右子树查找</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">searchTree</span>(T-&gt;rchild,e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="二叉排序树的创建及插入（递归）"><a href="#二叉排序树的创建及插入（递归）" class="headerlink" title="二叉排序树的创建及插入（递归）"></a>二叉排序树的创建及插入（递归）</h2><p>二叉排序树的插入算法基本过程也是查找，时间复制度也为O(log2 n)。<br><img src="https://img-blog.csdnimg.cn/160e9f85c1de48088afac94ee2d11152.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InsertBST</span><span class="params">(BSTree &amp;T,<span class="keyword">int</span> e)</span><span class="comment">//插入节点，根据节点值的大小插入</span></span></span><br><span class="line"><span class="function"></span>&#123;<span class="comment">//当二叉排序树中不存在关键字等于e的结点时，查找结束，插入结点</span></span><br><span class="line">    <span class="keyword">if</span> (!T)<span class="comment">//查找到插入位置</span></span><br><span class="line">    &#123;</span><br><span class="line">        BSTNode *S; <span class="comment">//生成新结点</span></span><br><span class="line">        S=<span class="keyword">new</span> BSTNode;</span><br><span class="line">        S-&gt;data=e;<span class="comment">//给新结点赋值</span></span><br><span class="line">        S-&gt;lchild=S-&gt;rchild=<span class="literal">NULL</span>;<span class="comment">//将新结点作为叶子结点</span></span><br><span class="line">        T=S;<span class="comment">//给查找到的插入位置赋值</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (e&lt;T-&gt;data)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">InsertBST</span>(T-&gt;lchild,e);<span class="comment">//向左查找插入</span></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (e&gt;T-&gt;data)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">InsertBST</span>(T-&gt;rchild,e);<span class="comment">//向右查找插入</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">CreatBST</span><span class="params">(BSTree &amp;T)</span><span class="comment">//创建二叉树</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    T=<span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">int</span> e,n,i;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;e);</span><br><span class="line">        <span class="built_in">InsertBST</span>(T,e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="平衡二叉树"><a href="#平衡二叉树" class="headerlink" title="平衡二叉树"></a>平衡二叉树</h1><p>介绍完二叉排序树，我们就来看看平衡二叉树。<br>平衡二叉树就是在二叉排序树上建立的，可以说是具有以下两个特征的二叉排序树：<br>（1）左子树和右子树的深度之差的绝对值不超过1。<br>（2）左子树和右子树也是平衡二叉树。</p>
+<h2 id="平衡因子"><a href="#平衡因子" class="headerlink" title="平衡因子"></a>平衡因子</h2><p>为了方便记录和计算左右子树深度之差，我们引入一个概念叫平衡因子。<br>平衡因子就是该结点左右子树深度之差，由平衡二叉树的定义我们可以知道平衡二叉树上的平衡因子只可能是-1，0，1 。<br><img src="https://img-blog.csdnimg.cn/c36960fbaa854d8f84dc7406996a22e6.png" alt="图片来源于网络"></p>
+<h2 id="二叉排序树的储存结构-1"><a href="#二叉排序树的储存结构-1" class="headerlink" title="二叉排序树的储存结构"></a>二叉排序树的储存结构</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">AVLNode</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> data=<span class="number">0</span>;<span class="comment">//结点值</span></span><br><span class="line">    <span class="keyword">int</span> depth=<span class="number">0</span>;<span class="comment">//深度，方便通过计算左右子树深度之差得到该结点的平衡因子</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">AVLNode</span> *<span class="title">father</span>=</span><span class="literal">NULL</span>;<span class="comment">//父结点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">AVLNode</span> *<span class="title">lchild</span>=</span><span class="literal">NULL</span>,*rchild=<span class="literal">NULL</span>;<span class="comment">//左右结点</span></span><br><span class="line">&#125; AVLNode,*AVLTree; <span class="comment">//结点结构体</span></span><br></pre></td></tr></table></figure>
+<p><strong>计算平衡因子代码实现：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">count_depth</span><span class="params">(AVLTree &amp;T)</span><span class="comment">//计算各结点的深度</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(T==<span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> l=<span class="built_in">count_depth</span>(T-&gt;lchild);<span class="comment">//左子树深度</span></span><br><span class="line">        <span class="keyword">int</span> r=<span class="built_in">count_depth</span>(T-&gt;rchild);<span class="comment">//右子树深度</span></span><br><span class="line">        <span class="keyword">return</span> T-&gt;depth=<span class="built_in">max</span>(l,r)+<span class="number">1</span>;<span class="comment">//更新深度</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_balance</span><span class="params">(AVLTree T)</span><span class="comment">//读取深度</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(T)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> T-&gt;depth;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">count_balance</span><span class="params">(AVLTree T)</span><span class="comment">//计算平衡因子</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!T)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">get_balance</span>(T-&gt;lchild)-<span class="built_in">get_balance</span>(T-&gt;rchild);<span class="comment">//平衡因子等于左右子树的深度之差</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="平衡二叉树的创建及调整方法"><a href="#平衡二叉树的创建及调整方法" class="headerlink" title="平衡二叉树的创建及调整方法"></a>平衡二叉树的创建及调整方法</h2><p>如何创建一棵平衡二叉树呢？<br>简单的来说就是：<br>（1）<strong>先</strong>按照我们创建二叉排序树的方法，找到结点插入位置，将结点插入二叉树中。</p>
+<p>（2）<strong>然后</strong>我们来计算该插入结点父结点的平衡因子， <strong>如果平衡因子绝对值大于1，代表该子树是不平衡的，那么对该子树进行调整，将其调整为平衡二叉树</strong>， 然后一层一层往上计算平衡因子和进行调整，直到根节点（根结点平衡因子绝对值大于1也要调整），最终把整棵树调整为平衡二叉树。</p>
+<p>（3）第三步就重复上面操作，把一个一个结点插入二叉树中并进行调整，最终插入完所有结点并创建完成平衡二叉树。</p>
+<p><img src="https://img-blog.csdnimg.cn/057070eb80f74f618f8587033cc9ce9a.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70"></p>
+<h2 id="平衡二叉树的调整"><a href="#平衡二叉树的调整" class="headerlink" title="平衡二叉树的调整"></a>平衡二叉树的调整</h2><p>平衡二叉树的调整有4种调整情况。</p>
+<blockquote>
+<p>这里有一篇写得比较好的文章可以参考一下：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u014634338/article/details/42465089">平衡二叉树（AVL）图解与实现-zthgreat
+</a></p>
+</blockquote>
+<h3 id="LL型"><a href="#LL型" class="headerlink" title="LL型"></a>LL型</h3><p><code>(a)</code> 图a中我们插入“16” 后计算平衡因子发现结点“31”的平衡因子为2，该树为非平衡树，需要进行调整，我们<code>以结点“25”为旋转中心</code>，将其<code>父结点</code>按<code>顺时针旋转</code>为其<code>右子树</code>，至此该树调整完毕。<br><code>注意</code>：25的左结点16不进行旋转。<br><code> (b)</code> 图b中我们插入“9”后计算平衡因子发现结点“31”的平衡因子为2，该树为非平衡树，需要进行调整，我们<code>以结点“25”为旋转中心</code>，将其<code>父结点“31”</code>按<code>顺时针旋转</code>为其<code>右子树</code>，再把<code>旋转中心“25”的右子树</code>调整为<code>31</code>的左子树，至此该树调整完毕。</p>
+<p><img src="https://img-blog.csdnimg.cn/617862f6b28145bf82ebdf474e7394b7.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70"></p>
+<p>&ensp;&ensp; 我们总结出以下<code>规律</code>（参考下图）：将<code>B</code>结点作为根结点，<code>A</code>结点旋转为<code>B</code>结点的右子树，再把<code>B</code>结点本来的右子树连接为<code>A</code>结点的左子树，该树调整完成。<br><img src="https://img-blog.csdnimg.cn/75f8be3c974943d892f6a84b2e1f48be.png"><br>代码实现：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">AVLTree <span class="title">LL_rotate</span><span class="params">(AVLTree T)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    AVLTree parent=<span class="literal">NULL</span>,son;<span class="comment">//son结点即为旋转中心</span></span><br><span class="line">    parent=T-&gt;father;<span class="comment">//获取失衡结点的父节点</span></span><br><span class="line">    son=T-&gt;lchild;<span class="comment">//获取失衡结点的左孩子</span></span><br><span class="line">    <span class="keyword">if</span> (son-&gt;rchild!=<span class="literal">NULL</span>)<span class="comment">//设置son结点右孩子的父指针</span></span><br><span class="line">        son-&gt;rchild-&gt;father=T;</span><br><span class="line">    T-&gt;lchild=son-&gt;rchild;<span class="comment">//失衡结点的左孩子变更为son的右孩子</span></span><br><span class="line">    <span class="comment">//T的子结点更新完毕</span></span><br><span class="line">    <span class="built_in">count_depth</span>(T);<span class="comment">//更新失衡结点的深度信息</span></span><br><span class="line">    son-&gt;rchild=T;<span class="comment">//失衡结点变成son的右孩子</span></span><br><span class="line">    son-&gt;father=parent;<span class="comment">//设置son的父结点为原失衡结点的父结点，连接整颗树</span></span><br><span class="line">    <span class="comment">//如果失衡结点不是根结点，则更新父节点</span></span><br><span class="line">    <span class="keyword">if</span> (parent!=<span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//如果父节点的左孩子是失衡结点，指向现在更新后的新孩子son</span></span><br><span class="line">        <span class="keyword">if</span> (parent-&gt;lchild==T)</span><br><span class="line">            parent-&gt;lchild=son;</span><br><span class="line">        <span class="keyword">else</span> <span class="comment">//父节点的右孩子是失衡结点</span></span><br><span class="line">            parent-&gt;rchild=son;</span><br><span class="line">    &#125;</span><br><span class="line">    T-&gt;father=son;<span class="comment">//设置失衡结点的父亲</span></span><br><span class="line">    <span class="built_in">count_depth</span>(son);<span class="comment">//更新son结点的高度信息</span></span><br><span class="line">    <span class="keyword">return</span> son;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="RR型"><a href="#RR型" class="headerlink" title="RR型"></a>RR型</h3><p><img src="https://img-blog.csdnimg.cn/7bda08f6f3394b1c8528504193587ecc.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70"><br><code>(a)</code> 图a中我们插入“69” 后计算平衡因子发现结点“31”的平衡因子为-2，该树为非平衡树，需要进行调整，我们<code>以结点“47”为旋转中心</code>，将其<code>父结点</code>按<code>逆时针旋转</code>为其<code>左子树</code>，至此该树调整完毕。<br><code>注意</code>：47的右结点69不进行旋转。<br><code> (b)</code> 图b中我们插入“76”后计算平衡因子发现结点“31”的平衡因子为2，该树为非平衡树，需要进行调整，我们<code>以结点“47”为旋转中心</code>，将其<code>父结点“31”</code>按<code>逆时针旋转</code>为其<code>左子树</code>，再把<code>旋转中心“47”的左子树</code>调整为<code>31</code>的右子树，至此该树调整完毕。</p>
+<p>&ensp;&ensp; 我们总结出以下<code>规律</code>（参考下图）：将<code>B</code>结点作为根结点，<code>A</code>结点旋转为<code>B</code>结点的左子树，再把<code>B</code>结点本来的左子树连接为<code>A</code>结点的右子树，该树调整完成。<br>&ensp;&ensp; 可以看到LL型调整和RR型是左右相反的调整。<br><img src="https://img-blog.csdnimg.cn/8746c089e7944db29c22ca3074eff902.png"><br>代码实现：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">AVLTree <span class="title">RR_rotate</span><span class="params">(AVLTree T)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    AVLTree parent=<span class="literal">NULL</span>,son;<span class="comment">//son结点即为旋转中心</span></span><br><span class="line">    parent=T-&gt;father;<span class="comment">//获取失衡结点的父节点</span></span><br><span class="line">    son=T-&gt;rchild;<span class="comment">//获取失衡结点的右孩子</span></span><br><span class="line">    <span class="keyword">if</span> (son-&gt;lchild!=<span class="literal">NULL</span>)<span class="comment">//设置son结点左孩子的父指针</span></span><br><span class="line">        son-&gt;lchild-&gt;father=T;</span><br><span class="line">    T-&gt;rchild=son-&gt;lchild;<span class="comment">//失衡结点的右孩子变更为son的左孩子</span></span><br><span class="line">    <span class="comment">//T的子结点更新完毕</span></span><br><span class="line">    <span class="built_in">count_depth</span>(T);<span class="comment">//更新失衡结点的高度信息</span></span><br><span class="line">    son-&gt;lchild=T;<span class="comment">//失衡结点变成son的右孩子</span></span><br><span class="line">    son-&gt;father=parent;<span class="comment">//设置son的父结点为原失衡结点的父结点，连接整颗树</span></span><br><span class="line">    <span class="comment">//如果失衡结点不是根结点，则更新父节点</span></span><br><span class="line">    <span class="keyword">if</span> (parent!=<span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//如果父节点的左孩子是失衡结点，指向现在更新后的新孩子son</span></span><br><span class="line">        <span class="keyword">if</span> (parent-&gt;lchild==T)</span><br><span class="line">            parent-&gt;lchild=son;</span><br><span class="line">        <span class="keyword">else</span> <span class="comment">//父节点的右孩子是失衡结点</span></span><br><span class="line">            parent-&gt;rchild=son;</span><br><span class="line">    &#125;</span><br><span class="line">    T-&gt;father=son;<span class="comment">//设置失衡结点的父亲</span></span><br><span class="line">    <span class="built_in">count_depth</span>(son);<span class="comment">//更新son结点的高度信息</span></span><br><span class="line">    <span class="keyword">return</span> son;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-LR型"><a href="#3-LR型" class="headerlink" title="(3) LR型"></a>(3) LR型</h3><p><img src="https://img-blog.csdnimg.cn/0d9dfdbf34794c009db986306291ace9.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70"><br><code>(a)</code> 图a中我们插入“28” 后计算平衡因子发现结点“31”的平衡因子为2，该树为非平衡树，需要进行调整。<br>(1)我们对25和28进行RR型旋转调整<code>以结点“28”为旋转中心</code>，将其<code>父结点25</code>按<code>逆时针旋转</code>为其<code>左子树</code>，再连接为31的左子树。<br>(2)观察到调整后的树是LL型，故<code>以结点“28”为旋转中心</code>，将其<code>父结点31</code>按<code>顺时针旋转</code>为其<code>右子树</code>，调整完毕。<br><img src="https://img-blog.csdnimg.cn/e6ced174d8fc4516beeeb1deb854a034.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70"></p>
+<p><code> (b)</code> 图b中我们插入“26” 后计算平衡因子发现结点“31”的平衡因子为2，该树为非平衡树，需要进行调整。<br>(1)我们对25和28进行RR型旋转调整<code>以结点“28”为旋转中心</code>，将其<code>父结点25</code>按<code>逆时针旋转</code>为其<code>左子树</code>，<code>“28”的左子树“26”</code>连接为“25”的右子树，再将”28”连接为”31”的左子树。<br>(2)观察到调整后的树是LL型，故<code>以结点“28”为旋转中心</code>，将其<code>父结点31</code>按<code>顺时针旋转</code>为其<code>右子树</code>，调整完毕。<br><img src="https://img-blog.csdnimg.cn/4b66101f3d414b118e6c4e421446d56c.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70"><br><code>(c)</code>图b中我们插入“30” 后计算平衡因子发现结点“31”的平衡因子为2，该树为非平衡树，需要进行调整。<br>(1)我们对25和28进行RR型旋转调整<code>以结点“28”为旋转中心</code>，将其<code>父结点25</code>按<code>逆时针旋转</code>为其<code>左子树</code>，再将”28”连接为”31”的左子树。<br>(2)观察到调整后的树是LL型，故<code>以结点“28”为旋转中心</code>，将其<code>父结点31</code>按<code>顺时针旋转</code>为其<code>右子树</code>，再将“28”（旋转中心）的右子树“30”连接为“31”的左子树，调整完毕。<br><img src="https://img-blog.csdnimg.cn/ea6dde196fe6415c9c839239ed061761.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70"></p>
+<p>&ensp;&ensp;<strong>我们总结出以下<code>规律</code><strong>（参考下图）：LR型</strong>先对B,C进行RR型旋转</strong>(以B为旋转中心)，旋转后就变成LL型的非平衡树之后<strong>再对A，B，C进行LL型旋转调整</strong>(以B为旋转中心)。<br><img src="https://img-blog.csdnimg.cn/9ee069f3fc484807ad10692778c6e490.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70"><br>代码实现：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">AVLTree <span class="title">LR_rotate</span><span class="params">(AVLTree T)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">RR_rotate</span>(T-&gt;lchild);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">LL_rotate</span>(T);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-RL型"><a href="#4-RL型" class="headerlink" title="(4) RL型"></a>(4) RL型</h3><p><img src="https://img-blog.csdnimg.cn/bb222e7f042e467ca66fea0d4a166553.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70"><br>RL型就与LR型相反，先进行LL型旋转，再进行RR型旋转。如（a）图的旋转。<br><img src="https://img-blog.csdnimg.cn/80c5e170e3af4bbe9a2e2c1c541d1e34.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70"><br>&ensp;&ensp;<strong>我们总结出以下<code>规律</code><strong>（参考下图）：RL型</strong>先对B,C进行LL型旋转</strong>(以B为旋转中心)，旋转后就变成RR型的非平衡树之后<strong>再对A，B，C进行RR型旋转调整</strong>(以B为旋转中心)。<br><img src="https://img-blog.csdnimg.cn/84d35f0edf214ad6a4a7cdd227efd85f.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RyZWVfc2Vh,size_16,color_FFFFFF,t_70"><br>代码实现：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">AVLTree <span class="title">RL_rotate</span><span class="params">(AVLTree T)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">LL_rotate</span>(T-&gt;rchild);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">RR_rotate</span>(T);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="平衡二叉树的创建"><a href="#平衡二叉树的创建" class="headerlink" title="平衡二叉树的创建"></a>平衡二叉树的创建</h3><p>了解完了如何调整非平衡二叉树，剩下工作就比较简单了，无非是在创建二叉排序树时，每次插入结点，把二叉树调整为平衡二叉树。<br>下面是代码实现：</p>
+<h4 id="输入数据"><a href="#输入数据" class="headerlink" title="输入数据"></a>输入数据</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">creativetree</span><span class="params">(AVLTree &amp;T)</span><span class="comment">//输入数据</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    T=<span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">int</span> e,n,i;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;e);</span><br><span class="line">        T=<span class="built_in">Insert</span>(T,e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">AVLTree <span class="title">InsertAVL</span><span class="params">(AVLTree &amp;T,<span class="keyword">int</span> e,AVLTree parent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!T)<span class="comment">//找到结点插入位置</span></span><br><span class="line">    &#123;</span><br><span class="line">        AVLNode *S;</span><br><span class="line">        S=<span class="keyword">new</span> AVLNode;</span><br><span class="line">        S-&gt;data=e;</span><br><span class="line">        S-&gt;father=parent;</span><br><span class="line">        S-&gt;lchild=S-&gt;rchild=<span class="literal">NULL</span>;</span><br><span class="line">        T=S;</span><br><span class="line">        <span class="keyword">return</span> S;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (e&lt;T-&gt;data)<span class="comment">//向左搜索</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">InsertAVL</span>(T-&gt;lchild,e,T);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (e&gt;T-&gt;data)<span class="comment">//向右搜索</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">InsertAVL</span>(T-&gt;rchild,e,T);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;<span class="comment">//该结点已存在</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">AVLTree <span class="title">Insert</span><span class="params">(AVLTree &amp;T,<span class="keyword">int</span> e)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    AVLNode *S;</span><br><span class="line">    S=<span class="keyword">new</span> AVLNode;</span><br><span class="line">    S=<span class="built_in">InsertAVL</span>(T,e,<span class="literal">NULL</span>);<span class="comment">//插入结点</span></span><br><span class="line">    <span class="built_in">count_depth</span>(T);<span class="comment">//更新深度信息</span></span><br><span class="line">    T=<span class="built_in">AVLchange</span>(T,S);<span class="comment">//调整为平衡二叉树</span></span><br><span class="line">    <span class="keyword">return</span> T;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="调整平衡二叉树"><a href="#调整平衡二叉树" class="headerlink" title="调整平衡二叉树"></a>调整平衡二叉树</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">AVLTree <span class="title">AVLchange</span><span class="params">(AVLTree &amp;T,AVLTree S)</span><span class="comment">//调整为平衡二叉树</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> balance=<span class="number">0</span>;<span class="comment">//平衡因子</span></span><br><span class="line">    <span class="keyword">while</span> (S)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">count_depth</span>(T);<span class="comment">//计算深度</span></span><br><span class="line">        balance=<span class="built_in">count_balance</span>(S);<span class="comment">//计算平衡因子</span></span><br><span class="line">        <span class="keyword">if</span>(balance&gt;<span class="number">1</span>||balance&lt;<span class="number">-1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(balance&gt;<span class="number">1</span>)<span class="comment">//L型</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(<span class="built_in">count_balance</span>(S-&gt;lchild)&gt;<span class="number">0</span>)<span class="comment">//LL型</span></span><br><span class="line">                &#123;</span><br><span class="line">                    S=<span class="built_in">LL_rotate</span>(S);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>  <span class="comment">//LR型</span></span><br><span class="line">                &#123;</span><br><span class="line">                    S=<span class="built_in">LR_rotate</span>(S);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(balance&lt;<span class="number">1</span>)<span class="comment">//R型</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">count_balance</span>(S-&gt;rchild)&lt;<span class="number">0</span>) <span class="comment">//RR型</span></span><br><span class="line">                    S=<span class="built_in">RR_rotate</span>(S);</span><br><span class="line">                <span class="keyword">else</span> <span class="comment">//RL型</span></span><br><span class="line">                    S=<span class="built_in">RL_rotate</span>(S);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(S-&gt;father==<span class="literal">NULL</span>)<span class="comment">//到达根节点，退出循环</span></span><br><span class="line">            &#123;</span><br><span class="line">                T=S;<span class="comment">//更新为新的根节点</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        S=S-&gt;father;<span class="comment">//一层一层往上调整</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> T;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="平衡二叉树实现的整体代码"><a href="#平衡二叉树实现的整体代码" class="headerlink" title="平衡二叉树实现的整体代码"></a>平衡二叉树实现的整体代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;stdio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;malloc.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">AVLNode</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> data=<span class="number">0</span>;<span class="comment">//结点值</span></span><br><span class="line">    <span class="keyword">int</span> depth=<span class="number">0</span>;<span class="comment">//深度</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">AVLNode</span> *<span class="title">father</span>=</span><span class="literal">NULL</span>;<span class="comment">//父结点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">AVLNode</span> *<span class="title">lchild</span>=</span><span class="literal">NULL</span>,*rchild=<span class="literal">NULL</span>;<span class="comment">//左右结点</span></span><br><span class="line">&#125; AVLNode,*AVLTree; <span class="comment">//结点结构体</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">count_depth</span><span class="params">(AVLTree &amp;T)</span><span class="comment">//计算各结点的深度</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(T==<span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> l=<span class="built_in">count_depth</span>(T-&gt;lchild);<span class="comment">//左子树深度</span></span><br><span class="line">        <span class="keyword">int</span> r=<span class="built_in">count_depth</span>(T-&gt;rchild);<span class="comment">//右子树深度</span></span><br><span class="line">        <span class="keyword">return</span> T-&gt;depth=<span class="built_in">max</span>(l,r)+<span class="number">1</span>;<span class="comment">//更新深度</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_balance</span><span class="params">(AVLTree T)</span><span class="comment">//读取深度</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(T)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> T-&gt;depth;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">count_balance</span><span class="params">(AVLTree T)</span><span class="comment">//计算平衡因子</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!T)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">get_balance</span>(T-&gt;lchild)-<span class="built_in">get_balance</span>(T-&gt;rchild);<span class="comment">//平衡因子等于左右子树的深度之差</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">AVLTree <span class="title">LL_rotate</span><span class="params">(AVLTree T)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    AVLTree parent=<span class="literal">NULL</span>,son;<span class="comment">//son结点即为旋转中心</span></span><br><span class="line">    parent=T-&gt;father;<span class="comment">//获取失衡结点的父节点</span></span><br><span class="line">    son=T-&gt;lchild;<span class="comment">//获取失衡结点的左孩子</span></span><br><span class="line">    <span class="keyword">if</span> (son-&gt;rchild!=<span class="literal">NULL</span>)<span class="comment">//设置son结点右孩子的父指针</span></span><br><span class="line">        son-&gt;rchild-&gt;father=T;</span><br><span class="line">    T-&gt;lchild=son-&gt;rchild;<span class="comment">//失衡结点的左孩子变更为son的右孩子</span></span><br><span class="line">    <span class="comment">//T的子结点更新完毕</span></span><br><span class="line">    <span class="built_in">count_depth</span>(T);<span class="comment">//更新失衡结点的深度信息</span></span><br><span class="line">    son-&gt;rchild=T;<span class="comment">//失衡结点变成son的右孩子</span></span><br><span class="line">    son-&gt;father=parent;<span class="comment">//设置son的父结点为原失衡结点的父结点，连接整颗树</span></span><br><span class="line">    <span class="comment">//如果失衡结点不是根结点，则更新父节点</span></span><br><span class="line">    <span class="keyword">if</span> (parent!=<span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//如果父节点的左孩子是失衡结点，指向现在更新后的新孩子son</span></span><br><span class="line">        <span class="keyword">if</span> (parent-&gt;lchild==T)</span><br><span class="line">            parent-&gt;lchild=son;</span><br><span class="line">        <span class="keyword">else</span> <span class="comment">//父节点的右孩子是失衡结点</span></span><br><span class="line">            parent-&gt;rchild=son;</span><br><span class="line">    &#125;</span><br><span class="line">    T-&gt;father=son;<span class="comment">//设置失衡结点的父亲</span></span><br><span class="line">    <span class="built_in">count_depth</span>(son);<span class="comment">//更新son结点的高度信息</span></span><br><span class="line">    <span class="keyword">return</span> son;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">AVLTree <span class="title">RR_rotate</span><span class="params">(AVLTree T)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    AVLTree parent=<span class="literal">NULL</span>,son;<span class="comment">//son结点即为旋转中心</span></span><br><span class="line">    parent=T-&gt;father;<span class="comment">//获取失衡结点的父节点</span></span><br><span class="line">    son=T-&gt;rchild;<span class="comment">//获取失衡结点的右孩子</span></span><br><span class="line">    <span class="keyword">if</span> (son-&gt;lchild!=<span class="literal">NULL</span>)<span class="comment">//设置son结点左孩子的父指针</span></span><br><span class="line">        son-&gt;lchild-&gt;father=T;</span><br><span class="line">    T-&gt;rchild=son-&gt;lchild;<span class="comment">//失衡结点的右孩子变更为son的左孩子</span></span><br><span class="line">    <span class="comment">//T的子结点更新完毕</span></span><br><span class="line">    <span class="built_in">count_depth</span>(T);<span class="comment">//更新失衡结点的高度信息</span></span><br><span class="line">    son-&gt;lchild=T;<span class="comment">//失衡结点变成son的右孩子</span></span><br><span class="line">    son-&gt;father=parent;<span class="comment">//设置son的父结点为原失衡结点的父结点，连接整颗树</span></span><br><span class="line">    <span class="comment">//如果失衡结点不是根结点，则更新父节点</span></span><br><span class="line">    <span class="keyword">if</span> (parent!=<span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//如果父节点的左孩子是失衡结点，指向现在更新后的新孩子son</span></span><br><span class="line">        <span class="keyword">if</span> (parent-&gt;lchild==T)</span><br><span class="line">            parent-&gt;lchild=son;</span><br><span class="line">        <span class="keyword">else</span> <span class="comment">//父节点的右孩子是失衡结点</span></span><br><span class="line">            parent-&gt;rchild=son;</span><br><span class="line">    &#125;</span><br><span class="line">    T-&gt;father=son;<span class="comment">//设置失衡结点的父亲</span></span><br><span class="line">    <span class="built_in">count_depth</span>(son);<span class="comment">//更新son结点的高度信息</span></span><br><span class="line">    <span class="keyword">return</span> son;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">AVLTree <span class="title">LR_rotate</span><span class="params">(AVLTree T)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">RR_rotate</span>(T-&gt;lchild);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">LL_rotate</span>(T);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">AVLTree <span class="title">RL_rotate</span><span class="params">(AVLTree T)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">LL_rotate</span>(T-&gt;rchild);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">RR_rotate</span>(T);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">AVLTree <span class="title">AVLchange</span><span class="params">(AVLTree &amp;T,AVLTree S)</span><span class="comment">//调整为平衡二叉树</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> balance=<span class="number">0</span>;<span class="comment">//平衡因子</span></span><br><span class="line">    <span class="keyword">while</span> (S)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">count_depth</span>(T);<span class="comment">//计算深度</span></span><br><span class="line">        balance=<span class="built_in">count_balance</span>(S);<span class="comment">//计算平衡因子</span></span><br><span class="line">        <span class="keyword">if</span>(balance&gt;<span class="number">1</span>||balance&lt;<span class="number">-1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(balance&gt;<span class="number">1</span>)<span class="comment">//L型</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(<span class="built_in">count_balance</span>(S-&gt;lchild)&gt;<span class="number">0</span>)<span class="comment">//LL型</span></span><br><span class="line">                &#123;</span><br><span class="line">                    S=<span class="built_in">LL_rotate</span>(S);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>  <span class="comment">//LR型</span></span><br><span class="line">                &#123;</span><br><span class="line">                    S=<span class="built_in">LR_rotate</span>(S);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(balance&lt;<span class="number">1</span>)<span class="comment">//R型</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">count_balance</span>(S-&gt;rchild)&lt;<span class="number">0</span>) <span class="comment">//RR型</span></span><br><span class="line">                    S=<span class="built_in">RR_rotate</span>(S);</span><br><span class="line">                <span class="keyword">else</span> <span class="comment">//RL型</span></span><br><span class="line">                    S=<span class="built_in">RL_rotate</span>(S);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(S-&gt;father==<span class="literal">NULL</span>)<span class="comment">//到达根节点，退出循环</span></span><br><span class="line">            &#123;</span><br><span class="line">                T=S;<span class="comment">//更新为新的根节点</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        S=S-&gt;father;<span class="comment">//一层一层往上调整</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> T;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">AVLTree <span class="title">InsertAVL</span><span class="params">(AVLTree &amp;T,<span class="keyword">int</span> e,AVLTree parent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!T)<span class="comment">//找到结点插入位置</span></span><br><span class="line">    &#123;</span><br><span class="line">        AVLNode *S;</span><br><span class="line">        S=<span class="keyword">new</span> AVLNode;</span><br><span class="line">        S-&gt;data=e;</span><br><span class="line">        S-&gt;father=parent;</span><br><span class="line">        S-&gt;lchild=S-&gt;rchild=<span class="literal">NULL</span>;</span><br><span class="line">        T=S;</span><br><span class="line">        <span class="keyword">return</span> S;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (e&lt;T-&gt;data)<span class="comment">//向左搜索</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">InsertAVL</span>(T-&gt;lchild,e,T);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (e&gt;T-&gt;data)<span class="comment">//向右搜索</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">InsertAVL</span>(T-&gt;rchild,e,T);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;<span class="comment">//该结点已存在</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">AVLTree <span class="title">Insert</span><span class="params">(AVLTree &amp;T,<span class="keyword">int</span> e)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    AVLNode *S;</span><br><span class="line">    S=<span class="keyword">new</span> AVLNode;</span><br><span class="line">    S=<span class="built_in">InsertAVL</span>(T,e,<span class="literal">NULL</span>);<span class="comment">//插入结点</span></span><br><span class="line">    <span class="built_in">count_depth</span>(T);<span class="comment">//更新深度信息</span></span><br><span class="line">    T=<span class="built_in">AVLchange</span>(T,S);<span class="comment">//调整为平衡二叉树</span></span><br><span class="line">    <span class="keyword">return</span> T;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">creativetree</span><span class="params">(AVLTree &amp;T)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    T=<span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">int</span> e,n,i;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;e);</span><br><span class="line">        T=<span class="built_in">Insert</span>(T,e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    AVLTree T;</span><br><span class="line">    <span class="built_in">creativetree</span>(T);<span class="comment">//建树</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>平衡二叉树的删除操作和其他遍历操作与二叉排序树无异</code>，其他操作可以参考这里<a target="_blank" rel="noopener" href="https://blog.csdn.net/Tree_sea/article/details/117571736"> 实现二叉排序树的各种算法</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>给stack打赏一包辣条</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="Stack 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Stack
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://stack165.github.io/%E7%AE%97%E6%B3%95/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%88AVL%EF%BC%89%E7%9A%84%E5%AE%9E%E7%8E%B0/" title="平衡二叉树（AVL）的实现">https://stack165.github.io/算法/平衡二叉树（AVL）的实现/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/en" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"><i class="fa fa-tag"></i> 算法</a>
+              <a href="/tags/cpp/" rel="tag"><i class="fa fa-tag"></i> cpp</a>
+              <a href="/tags/c/" rel="tag"><i class="fa fa-tag"></i> c</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E5%8C%BA%E5%9D%97%E9%93%BE/%E5%8C%BA%E5%9D%97%E9%93%BE%E4%B8%BB%E6%B5%81%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95%E7%AE%80%E4%BB%8B/" rel="prev" title="区块链主流共识算法简介">
+      <i class="fa fa-chevron-left"></i> 区块链主流共识算法简介
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E5%AE%9E%E9%AA%8C/%E7%BB%BC%E5%90%88%E5%AE%9E%E9%AA%8C%EF%BC%9A%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E4%B8%8E%E5%AD%97%E7%AC%A6%E5%A4%84%E7%90%86/" rel="next" title="综合实验：文件操作与字符处理">
+      综合实验：文件操作与字符处理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">平衡二叉树概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91%EF%BC%88Binary-Sort-Tree%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">二叉排序树（Binary Sort Tree）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91%E7%9A%84%E5%82%A8%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">2.1.</span> <span class="nav-text">二叉排序树的储存结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91%E7%9A%84%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%EF%BC%88%E9%80%92%E5%BD%92%E6%9F%A5%E6%89%BE%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">二叉排序树的查找算法（递归查找）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91%E7%9A%84%E5%88%9B%E5%BB%BA%E5%8F%8A%E6%8F%92%E5%85%A5%EF%BC%88%E9%80%92%E5%BD%92%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">二叉排序树的创建及插入（递归）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="nav-number">3.</span> <span class="nav-text">平衡二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B3%E8%A1%A1%E5%9B%A0%E5%AD%90"><span class="nav-number">3.1.</span> <span class="nav-text">平衡因子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91%E7%9A%84%E5%82%A8%E5%AD%98%E7%BB%93%E6%9E%84-1"><span class="nav-number">3.2.</span> <span class="nav-text">二叉排序树的储存结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%88%9B%E5%BB%BA%E5%8F%8A%E8%B0%83%E6%95%B4%E6%96%B9%E6%B3%95"><span class="nav-number">3.3.</span> <span class="nav-text">平衡二叉树的创建及调整方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E8%B0%83%E6%95%B4"><span class="nav-number">3.4.</span> <span class="nav-text">平衡二叉树的调整</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LL%E5%9E%8B"><span class="nav-number">3.4.1.</span> <span class="nav-text">LL型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RR%E5%9E%8B"><span class="nav-number">3.4.2.</span> <span class="nav-text">RR型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-LR%E5%9E%8B"><span class="nav-number">3.4.3.</span> <span class="nav-text">(3) LR型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-RL%E5%9E%8B"><span class="nav-number">3.4.4.</span> <span class="nav-text">(4) RL型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">3.4.5.</span> <span class="nav-text">平衡二叉树的创建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="nav-number">3.4.5.1.</span> <span class="nav-text">输入数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="nav-number">3.4.5.2.</span> <span class="nav-text">插入数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E6%95%B4%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="nav-number">3.4.5.3.</span> <span class="nav-text">调整平衡二叉树</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E5%AE%9E%E7%8E%B0%E7%9A%84%E6%95%B4%E4%BD%93%E4%BB%A3%E7%A0%81"><span class="nav-number">3.5.</span> <span class="nav-text">平衡二叉树实现的整体代码</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stack"
+      src="/images/asuka.jpg">
+  <p class="site-author-name" itemprop="name">Stack</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Stack165" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Stack165" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:stack165@outlook.com" title="E-Mail → mailto:stack165@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/stacks1iver" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;stacks1iver" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/en" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Stack</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">31k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">28 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest-nomobile.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":-10},"mobile":{"show":false,"scale":0.05},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script></body>
+</html>
