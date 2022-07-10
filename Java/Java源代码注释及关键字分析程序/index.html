@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"stack165.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.12.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"show_result":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Java的一个综合性实验，主要是分析源文件里的关键词个数，有bug。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java源代码注释及关键字分析程序">
+<meta property="og:url" content="https://stack165.github.io/Java/Java%E6%BA%90%E4%BB%A3%E7%A0%81%E6%B3%A8%E9%87%8A%E5%8F%8A%E5%85%B3%E9%94%AE%E5%AD%97%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F/index.html">
+<meta property="og:site_name" content="Stack">
+<meta property="og:description" content="Java的一个综合性实验，主要是分析源文件里的关键词个数，有bug。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/03395f18f5d545cfad8464cc1402976f.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/68308cd5bfa5405d9fdef2dd74d1eeb7.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/7d5e9bd9cfdf40bb9e2ba82e5dd52867.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/d76c130ae5e143679b83d0e4409ddbee.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/93eeb5d632d44e7cace377453685fdc2.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/efa23e1146cf4f14924fa089ad869f32.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/e8c1f12c841b49cbb2b4cf994cc3c2f6.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/5cb184aea3334ce988a8d67a60cf5f01.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/e9d04de33dd3433b87a26cfd76096b62.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2a61450da8ea461db087d41746dadf55.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ba686ef64996494e9ae919f46f1a9d43.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/5c1d41a314ab44d9bf83f0e27c76dadf.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/42a93c124df640488088c298ede20067.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/f0760f87ad12498bbf901ea4600324b1.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/05e64c5959f74bdcb7d7d8fa8e70e81c.png">
+<meta property="article:published_time" content="2022-01-11T15:25:33.000Z">
+<meta property="article:modified_time" content="2022-06-29T13:30:48.905Z">
+<meta property="article:author" content="Stack">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JavaFX">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/03395f18f5d545cfad8464cc1402976f.png">
+
+
+<link rel="canonical" href="https://stack165.github.io/Java/Java%E6%BA%90%E4%BB%A3%E7%A0%81%E6%B3%A8%E9%87%8A%E5%8F%8A%E5%85%B3%E9%94%AE%E5%AD%97%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://stack165.github.io/Java/Java%E6%BA%90%E4%BB%A3%E7%A0%81%E6%B3%A8%E9%87%8A%E5%8F%8A%E5%85%B3%E9%94%AE%E5%AD%97%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F/","path":"Java/Java源代码注释及关键字分析程序/","title":"Java源代码注释及关键字分析程序"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Java源代码注释及关键字分析程序 | Stack</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-216798436-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-216798436-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?3306a25d0f129077188cc6978f6ec07b"></script>
+
+
+
+<link rel="dns-prefetch" href="stack165-bolg-comment.vercel.app">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Stack</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">欢迎来到Stack的小站</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          关于我
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">程序介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E9%9D%99%E6%80%81%E7%BB%93%E6%9E%84"><span class="nav-number">2.1.</span> <span class="nav-text">程序静态结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD"><span class="nav-number">2.2.</span> <span class="nav-text">程序主要功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E6%96%87%E4%BB%B6%E5%92%8C%E5%8A%A0%E8%BD%BD%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.1.</span> <span class="nav-text">保存文件和加载文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90"><span class="nav-number">2.2.2.</span> <span class="nav-text">统计分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E8%BE%93%E5%87%BA%E5%8D%95%E8%AF%8D%E6%8E%92%E5%BA%8F"><span class="nav-number">2.2.3.</span> <span class="nav-text">实现输出单词排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E6%B5%8B%E8%AF%95"><span class="nav-number">2.3.</span> <span class="nav-text">程序测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E7%95%8C%E9%9D%A2"><span class="nav-number">2.3.0.1.</span> <span class="nav-text">主界面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E7%95%8C%E9%9D%A2"><span class="nav-number">2.3.0.2.</span> <span class="nav-text">文件分析界面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%B7%B2%E5%88%86%E6%9E%90%E6%96%87%E4%BB%B6"><span class="nav-number">2.3.0.3.</span> <span class="nav-text">查看已分析文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%88%86%E6%9E%90"><span class="nav-number">2.3.0.4.</span> <span class="nav-text">查看分析</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stack"
+      src="/images/asuka.jpg">
+  <p class="site-author-name" itemprop="name">Stack</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Stack165" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Stack165" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:562569322@qq.com" title="E-Mail → mailto:562569322@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/Tree_sea" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;Tree_sea" rel="noopener" target="_blank"><i class="fab fa-csdn fa-fw"></i>CSDN</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/stacks1iver" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;stacks1iver" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/en" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+  <a href="https://github.com/Stack165" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://stack165.github.io/Java/Java%E6%BA%90%E4%BB%A3%E7%A0%81%E6%B3%A8%E9%87%8A%E5%8F%8A%E5%85%B3%E9%94%AE%E5%AD%97%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/asuka.jpg">
+      <meta itemprop="name" content="Stack">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stack">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Java源代码注释及关键字分析程序 | Stack">
+      <meta itemprop="description" content="Java的一个综合性实验，主要是分析源文件里的关键词个数，有bug。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java源代码注释及关键字分析程序
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-11 23:25:33" itemprop="dateCreated datePublished" datetime="2022-01-11T23:25:33+08:00">2022-01-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-06-29 21:30:48" itemprop="dateModified" datetime="2022-06-29T21:30:48+08:00">2022-06-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/Java/Java%E6%BA%90%E4%BB%A3%E7%A0%81%E6%B3%A8%E9%87%8A%E5%8F%8A%E5%85%B3%E9%94%AE%E5%AD%97%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/Java/Java%E6%BA%90%E4%BB%A3%E7%A0%81%E6%B3%A8%E9%87%8A%E5%8F%8A%E5%85%B3%E9%94%AE%E5%AD%97%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">Java的一个综合性实验，主要是分析源文件里的关键词个数，有bug。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <blockquote>
+<p>项目链接：<a target="_blank" rel="noopener" href="https://github.com/Stack165/.Java-File-Analitics">Java源代码注释及关键字分析程序</a></p>
+</blockquote>
+<h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>编写一个 Java 应用程序，对单个 Java 源程序文件及某个目录中的所有 Java 源程序文件（包括子目录）进 </p>
+<p>行分析，分析内容包括：</p>
+<ul>
+<li><p>Java 源程序文件个数，对目录分析进行分析时需要。</p>
+</li>
+<li><p>Java 源程序中的字符个数，对目录分析时是其中所有源程序文件的字符个数总和。</p>
+</li>
+<li><p>Java 源程序文件中的注释的个数，即源程序文件中共有多少个注释，包括：单行注释和多行注释。对目录</p>
+<p>分析时是其中所有源程序文件的总和。</p>
+</li>
+<li><p>Java 源程序文件中的注释的字符个数，即源程序文件中所有注释的字符数之和。对目录分析时是其中所有</p>
+<p>源程序文件的总和。</p>
+</li>
+<li><p>Java 源程序文件中关键字使用情况，即源程序文件各个关键字使用了多少次。对目录分析时是其中所有源</p>
+<p>程序文件的总和。</p>
+</li>
+</ul>
+<h1 id="程序介绍"><a href="#程序介绍" class="headerlink" title="程序介绍"></a>程序介绍</h1><p>主要是对文件读入，再一行一行分析，利用栈实现关键词分析，使用javaFX实现图形界面。</p>
+<h2 id="程序静态结构"><a href="#程序静态结构" class="headerlink" title="程序静态结构"></a>程序静态结构</h2><p>首先程序的入口是APP这个类，通过APP调用Application.main方法运行项目（不然无法导出jar包）。</p>
+<p>Application这个类同时控制了resource文件夹中的Menu.fxml文件，通过start方法读取Menu.fxml运行主页面，通过button控件调用类FileMenu类运行文件分析界面，与及调用Analyze类运行输入文件路径界面。</p>
+<p>Analyze类控制了Analyze.fxml文件，运行输入文件路径界面，通过buttun控件调用类AnalyzeFile中静态方法checkFile（源文件）或checkAllFile（目录）分析文件或目录。</p>
+<p>AnalyzeFile类是主要的文件分析类，通过静态方法checkFile（源文件）或checkAllFile（目录）调用类内部的静态私有方法分析文件。</p>
+<p>FileMenu类运行查看分析文件界面，可以通过控件调用Application类回退Menu主页面，也可以选择文件调用Overlook类后进入文件查看界面。</p>
+<p>Overlook类运行文件查看界面，可以通过控件调用FileMenu类回退查看分析文件界面。</p>
+<p>Data类主要是用来存储数据，主要是静态变量，方便各个类调用。</p>
+<p>KeyWord类是存储关键词类，通过实现compareTo接口实现排序。</p>
+<p>outputFile和readFile类是从文件中读取数据的类，使用静态方法方便调用。</p>
+<p><strong>类图：</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/03395f18f5d545cfad8464cc1402976f.png"></p>
+<p><strong>文件目录：</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/68308cd5bfa5405d9fdef2dd74d1eeb7.png"></p>
+<h2 id="程序主要功能"><a href="#程序主要功能" class="headerlink" title="程序主要功能"></a>程序主要功能</h2><p> （本部分介绍程序主要的功能，如加载文件、保存文件、统计分析等的算法，使用流程图或自然语言描述，不要直接贴代码。是实验报告的主要部分之一）</p>
+<h3 id="保存文件和加载文件"><a href="#保存文件和加载文件" class="headerlink" title="保存文件和加载文件"></a>保存文件和加载文件</h3><p>Data类中保存了我们分析文件的信息，OutputFile类和readFile类有一个静态方法可以直接调用实现加载文件、保存文件。</p>
+<p>保存文件先mkdir文件夹，再创建对应文件输出数据，循环方式一行一行地输出。</p>
+<p>加载文件首先是从Data类中获取我们需要的File的路径和名称，再从文件中循环读取。</p>
+<p><img src="https://img-blog.csdnimg.cn/7d5e9bd9cfdf40bb9e2ba82e5dd52867.png"></p>
+<h3 id="统计分析"><a href="#统计分析" class="headerlink" title="统计分析"></a>统计分析</h3><p>统计分析主要由AnalyzeFile类完成，由Data、keyWord类辅助。</p>
+<p>AnalyzeFile类中checkAllFile()函数是分析目录时调用的函数，checkFile(String)函数是分析单个源文件调用的函数。</p>
+<p>首先是分析Java 源程序文件个数，如果分析的是文件则不需要分析源程序文件个数，如果是目录则由AnalyzeFile类中checkAllFile()函数实现，如果目录中还有目录则递归调用checkAllFile(File)函数，checkAllFile函数进行了重载实现。getFileExernsion函数可以通过文件名获得文件的后缀名从而判断是否是Java 源程序文件。</p>
+<p>分析Java 源程序中的字符个数由AnalyzeFile类中getCharacterNumber()函数实现,在checkFile或者checkAllFile时会调用getLines函数从文件中读取字符串存储进Data中的链表Lines中，再调用getCharacterNumber函数对Lines链表遍历读取字符数并相加。<br><img src="https://img-blog.csdnimg.cn/d76c130ae5e143679b83d0e4409ddbee.png"></p>
+<p>分析Java 源程序文件中的注释，由AnalyzeFile类中checkComment函数实现，而此函数由对应分析类型的checkFile函数调用。主要方法是对Lines链表遍历，检测到有 &#x2F;&#x2F; 注释则&#x2F;&#x2F;后内容均为注释字符，如果检测到<code>/**/ 或 /***/</code>此类注释则要等到检测到对应结束符*&#x2F;才结束注释，中间内容为注释字符，每检测到一个注释，注释个数即Data.commentNumber加一。</p>
+<p><img src="https://img-blog.csdnimg.cn/93eeb5d632d44e7cace377453685fdc2.png"></p>
+<p>分析Java 源程序文件中关键字使用情况，由AnalyzeFile类中checkWord()函数实现。Data中存储着每一个关键字的数组KEYWORDS，由KEYWORDS构造出一个关键词的链表wordLinkedList和一个HashMap wordHashMap，HashMap的键是关键字，值是关键字的出现次数，初始化值为0。在checkWord函数中遍历链表Lines，使用一个字符串String read模拟栈实现读入字符，循环遍历每一行字符串，如果遇到注释或者“”语句则不将此处的字符入栈，再根据一个单词的分隔规则判断是否将字符入栈，如果检测到一个单词结束则将该单词与Hashmap中键对比确认是否为关键字，如果是关键字则值加一。</p>
+<p><img src="https://img-blog.csdnimg.cn/efa23e1146cf4f14924fa089ad869f32.png"></p>
+<h3 id="实现输出单词排序"><a href="#实现输出单词排序" class="headerlink" title="实现输出单词排序"></a>实现输出单词排序</h3><p>KeyWord类实现Comparable接口，并重写compareTo，使其能够根据值number和name从大到小排序。</p>
+<p>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-wzSnq6Zm-1642645809091)(file:&#x2F;&#x2F;&#x2F;C:\Users\Edward\AppData\Local\Temp\ksohtml\wps1B4C.tmp.jpg)] </p>
+<h2 id="程序测试"><a href="#程序测试" class="headerlink" title="程序测试"></a>程序测试</h2><h4 id="主界面"><a href="#主界面" class="headerlink" title="主界面"></a>主界面</h4><p><img src="https://img-blog.csdnimg.cn/e8c1f12c841b49cbb2b4cf994cc3c2f6.png"></p>
+<p>选择1进入文件分析界面，选择2进入查看已分析文件界面，选择0退出程序。</p>
+<h4 id="文件分析界面"><a href="#文件分析界面" class="headerlink" title="文件分析界面"></a>文件分析界面</h4><p><img src="https://img-blog.csdnimg.cn/5cb184aea3334ce988a8d67a60cf5f01.png"></p>
+<p>在方框内输入路径，点击确认按钮进行分析。</p>
+<p>如果路径不存在，则提示：输入的目录或文件名不存在。</p>
+<p><img src="https://img-blog.csdnimg.cn/e9d04de33dd3433b87a26cfd76096b62.png"></p>
+<p>如果输入的文件名的扩展名不是“.java”时提示不是 Java 源程序文件。</p>
+<p><img src="https://img-blog.csdnimg.cn/2a61450da8ea461db087d41746dadf55.png"></p>
+<p>如果输入的是一个 Java 源程序文件名，对该源程序文件进行分析。</p>
+<p>如果输入的是一个目录名，对该目录中所有的源程序文件进行分析。</p>
+<p><img src="https://img-blog.csdnimg.cn/ba686ef64996494e9ae919f46f1a9d43.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/5c1d41a314ab44d9bf83f0e27c76dadf.png"></p>
+<h4 id="查看已分析文件"><a href="#查看已分析文件" class="headerlink" title="查看已分析文件"></a>查看已分析文件</h4><p>可以自己选择需要查看的文件，并点击选择进入查看分析界面。<br><img src="https://img-blog.csdnimg.cn/42a93c124df640488088c298ede20067.png"></p>
+<h4 id="查看分析"><a href="#查看分析" class="headerlink" title="查看分析"></a>查看分析</h4><p>点击查看可以看到具体的分析结果，点击返回返回到上一界面。</p>
+<p><img src="https://img-blog.csdnimg.cn/f0760f87ad12498bbf901ea4600324b1.png"><br><img src="https://img-blog.csdnimg.cn/05e64c5959f74bdcb7d7d8fa8e70e81c.png"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Stack
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://stack165.github.io/Java/Java%E6%BA%90%E4%BB%A3%E7%A0%81%E6%B3%A8%E9%87%8A%E5%8F%8A%E5%85%B3%E9%94%AE%E5%AD%97%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F/" title="Java源代码注释及关键字分析程序">https://stack165.github.io/Java/Java源代码注释及关键字分析程序/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/en" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="https://twitter.com/Stack165">
+          <span class="icon">
+            <i class="fab fa-twitter"></i>
+          </span>
+
+          <span class="label">Twitter</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="https://blog.csdn.net/Tree_sea">
+          <span class="icon">
+            <i class="fa fa-csdn"></i>
+          </span>
+
+          <span class="label">CSDN</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/JavaFX/" rel="tag"># JavaFX</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/%E5%8C%BA%E5%9D%97%E9%93%BE/Geth%E5%9C%A8ubuntu%E4%B8%8A%E9%85%8D%E7%BD%AE%E5%92%8C%E4%B8%80%E4%BA%9B%E9%80%9A%E7%94%A8%E6%93%8D%E4%BD%9C%E4%BB%8B%E7%BB%8D%E5%8F%8A%E9%85%8D%E7%BD%AE%E5%AE%89%E8%A3%85%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" rel="prev" title="Geth在ubuntu上配置和一些通用操作介绍及配置安装以太坊开发环境">
+                  <i class="fa fa-chevron-left"></i> Geth在ubuntu上配置和一些通用操作介绍及配置安装以太坊开发环境
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/%E5%8C%BA%E5%9D%97%E9%93%BE/Win10%E4%BD%BF%E7%94%A8Geth%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E6%9C%89%E9%93%BE%E3%80%81%E8%BF%9E%E6%8E%A5%E5%8F%AF%E8%A7%86%E5%8C%96%E9%92%B1%E5%8C%85%E5%8F%8A%E6%8C%96%E7%9F%BF/" rel="next" title="Win10使用Geth客户端搭建以太坊私有链、连接可视化钱包及挖矿">
+                  Win10使用Geth客户端搭建以太坊私有链、连接可视化钱包及挖矿 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Stack</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">38k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">35 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"stack165-bolg-comment.vercel.app","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":false,"comment_count":true,"requiredFields":[],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/Java/Java%E6%BA%90%E4%BB%A3%E7%A0%81%E6%B3%A8%E9%87%8A%E5%8F%8A%E5%85%B3%E9%94%AE%E5%AD%97%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+</body>
+</html>
