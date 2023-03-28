@@ -125,58 +125,58 @@ Landis于1962年首先提出的，所以又称为AVL树。</p>
 这种查找算法与折半查找相似，也是逐步缩小搜索范围。
 若中序遍历上图，则可以得到一个按数值大小排序的递增序列：1，3，4，6，7，8，10，13，15。</p>
 <h2 id="二叉排序树的储存结构">二叉排序树的储存结构</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">BSTNode</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">BSTNode</span>
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> data<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;<span style="color:#75715e">//数据项
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">BSTNode</span> <span style="color:#f92672">*</span>lchild<span style="color:#f92672">=</span>NULL,<span style="color:#f92672">*</span>rchild<span style="color:#f92672">=</span>NULL;<span style="color:#75715e">//左右子树
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}BSTNode,<span style="color:#f92672">*</span>BSTree.
+</span></span><span style="display:flex;"><span>	<span style="color:#458;font-weight:bold">int</span> data<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>;<span style="color:#998;font-style:italic">//数据项
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">BSTNode</span> <span style="color:#000;font-weight:bold">*</span>lchild<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">NULL</span>,<span style="color:#000;font-weight:bold">*</span>rchild<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">NULL</span>;<span style="color:#998;font-style:italic">//左右子树
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>}BSTNode,<span style="color:#000;font-weight:bold">*</span>BSTree.
 </span></span></code></pre></div><h2 id="二叉排序树的查找算法递归查找">二叉排序树的查找算法（递归查找）</h2>
 <p>BSTree T 为二叉树根节点 ，int e 为查找的关键字。时间复制度为O(log2 n)。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">searchTree</span>(BSTree T,<span style="color:#66d9ef">int</span> e)<span style="color:#75715e">//在二叉树中查找给定关键字(函数返回值为成功1,失败0)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (T<span style="color:#f92672">==</span>NULL)<span style="color:#75715e">//无法查找到给定关键字
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>    }<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (e<span style="color:#f92672">==</span>T<span style="color:#f92672">-&gt;</span>data)<span style="color:#75715e">//查找到关键字
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
-</span></span><span style="display:flex;"><span>    }<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (e<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">-&gt;</span>data)<span style="color:#75715e">//小于根结点，向左子树查找
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> searchTree(T<span style="color:#f92672">-&gt;</span>lchild,e);
-</span></span><span style="display:flex;"><span>    }<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(e<span style="color:#f92672">&gt;</span>T<span style="color:#f92672">-&gt;</span>data)<span style="color:#75715e">//大于根结点，向右子树查找
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> searchTree(T<span style="color:#f92672">-&gt;</span>rchild,e);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">searchTree</span>(BSTree T,<span style="color:#458;font-weight:bold">int</span> e)<span style="color:#998;font-style:italic">//在二叉树中查找给定关键字(函数返回值为成功1,失败0)
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (T<span style="color:#000;font-weight:bold">==</span><span style="color:#0086b3">NULL</span>)<span style="color:#998;font-style:italic">//无法查找到给定关键字
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+</span></span><span style="display:flex;"><span>    }<span style="color:#000;font-weight:bold">else</span> <span style="color:#000;font-weight:bold">if</span> (e<span style="color:#000;font-weight:bold">==</span>T<span style="color:#000;font-weight:bold">-&gt;</span>data)<span style="color:#998;font-style:italic">//查找到关键字
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">1</span>;
+</span></span><span style="display:flex;"><span>    }<span style="color:#000;font-weight:bold">else</span> <span style="color:#000;font-weight:bold">if</span> (e<span style="color:#000;font-weight:bold">&lt;</span>T<span style="color:#000;font-weight:bold">-&gt;</span>data)<span style="color:#998;font-style:italic">//小于根结点，向左子树查找
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> searchTree(T<span style="color:#000;font-weight:bold">-&gt;</span>lchild,e);
+</span></span><span style="display:flex;"><span>    }<span style="color:#000;font-weight:bold">else</span> <span style="color:#000;font-weight:bold">if</span>(e<span style="color:#000;font-weight:bold">&gt;</span>T<span style="color:#000;font-weight:bold">-&gt;</span>data)<span style="color:#998;font-style:italic">//大于根结点，向右子树查找
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> searchTree(T<span style="color:#000;font-weight:bold">-&gt;</span>rchild,e);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="二叉排序树的创建及插入递归">二叉排序树的创建及插入（递归）</h2>
 <p>二叉排序树的插入算法基本过程也是查找，时间复制度也为O(log2 n)。
 <img src="https://s1.ax1x.com/2023/03/28/ppcPItf.png" alt="2"></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">InsertBST</span>(BSTree <span style="color:#f92672">&amp;</span>T,<span style="color:#66d9ef">int</span> e)<span style="color:#75715e">//插入节点，根据节点值的大小插入
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{<span style="color:#75715e">//当二叉排序树中不存在关键字等于e的结点时，查找结束，插入结点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>T)<span style="color:#75715e">//查找到插入位置
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    {
-</span></span><span style="display:flex;"><span>        BSTNode <span style="color:#f92672">*</span>S; <span style="color:#75715e">//生成新结点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        S<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> BSTNode;
-</span></span><span style="display:flex;"><span>        S<span style="color:#f92672">-&gt;</span>data<span style="color:#f92672">=</span>e;<span style="color:#75715e">//给新结点赋值
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        S<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">=</span>S<span style="color:#f92672">-&gt;</span>rchild<span style="color:#f92672">=</span>NULL;<span style="color:#75715e">//将新结点作为叶子结点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        T<span style="color:#f92672">=</span>S;<span style="color:#75715e">//给查找到的插入位置赋值
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (e<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">-&gt;</span>data)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">InsertBST</span>(BSTree <span style="color:#000;font-weight:bold">&amp;</span>T,<span style="color:#458;font-weight:bold">int</span> e)<span style="color:#998;font-style:italic">//插入节点，根据节点值的大小插入
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>{<span style="color:#998;font-style:italic">//当二叉排序树中不存在关键字等于e的结点时，查找结束，插入结点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span>T)<span style="color:#998;font-style:italic">//查找到插入位置
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    {
+</span></span><span style="display:flex;"><span>        BSTNode <span style="color:#000;font-weight:bold">*</span>S; <span style="color:#998;font-style:italic">//生成新结点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        S<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">new</span> BSTNode;
+</span></span><span style="display:flex;"><span>        S<span style="color:#000;font-weight:bold">-&gt;</span>data<span style="color:#000;font-weight:bold">=</span>e;<span style="color:#998;font-style:italic">//给新结点赋值
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        S<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">=</span>S<span style="color:#000;font-weight:bold">-&gt;</span>rchild<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">NULL</span>;<span style="color:#998;font-style:italic">//将新结点作为叶子结点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        T<span style="color:#000;font-weight:bold">=</span>S;<span style="color:#998;font-style:italic">//给查找到的插入位置赋值
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">else</span> <span style="color:#000;font-weight:bold">if</span> (e<span style="color:#000;font-weight:bold">&lt;</span>T<span style="color:#000;font-weight:bold">-&gt;</span>data)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        InsertBST(T<span style="color:#f92672">-&gt;</span>lchild,e);<span style="color:#75715e">//向左查找插入
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (e<span style="color:#f92672">&gt;</span>T<span style="color:#f92672">-&gt;</span>data)
+</span></span><span style="display:flex;"><span>        InsertBST(T<span style="color:#000;font-weight:bold">-&gt;</span>lchild,e);<span style="color:#998;font-style:italic">//向左查找插入
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    }<span style="color:#000;font-weight:bold">else</span> <span style="color:#000;font-weight:bold">if</span> (e<span style="color:#000;font-weight:bold">&gt;</span>T<span style="color:#000;font-weight:bold">-&gt;</span>data)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        InsertBST(T<span style="color:#f92672">-&gt;</span>rchild,e);<span style="color:#75715e">//向右查找插入
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>        InsertBST(T<span style="color:#000;font-weight:bold">-&gt;</span>rchild,e);<span style="color:#998;font-style:italic">//向右查找插入
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">CreatBST</span>(BSTree <span style="color:#f92672">&amp;</span>T)<span style="color:#75715e">//创建二叉树
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{
-</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">=</span>NULL;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> e,n,i;
-</span></span><span style="display:flex;"><span>    scanf(<span style="color:#e6db74">&#34;%d&#34;</span>,<span style="color:#f92672">&amp;</span>n);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;i<span style="color:#f92672">&lt;</span>n;i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">CreatBST</span>(BSTree <span style="color:#000;font-weight:bold">&amp;</span>T)<span style="color:#998;font-style:italic">//创建二叉树
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>{
+</span></span><span style="display:flex;"><span>    T<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">NULL</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#458;font-weight:bold">int</span> e,n,i;
+</span></span><span style="display:flex;"><span>    scanf(<span style="color:#d14">&#34;%d&#34;</span>,<span style="color:#000;font-weight:bold">&amp;</span>n);
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">for</span> (i<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>;i<span style="color:#000;font-weight:bold">&lt;</span>n;i<span style="color:#000;font-weight:bold">++</span>)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        scanf(<span style="color:#e6db74">&#34;%d&#34;</span>,<span style="color:#f92672">&amp;</span>e);
+</span></span><span style="display:flex;"><span>        scanf(<span style="color:#d14">&#34;%d&#34;</span>,<span style="color:#000;font-weight:bold">&amp;</span>e);
 </span></span><span style="display:flex;"><span>        InsertBST(T,e);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
@@ -190,50 +190,50 @@ Landis于1962年首先提出的，所以又称为AVL树。</p>
 平衡因子就是该结点左右子树深度之差，由平衡二叉树的定义我们可以知道平衡二叉树上的平衡因子只可能是-1，0，1 。
 <img src="https://s1.ax1x.com/2023/03/28/ppcPh7t.png" alt="3"></p>
 <h2 id="二叉排序树的储存结构-1">二叉排序树的储存结构</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">AVLNode</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">AVLNode</span>
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> data<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;<span style="color:#75715e">//结点值
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> depth<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;<span style="color:#75715e">//深度，方便通过计算左右子树深度之差得到该结点的平衡因子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">AVLNode</span> <span style="color:#f92672">*</span>father<span style="color:#f92672">=</span>NULL;<span style="color:#75715e">//父结点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">AVLNode</span> <span style="color:#f92672">*</span>lchild<span style="color:#f92672">=</span>NULL,<span style="color:#f92672">*</span>rchild<span style="color:#f92672">=</span>NULL;<span style="color:#75715e">//左右结点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} AVLNode,<span style="color:#f92672">*</span>AVLTree; <span style="color:#75715e">//结点结构体
+</span></span><span style="display:flex;"><span>    <span style="color:#458;font-weight:bold">int</span> data<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>;<span style="color:#998;font-style:italic">//结点值
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">int</span> depth<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>;<span style="color:#998;font-style:italic">//深度，方便通过计算左右子树深度之差得到该结点的平衡因子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">AVLNode</span> <span style="color:#000;font-weight:bold">*</span>father<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">NULL</span>;<span style="color:#998;font-style:italic">//父结点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">AVLNode</span> <span style="color:#000;font-weight:bold">*</span>lchild<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">NULL</span>,<span style="color:#000;font-weight:bold">*</span>rchild<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">NULL</span>;<span style="color:#998;font-style:italic">//左右结点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>} AVLNode,<span style="color:#000;font-weight:bold">*</span>AVLTree; <span style="color:#998;font-style:italic">//结点结构体
 </span></span></span></code></pre></div><p><strong>计算平衡因子代码实现：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">count_depth</span>(AVLTree <span style="color:#f92672">&amp;</span>T)<span style="color:#75715e">//计算各结点的深度
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(T<span style="color:#f92672">==</span>NULL)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">count_depth</span>(AVLTree <span style="color:#000;font-weight:bold">&amp;</span>T)<span style="color:#998;font-style:italic">//计算各结点的深度
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span>(T<span style="color:#000;font-weight:bold">==</span><span style="color:#0086b3">NULL</span>)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">else</span>
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> l<span style="color:#f92672">=</span>count_depth(T<span style="color:#f92672">-&gt;</span>lchild);<span style="color:#75715e">//左子树深度
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> r<span style="color:#f92672">=</span>count_depth(T<span style="color:#f92672">-&gt;</span>rchild);<span style="color:#75715e">//右子树深度
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> T<span style="color:#f92672">-&gt;</span>depth<span style="color:#f92672">=</span>max(l,r)<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;<span style="color:#75715e">//更新深度
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>        <span style="color:#458;font-weight:bold">int</span> l<span style="color:#000;font-weight:bold">=</span>count_depth(T<span style="color:#000;font-weight:bold">-&gt;</span>lchild);<span style="color:#998;font-style:italic">//左子树深度
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#458;font-weight:bold">int</span> r<span style="color:#000;font-weight:bold">=</span>count_depth(T<span style="color:#000;font-weight:bold">-&gt;</span>rchild);<span style="color:#998;font-style:italic">//右子树深度
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">return</span> T<span style="color:#000;font-weight:bold">-&gt;</span>depth<span style="color:#000;font-weight:bold">=</span>max(l,r)<span style="color:#000;font-weight:bold">+</span><span style="color:#099">1</span>;<span style="color:#998;font-style:italic">//更新深度
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">get_balance</span>(AVLTree T)<span style="color:#75715e">//读取深度
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(T)
+</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">get_balance</span>(AVLTree T)<span style="color:#998;font-style:italic">//读取深度
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span>(T)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> T<span style="color:#f92672">-&gt;</span>depth;
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> T<span style="color:#000;font-weight:bold">-&gt;</span>depth;
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">else</span>
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">count_balance</span>(AVLTree T)<span style="color:#75715e">//计算平衡因子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>T)
+</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">count_balance</span>(AVLTree T)<span style="color:#998;font-style:italic">//计算平衡因子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span>(<span style="color:#000;font-weight:bold">!</span>T)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">else</span>
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> get_balance(T<span style="color:#f92672">-&gt;</span>lchild)<span style="color:#f92672">-</span>get_balance(T<span style="color:#f92672">-&gt;</span>rchild);<span style="color:#75715e">//平衡因子等于左右子树的深度之差
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> get_balance(T<span style="color:#000;font-weight:bold">-&gt;</span>lchild)<span style="color:#000;font-weight:bold">-</span>get_balance(T<span style="color:#000;font-weight:bold">-&gt;</span>rchild);<span style="color:#998;font-style:italic">//平衡因子等于左右子树的深度之差
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="平衡二叉树的创建及调整方法">平衡二叉树的创建及调整方法</h2>
 <p>如何创建一棵平衡二叉树呢？
@@ -256,30 +256,30 @@ Landis于1962年首先提出的，所以又称为AVL树。</p>
 <p>   我们总结出以下<code>规律</code>（参考下图）：将<code>B</code>结点作为根结点，<code>A</code>结点旋转为<code>B</code>结点的右子树，再把<code>B</code>结点本来的右子树连接为<code>A</code>结点的左子树，该树调整完成。
 <img src="https://s1.ax1x.com/2023/03/28/ppcP79S.png" alt="6">
 代码实现：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>AVLTree <span style="color:#a6e22e">LL_rotate</span>(AVLTree T)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>AVLTree <span style="color:#900;font-weight:bold">LL_rotate</span>(AVLTree T)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    AVLTree parent<span style="color:#f92672">=</span>NULL,son;<span style="color:#75715e">//son结点即为旋转中心
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    parent<span style="color:#f92672">=</span>T<span style="color:#f92672">-&gt;</span>father;<span style="color:#75715e">//获取失衡结点的父节点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    son<span style="color:#f92672">=</span>T<span style="color:#f92672">-&gt;</span>lchild;<span style="color:#75715e">//获取失衡结点的左孩子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (son<span style="color:#f92672">-&gt;</span>rchild<span style="color:#f92672">!=</span>NULL)<span style="color:#75715e">//设置son结点右孩子的父指针
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        son<span style="color:#f92672">-&gt;</span>rchild<span style="color:#f92672">-&gt;</span>father<span style="color:#f92672">=</span>T;
-</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">=</span>son<span style="color:#f92672">-&gt;</span>rchild;<span style="color:#75715e">//失衡结点的左孩子变更为son的右孩子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//T的子结点更新完毕
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    count_depth(T);<span style="color:#75715e">//更新失衡结点的深度信息
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    son<span style="color:#f92672">-&gt;</span>rchild<span style="color:#f92672">=</span>T;<span style="color:#75715e">//失衡结点变成son的右孩子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    son<span style="color:#f92672">-&gt;</span>father<span style="color:#f92672">=</span>parent;<span style="color:#75715e">//设置son的父结点为原失衡结点的父结点，连接整颗树
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//如果失衡结点不是根结点，则更新父节点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (parent<span style="color:#f92672">!=</span>NULL)
+</span></span><span style="display:flex;"><span>    AVLTree parent<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">NULL</span>,son;<span style="color:#998;font-style:italic">//son结点即为旋转中心
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    parent<span style="color:#000;font-weight:bold">=</span>T<span style="color:#000;font-weight:bold">-&gt;</span>father;<span style="color:#998;font-style:italic">//获取失衡结点的父节点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    son<span style="color:#000;font-weight:bold">=</span>T<span style="color:#000;font-weight:bold">-&gt;</span>lchild;<span style="color:#998;font-style:italic">//获取失衡结点的左孩子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">if</span> (son<span style="color:#000;font-weight:bold">-&gt;</span>rchild<span style="color:#000;font-weight:bold">!=</span><span style="color:#0086b3">NULL</span>)<span style="color:#998;font-style:italic">//设置son结点右孩子的父指针
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        son<span style="color:#000;font-weight:bold">-&gt;</span>rchild<span style="color:#000;font-weight:bold">-&gt;</span>father<span style="color:#000;font-weight:bold">=</span>T;
+</span></span><span style="display:flex;"><span>    T<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">=</span>son<span style="color:#000;font-weight:bold">-&gt;</span>rchild;<span style="color:#998;font-style:italic">//失衡结点的左孩子变更为son的右孩子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#998;font-style:italic">//T的子结点更新完毕
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    count_depth(T);<span style="color:#998;font-style:italic">//更新失衡结点的深度信息
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    son<span style="color:#000;font-weight:bold">-&gt;</span>rchild<span style="color:#000;font-weight:bold">=</span>T;<span style="color:#998;font-style:italic">//失衡结点变成son的右孩子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    son<span style="color:#000;font-weight:bold">-&gt;</span>father<span style="color:#000;font-weight:bold">=</span>parent;<span style="color:#998;font-style:italic">//设置son的父结点为原失衡结点的父结点，连接整颗树
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#998;font-style:italic">//如果失衡结点不是根结点，则更新父节点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">if</span> (parent<span style="color:#000;font-weight:bold">!=</span><span style="color:#0086b3">NULL</span>)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//如果父节点的左孩子是失衡结点，指向现在更新后的新孩子son
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (parent<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">==</span>T)
-</span></span><span style="display:flex;"><span>            parent<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">=</span>son;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> <span style="color:#75715e">//父节点的右孩子是失衡结点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            parent<span style="color:#f92672">-&gt;</span>rchild<span style="color:#f92672">=</span>son;
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">//如果父节点的左孩子是失衡结点，指向现在更新后的新孩子son
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">if</span> (parent<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">==</span>T)
+</span></span><span style="display:flex;"><span>            parent<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">=</span>son;
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">else</span> <span style="color:#998;font-style:italic">//父节点的右孩子是失衡结点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            parent<span style="color:#000;font-weight:bold">-&gt;</span>rchild<span style="color:#000;font-weight:bold">=</span>son;
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">-&gt;</span>father<span style="color:#f92672">=</span>son;<span style="color:#75715e">//设置失衡结点的父亲
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    count_depth(son);<span style="color:#75715e">//更新son结点的高度信息
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> son;
+</span></span><span style="display:flex;"><span>    T<span style="color:#000;font-weight:bold">-&gt;</span>father<span style="color:#000;font-weight:bold">=</span>son;<span style="color:#998;font-style:italic">//设置失衡结点的父亲
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    count_depth(son);<span style="color:#998;font-style:italic">//更新son结点的高度信息
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">return</span> son;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="rr型">RR型</h3>
 <p><img src="https://s1.ax1x.com/2023/03/28/ppcPH1g.png" alt="7">
@@ -290,30 +290,30 @@ Landis于1962年首先提出的，所以又称为AVL树。</p>
    可以看到LL型调整和RR型是左右相反的调整。
 <img src="https://s1.ax1x.com/2023/03/28/ppcPbcQ.png" alt="8">
 代码实现：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>AVLTree <span style="color:#a6e22e">RR_rotate</span>(AVLTree T)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>AVLTree <span style="color:#900;font-weight:bold">RR_rotate</span>(AVLTree T)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    AVLTree parent<span style="color:#f92672">=</span>NULL,son;<span style="color:#75715e">//son结点即为旋转中心
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    parent<span style="color:#f92672">=</span>T<span style="color:#f92672">-&gt;</span>father;<span style="color:#75715e">//获取失衡结点的父节点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    son<span style="color:#f92672">=</span>T<span style="color:#f92672">-&gt;</span>rchild;<span style="color:#75715e">//获取失衡结点的右孩子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (son<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">!=</span>NULL)<span style="color:#75715e">//设置son结点左孩子的父指针
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        son<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">-&gt;</span>father<span style="color:#f92672">=</span>T;
-</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">-&gt;</span>rchild<span style="color:#f92672">=</span>son<span style="color:#f92672">-&gt;</span>lchild;<span style="color:#75715e">//失衡结点的右孩子变更为son的左孩子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//T的子结点更新完毕
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    count_depth(T);<span style="color:#75715e">//更新失衡结点的高度信息
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    son<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">=</span>T;<span style="color:#75715e">//失衡结点变成son的右孩子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    son<span style="color:#f92672">-&gt;</span>father<span style="color:#f92672">=</span>parent;<span style="color:#75715e">//设置son的父结点为原失衡结点的父结点，连接整颗树
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//如果失衡结点不是根结点，则更新父节点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (parent<span style="color:#f92672">!=</span>NULL)
+</span></span><span style="display:flex;"><span>    AVLTree parent<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">NULL</span>,son;<span style="color:#998;font-style:italic">//son结点即为旋转中心
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    parent<span style="color:#000;font-weight:bold">=</span>T<span style="color:#000;font-weight:bold">-&gt;</span>father;<span style="color:#998;font-style:italic">//获取失衡结点的父节点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    son<span style="color:#000;font-weight:bold">=</span>T<span style="color:#000;font-weight:bold">-&gt;</span>rchild;<span style="color:#998;font-style:italic">//获取失衡结点的右孩子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">if</span> (son<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">!=</span><span style="color:#0086b3">NULL</span>)<span style="color:#998;font-style:italic">//设置son结点左孩子的父指针
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        son<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">-&gt;</span>father<span style="color:#000;font-weight:bold">=</span>T;
+</span></span><span style="display:flex;"><span>    T<span style="color:#000;font-weight:bold">-&gt;</span>rchild<span style="color:#000;font-weight:bold">=</span>son<span style="color:#000;font-weight:bold">-&gt;</span>lchild;<span style="color:#998;font-style:italic">//失衡结点的右孩子变更为son的左孩子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#998;font-style:italic">//T的子结点更新完毕
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    count_depth(T);<span style="color:#998;font-style:italic">//更新失衡结点的高度信息
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    son<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">=</span>T;<span style="color:#998;font-style:italic">//失衡结点变成son的右孩子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    son<span style="color:#000;font-weight:bold">-&gt;</span>father<span style="color:#000;font-weight:bold">=</span>parent;<span style="color:#998;font-style:italic">//设置son的父结点为原失衡结点的父结点，连接整颗树
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#998;font-style:italic">//如果失衡结点不是根结点，则更新父节点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">if</span> (parent<span style="color:#000;font-weight:bold">!=</span><span style="color:#0086b3">NULL</span>)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//如果父节点的左孩子是失衡结点，指向现在更新后的新孩子son
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (parent<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">==</span>T)
-</span></span><span style="display:flex;"><span>            parent<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">=</span>son;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> <span style="color:#75715e">//父节点的右孩子是失衡结点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            parent<span style="color:#f92672">-&gt;</span>rchild<span style="color:#f92672">=</span>son;
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">//如果父节点的左孩子是失衡结点，指向现在更新后的新孩子son
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">if</span> (parent<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">==</span>T)
+</span></span><span style="display:flex;"><span>            parent<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">=</span>son;
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">else</span> <span style="color:#998;font-style:italic">//父节点的右孩子是失衡结点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            parent<span style="color:#000;font-weight:bold">-&gt;</span>rchild<span style="color:#000;font-weight:bold">=</span>son;
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">-&gt;</span>father<span style="color:#f92672">=</span>son;<span style="color:#75715e">//设置失衡结点的父亲
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    count_depth(son);<span style="color:#75715e">//更新son结点的高度信息
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> son;
+</span></span><span style="display:flex;"><span>    T<span style="color:#000;font-weight:bold">-&gt;</span>father<span style="color:#000;font-weight:bold">=</span>son;<span style="color:#998;font-style:italic">//设置失衡结点的父亲
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    count_depth(son);<span style="color:#998;font-style:italic">//更新son结点的高度信息
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">return</span> son;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="3-lr型">(3) LR型</h3>
 <p><img src="https://s1.ax1x.com/2023/03/28/ppcPXBn.png" alt="9">
@@ -332,10 +332,10 @@ Landis于1962年首先提出的，所以又称为AVL树。</p>
 <p>  <strong>我们总结出以下<code>规律</code></strong>（参考下图）：LR型<strong>先对B,C进行RR型旋转</strong>(以B为旋转中心)，旋转后就变成LL型的非平衡树之后<strong>再对A，B，C进行LL型旋转调整</strong>(以B为旋转中心)。
 <img src="https://s1.ax1x.com/2023/03/28/ppcPj7q.png" alt="13">
 代码实现：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>AVLTree <span style="color:#a6e22e">LR_rotate</span>(AVLTree T)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>AVLTree <span style="color:#900;font-weight:bold">LR_rotate</span>(AVLTree T)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    RR_rotate(T<span style="color:#f92672">-&gt;</span>lchild);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> LL_rotate(T);
+</span></span><span style="display:flex;"><span>    RR_rotate(T<span style="color:#000;font-weight:bold">-&gt;</span>lchild);
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">return</span> LL_rotate(T);
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="4-rl型">(4) RL型</h3>
 <p><img src="https://s1.ax1x.com/2023/03/28/ppciC3F.png" alt="14">
@@ -344,305 +344,305 @@ RL型就与LR型相反，先进行LL型旋转，再进行RR型旋转。如（a�
   <strong>我们总结出以下<code>规律</code></strong>（参考下图）：RL型<strong>先对B,C进行LL型旋转</strong>(以B为旋转中心)，旋转后就变成RR型的非平衡树之后<strong>再对A，B，C进行RR型旋转调整</strong>(以B为旋转中心)。
 <img src="https://s1.ax1x.com/2023/03/28/ppciPc4.png" alt="16">
 代码实现：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>AVLTree <span style="color:#a6e22e">RL_rotate</span>(AVLTree T)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>AVLTree <span style="color:#900;font-weight:bold">RL_rotate</span>(AVLTree T)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    LL_rotate(T<span style="color:#f92672">-&gt;</span>rchild);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> RR_rotate(T);
+</span></span><span style="display:flex;"><span>    LL_rotate(T<span style="color:#000;font-weight:bold">-&gt;</span>rchild);
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">return</span> RR_rotate(T);
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="平衡二叉树的创建">平衡二叉树的创建</h3>
 <p>了解完了如何调整非平衡二叉树，剩下工作就比较简单了，无非是在创建二叉排序树时，每次插入结点，把二叉树调整为平衡二叉树。
 下面是代码实现：</p>
 <h4 id="输入数据">输入数据</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">creativetree</span>(AVLTree <span style="color:#f92672">&amp;</span>T)<span style="color:#75715e">//输入数据
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{
-</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">=</span>NULL;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> e,n,i;
-</span></span><span style="display:flex;"><span>    scanf(<span style="color:#e6db74">&#34;%d&#34;</span>,<span style="color:#f92672">&amp;</span>n);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span>n; i<span style="color:#f92672">++</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">creativetree</span>(AVLTree <span style="color:#000;font-weight:bold">&amp;</span>T)<span style="color:#998;font-style:italic">//输入数据
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>{
+</span></span><span style="display:flex;"><span>    T<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">NULL</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#458;font-weight:bold">int</span> e,n,i;
+</span></span><span style="display:flex;"><span>    scanf(<span style="color:#d14">&#34;%d&#34;</span>,<span style="color:#000;font-weight:bold">&amp;</span>n);
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">for</span> (i<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>; i<span style="color:#000;font-weight:bold">&lt;</span>n; i<span style="color:#000;font-weight:bold">++</span>)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        scanf(<span style="color:#e6db74">&#34;%d&#34;</span>,<span style="color:#f92672">&amp;</span>e);
-</span></span><span style="display:flex;"><span>        T<span style="color:#f92672">=</span>Insert(T,e);
+</span></span><span style="display:flex;"><span>        scanf(<span style="color:#d14">&#34;%d&#34;</span>,<span style="color:#000;font-weight:bold">&amp;</span>e);
+</span></span><span style="display:flex;"><span>        T<span style="color:#000;font-weight:bold">=</span>Insert(T,e);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h4 id="插入数据">插入数据</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>AVLTree <span style="color:#a6e22e">InsertAVL</span>(AVLTree <span style="color:#f92672">&amp;</span>T,<span style="color:#66d9ef">int</span> e,AVLTree parent)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>AVLTree <span style="color:#900;font-weight:bold">InsertAVL</span>(AVLTree <span style="color:#000;font-weight:bold">&amp;</span>T,<span style="color:#458;font-weight:bold">int</span> e,AVLTree parent)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>T)<span style="color:#75715e">//找到结点插入位置
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    {
-</span></span><span style="display:flex;"><span>        AVLNode <span style="color:#f92672">*</span>S;
-</span></span><span style="display:flex;"><span>        S<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> AVLNode;
-</span></span><span style="display:flex;"><span>        S<span style="color:#f92672">-&gt;</span>data<span style="color:#f92672">=</span>e;
-</span></span><span style="display:flex;"><span>        S<span style="color:#f92672">-&gt;</span>father<span style="color:#f92672">=</span>parent;
-</span></span><span style="display:flex;"><span>        S<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">=</span>S<span style="color:#f92672">-&gt;</span>rchild<span style="color:#f92672">=</span>NULL;
-</span></span><span style="display:flex;"><span>        T<span style="color:#f92672">=</span>S;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> S;
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span>T)<span style="color:#998;font-style:italic">//找到结点插入位置
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    {
+</span></span><span style="display:flex;"><span>        AVLNode <span style="color:#000;font-weight:bold">*</span>S;
+</span></span><span style="display:flex;"><span>        S<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">new</span> AVLNode;
+</span></span><span style="display:flex;"><span>        S<span style="color:#000;font-weight:bold">-&gt;</span>data<span style="color:#000;font-weight:bold">=</span>e;
+</span></span><span style="display:flex;"><span>        S<span style="color:#000;font-weight:bold">-&gt;</span>father<span style="color:#000;font-weight:bold">=</span>parent;
+</span></span><span style="display:flex;"><span>        S<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">=</span>S<span style="color:#000;font-weight:bold">-&gt;</span>rchild<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">NULL</span>;
+</span></span><span style="display:flex;"><span>        T<span style="color:#000;font-weight:bold">=</span>S;
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> S;
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (e<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">-&gt;</span>data)<span style="color:#75715e">//向左搜索
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> InsertAVL(T<span style="color:#f92672">-&gt;</span>lchild,e,T);
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">else</span> <span style="color:#000;font-weight:bold">if</span> (e<span style="color:#000;font-weight:bold">&lt;</span>T<span style="color:#000;font-weight:bold">-&gt;</span>data)<span style="color:#998;font-style:italic">//向左搜索
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> InsertAVL(T<span style="color:#000;font-weight:bold">-&gt;</span>lchild,e,T);
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (e<span style="color:#f92672">&gt;</span>T<span style="color:#f92672">-&gt;</span>data)<span style="color:#75715e">//向右搜索
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> InsertAVL(T<span style="color:#f92672">-&gt;</span>rchild,e,T);
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">else</span> <span style="color:#000;font-weight:bold">if</span> (e<span style="color:#000;font-weight:bold">&gt;</span>T<span style="color:#000;font-weight:bold">-&gt;</span>data)<span style="color:#998;font-style:italic">//向右搜索
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> InsertAVL(T<span style="color:#000;font-weight:bold">-&gt;</span>rchild,e,T);
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> NULL;<span style="color:#75715e">//该结点已存在
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">return</span> <span style="color:#0086b3">NULL</span>;<span style="color:#998;font-style:italic">//该结点已存在
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>AVLTree <span style="color:#a6e22e">Insert</span>(AVLTree <span style="color:#f92672">&amp;</span>T,<span style="color:#66d9ef">int</span> e)
+</span></span><span style="display:flex;"><span>AVLTree <span style="color:#900;font-weight:bold">Insert</span>(AVLTree <span style="color:#000;font-weight:bold">&amp;</span>T,<span style="color:#458;font-weight:bold">int</span> e)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    AVLNode <span style="color:#f92672">*</span>S;
-</span></span><span style="display:flex;"><span>    S<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> AVLNode;
-</span></span><span style="display:flex;"><span>    S<span style="color:#f92672">=</span>InsertAVL(T,e,NULL);<span style="color:#75715e">//插入结点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    count_depth(T);<span style="color:#75715e">//更新深度信息
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    T<span style="color:#f92672">=</span>AVLchange(T,S);<span style="color:#75715e">//调整为平衡二叉树
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> T;
+</span></span><span style="display:flex;"><span>    AVLNode <span style="color:#000;font-weight:bold">*</span>S;
+</span></span><span style="display:flex;"><span>    S<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">new</span> AVLNode;
+</span></span><span style="display:flex;"><span>    S<span style="color:#000;font-weight:bold">=</span>InsertAVL(T,e,<span style="color:#0086b3">NULL</span>);<span style="color:#998;font-style:italic">//插入结点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    count_depth(T);<span style="color:#998;font-style:italic">//更新深度信息
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    T<span style="color:#000;font-weight:bold">=</span>AVLchange(T,S);<span style="color:#998;font-style:italic">//调整为平衡二叉树
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">return</span> T;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h4 id="调整平衡二叉树">调整平衡二叉树</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>AVLTree <span style="color:#a6e22e">AVLchange</span>(AVLTree <span style="color:#f92672">&amp;</span>T,AVLTree S)<span style="color:#75715e">//调整为平衡二叉树
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> balance<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;<span style="color:#75715e">//平衡因子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">while</span> (S)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>AVLTree <span style="color:#900;font-weight:bold">AVLchange</span>(AVLTree <span style="color:#000;font-weight:bold">&amp;</span>T,AVLTree S)<span style="color:#998;font-style:italic">//调整为平衡二叉树
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#458;font-weight:bold">int</span> balance<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>;<span style="color:#998;font-style:italic">//平衡因子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">while</span> (S)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        count_depth(T);<span style="color:#75715e">//计算深度
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        balance<span style="color:#f92672">=</span>count_balance(S);<span style="color:#75715e">//计算平衡因子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span>(balance<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">||</span>balance<span style="color:#f92672">&lt;-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        count_depth(T);<span style="color:#998;font-style:italic">//计算深度
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        balance<span style="color:#000;font-weight:bold">=</span>count_balance(S);<span style="color:#998;font-style:italic">//计算平衡因子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">if</span>(balance<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#099">1</span><span style="color:#000;font-weight:bold">||</span>balance<span style="color:#000;font-weight:bold">&lt;-</span><span style="color:#099">1</span>)
 </span></span><span style="display:flex;"><span>        {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(balance<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">1</span>)<span style="color:#75715e">//L型
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            {
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(count_balance(S<span style="color:#f92672">-&gt;</span>lchild)<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>)<span style="color:#75715e">//LL型
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                {
-</span></span><span style="display:flex;"><span>                    S<span style="color:#f92672">=</span>LL_rotate(S);
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">if</span>(balance<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#099">1</span>)<span style="color:#998;font-style:italic">//L型
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">if</span>(count_balance(S<span style="color:#000;font-weight:bold">-&gt;</span>lchild)<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#099">0</span>)<span style="color:#998;font-style:italic">//LL型
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>                {
+</span></span><span style="display:flex;"><span>                    S<span style="color:#000;font-weight:bold">=</span>LL_rotate(S);
 </span></span><span style="display:flex;"><span>                }
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span>  <span style="color:#75715e">//LR型
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                {
-</span></span><span style="display:flex;"><span>                    S<span style="color:#f92672">=</span>LR_rotate(S);
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">else</span>  <span style="color:#998;font-style:italic">//LR型
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>                {
+</span></span><span style="display:flex;"><span>                    S<span style="color:#000;font-weight:bold">=</span>LR_rotate(S);
 </span></span><span style="display:flex;"><span>                }
 </span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(balance<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1</span>)<span style="color:#75715e">//R型
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            {
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (count_balance(S<span style="color:#f92672">-&gt;</span>rchild)<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>) <span style="color:#75715e">//RR型
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    S<span style="color:#f92672">=</span>RR_rotate(S);
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span> <span style="color:#75715e">//RL型
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    S<span style="color:#f92672">=</span>RL_rotate(S);
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">if</span>(balance<span style="color:#000;font-weight:bold">&lt;</span><span style="color:#099">1</span>)<span style="color:#998;font-style:italic">//R型
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">if</span> (count_balance(S<span style="color:#000;font-weight:bold">-&gt;</span>rchild)<span style="color:#000;font-weight:bold">&lt;</span><span style="color:#099">0</span>) <span style="color:#998;font-style:italic">//RR型
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>                    S<span style="color:#000;font-weight:bold">=</span>RR_rotate(S);
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">else</span> <span style="color:#998;font-style:italic">//RL型
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>                    S<span style="color:#000;font-weight:bold">=</span>RL_rotate(S);
 </span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(S<span style="color:#f92672">-&gt;</span>father<span style="color:#f92672">==</span>NULL)<span style="color:#75715e">//到达根节点，退出循环
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            {
-</span></span><span style="display:flex;"><span>                T<span style="color:#f92672">=</span>S;<span style="color:#75715e">//更新为新的根节点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">if</span>(S<span style="color:#000;font-weight:bold">-&gt;</span>father<span style="color:#000;font-weight:bold">==</span><span style="color:#0086b3">NULL</span>)<span style="color:#998;font-style:italic">//到达根节点，退出循环
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            {
+</span></span><span style="display:flex;"><span>                T<span style="color:#000;font-weight:bold">=</span>S;<span style="color:#998;font-style:italic">//更新为新的根节点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>                <span style="color:#000;font-weight:bold">break</span>;
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        S<span style="color:#f92672">=</span>S<span style="color:#f92672">-&gt;</span>father;<span style="color:#75715e">//一层一层往上调整
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> T;
+</span></span><span style="display:flex;"><span>        S<span style="color:#000;font-weight:bold">=</span>S<span style="color:#000;font-weight:bold">-&gt;</span>father;<span style="color:#998;font-style:italic">//一层一层往上调整
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">return</span> T;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="平衡二叉树实现的整体代码">平衡二叉树实现的整体代码</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;stdio.h&#34;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;malloc.h&#34;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stack&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;queue&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&#34;stdio.h&#34;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&#34;malloc.h&#34;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;iostream&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;stack&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;queue&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic"></span><span style="color:#000;font-weight:bold">using</span> <span style="color:#000;font-weight:bold">namespace</span> std;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">AVLNode</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">AVLNode</span>
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> data<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;<span style="color:#75715e">//结点值
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> depth<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;<span style="color:#75715e">//深度
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">AVLNode</span> <span style="color:#f92672">*</span>father<span style="color:#f92672">=</span>NULL;<span style="color:#75715e">//父结点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">AVLNode</span> <span style="color:#f92672">*</span>lchild<span style="color:#f92672">=</span>NULL,<span style="color:#f92672">*</span>rchild<span style="color:#f92672">=</span>NULL;<span style="color:#75715e">//左右结点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} AVLNode,<span style="color:#f92672">*</span>AVLTree; <span style="color:#75715e">//结点结构体
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">count_depth</span>(AVLTree <span style="color:#f92672">&amp;</span>T)<span style="color:#75715e">//计算各结点的深度
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(T<span style="color:#f92672">==</span>NULL)
+</span></span><span style="display:flex;"><span>    <span style="color:#458;font-weight:bold">int</span> data<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>;<span style="color:#998;font-style:italic">//结点值
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#458;font-weight:bold">int</span> depth<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>;<span style="color:#998;font-style:italic">//深度
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">AVLNode</span> <span style="color:#000;font-weight:bold">*</span>father<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">NULL</span>;<span style="color:#998;font-style:italic">//父结点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">AVLNode</span> <span style="color:#000;font-weight:bold">*</span>lchild<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">NULL</span>,<span style="color:#000;font-weight:bold">*</span>rchild<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">NULL</span>;<span style="color:#998;font-style:italic">//左右结点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>} AVLNode,<span style="color:#000;font-weight:bold">*</span>AVLTree; <span style="color:#998;font-style:italic">//结点结构体
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">count_depth</span>(AVLTree <span style="color:#000;font-weight:bold">&amp;</span>T)<span style="color:#998;font-style:italic">//计算各结点的深度
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span>(T<span style="color:#000;font-weight:bold">==</span><span style="color:#0086b3">NULL</span>)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">else</span>
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> l<span style="color:#f92672">=</span>count_depth(T<span style="color:#f92672">-&gt;</span>lchild);<span style="color:#75715e">//左子树深度
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> r<span style="color:#f92672">=</span>count_depth(T<span style="color:#f92672">-&gt;</span>rchild);<span style="color:#75715e">//右子树深度
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> T<span style="color:#f92672">-&gt;</span>depth<span style="color:#f92672">=</span>max(l,r)<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;<span style="color:#75715e">//更新深度
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>        <span style="color:#458;font-weight:bold">int</span> l<span style="color:#000;font-weight:bold">=</span>count_depth(T<span style="color:#000;font-weight:bold">-&gt;</span>lchild);<span style="color:#998;font-style:italic">//左子树深度
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#458;font-weight:bold">int</span> r<span style="color:#000;font-weight:bold">=</span>count_depth(T<span style="color:#000;font-weight:bold">-&gt;</span>rchild);<span style="color:#998;font-style:italic">//右子树深度
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">return</span> T<span style="color:#000;font-weight:bold">-&gt;</span>depth<span style="color:#000;font-weight:bold">=</span>max(l,r)<span style="color:#000;font-weight:bold">+</span><span style="color:#099">1</span>;<span style="color:#998;font-style:italic">//更新深度
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">get_balance</span>(AVLTree T)<span style="color:#75715e">//读取深度
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(T)
+</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">get_balance</span>(AVLTree T)<span style="color:#998;font-style:italic">//读取深度
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span>(T)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> T<span style="color:#f92672">-&gt;</span>depth;
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> T<span style="color:#000;font-weight:bold">-&gt;</span>depth;
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">else</span>
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">count_balance</span>(AVLTree T)<span style="color:#75715e">//计算平衡因子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>T)
+</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">count_balance</span>(AVLTree T)<span style="color:#998;font-style:italic">//计算平衡因子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span>(<span style="color:#000;font-weight:bold">!</span>T)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">else</span>
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> get_balance(T<span style="color:#f92672">-&gt;</span>lchild)<span style="color:#f92672">-</span>get_balance(T<span style="color:#f92672">-&gt;</span>rchild);<span style="color:#75715e">//平衡因子等于左右子树的深度之差
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> get_balance(T<span style="color:#000;font-weight:bold">-&gt;</span>lchild)<span style="color:#000;font-weight:bold">-</span>get_balance(T<span style="color:#000;font-weight:bold">-&gt;</span>rchild);<span style="color:#998;font-style:italic">//平衡因子等于左右子树的深度之差
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>AVLTree <span style="color:#a6e22e">LL_rotate</span>(AVLTree T)
+</span></span><span style="display:flex;"><span>AVLTree <span style="color:#900;font-weight:bold">LL_rotate</span>(AVLTree T)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    AVLTree parent<span style="color:#f92672">=</span>NULL,son;<span style="color:#75715e">//son结点即为旋转中心
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    parent<span style="color:#f92672">=</span>T<span style="color:#f92672">-&gt;</span>father;<span style="color:#75715e">//获取失衡结点的父节点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    son<span style="color:#f92672">=</span>T<span style="color:#f92672">-&gt;</span>lchild;<span style="color:#75715e">//获取失衡结点的左孩子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (son<span style="color:#f92672">-&gt;</span>rchild<span style="color:#f92672">!=</span>NULL)<span style="color:#75715e">//设置son结点右孩子的父指针
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        son<span style="color:#f92672">-&gt;</span>rchild<span style="color:#f92672">-&gt;</span>father<span style="color:#f92672">=</span>T;
-</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">=</span>son<span style="color:#f92672">-&gt;</span>rchild;<span style="color:#75715e">//失衡结点的左孩子变更为son的右孩子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//T的子结点更新完毕
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    count_depth(T);<span style="color:#75715e">//更新失衡结点的深度信息
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    son<span style="color:#f92672">-&gt;</span>rchild<span style="color:#f92672">=</span>T;<span style="color:#75715e">//失衡结点变成son的右孩子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    son<span style="color:#f92672">-&gt;</span>father<span style="color:#f92672">=</span>parent;<span style="color:#75715e">//设置son的父结点为原失衡结点的父结点，连接整颗树
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//如果失衡结点不是根结点，则更新父节点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (parent<span style="color:#f92672">!=</span>NULL)
+</span></span><span style="display:flex;"><span>    AVLTree parent<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">NULL</span>,son;<span style="color:#998;font-style:italic">//son结点即为旋转中心
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    parent<span style="color:#000;font-weight:bold">=</span>T<span style="color:#000;font-weight:bold">-&gt;</span>father;<span style="color:#998;font-style:italic">//获取失衡结点的父节点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    son<span style="color:#000;font-weight:bold">=</span>T<span style="color:#000;font-weight:bold">-&gt;</span>lchild;<span style="color:#998;font-style:italic">//获取失衡结点的左孩子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">if</span> (son<span style="color:#000;font-weight:bold">-&gt;</span>rchild<span style="color:#000;font-weight:bold">!=</span><span style="color:#0086b3">NULL</span>)<span style="color:#998;font-style:italic">//设置son结点右孩子的父指针
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        son<span style="color:#000;font-weight:bold">-&gt;</span>rchild<span style="color:#000;font-weight:bold">-&gt;</span>father<span style="color:#000;font-weight:bold">=</span>T;
+</span></span><span style="display:flex;"><span>    T<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">=</span>son<span style="color:#000;font-weight:bold">-&gt;</span>rchild;<span style="color:#998;font-style:italic">//失衡结点的左孩子变更为son的右孩子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#998;font-style:italic">//T的子结点更新完毕
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    count_depth(T);<span style="color:#998;font-style:italic">//更新失衡结点的深度信息
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    son<span style="color:#000;font-weight:bold">-&gt;</span>rchild<span style="color:#000;font-weight:bold">=</span>T;<span style="color:#998;font-style:italic">//失衡结点变成son的右孩子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    son<span style="color:#000;font-weight:bold">-&gt;</span>father<span style="color:#000;font-weight:bold">=</span>parent;<span style="color:#998;font-style:italic">//设置son的父结点为原失衡结点的父结点，连接整颗树
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#998;font-style:italic">//如果失衡结点不是根结点，则更新父节点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">if</span> (parent<span style="color:#000;font-weight:bold">!=</span><span style="color:#0086b3">NULL</span>)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//如果父节点的左孩子是失衡结点，指向现在更新后的新孩子son
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (parent<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">==</span>T)
-</span></span><span style="display:flex;"><span>            parent<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">=</span>son;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> <span style="color:#75715e">//父节点的右孩子是失衡结点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            parent<span style="color:#f92672">-&gt;</span>rchild<span style="color:#f92672">=</span>son;
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">//如果父节点的左孩子是失衡结点，指向现在更新后的新孩子son
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">if</span> (parent<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">==</span>T)
+</span></span><span style="display:flex;"><span>            parent<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">=</span>son;
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">else</span> <span style="color:#998;font-style:italic">//父节点的右孩子是失衡结点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            parent<span style="color:#000;font-weight:bold">-&gt;</span>rchild<span style="color:#000;font-weight:bold">=</span>son;
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">-&gt;</span>father<span style="color:#f92672">=</span>son;<span style="color:#75715e">//设置失衡结点的父亲
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    count_depth(son);<span style="color:#75715e">//更新son结点的高度信息
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> son;
+</span></span><span style="display:flex;"><span>    T<span style="color:#000;font-weight:bold">-&gt;</span>father<span style="color:#000;font-weight:bold">=</span>son;<span style="color:#998;font-style:italic">//设置失衡结点的父亲
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    count_depth(son);<span style="color:#998;font-style:italic">//更新son结点的高度信息
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">return</span> son;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>AVLTree <span style="color:#a6e22e">RR_rotate</span>(AVLTree T)
+</span></span><span style="display:flex;"><span>AVLTree <span style="color:#900;font-weight:bold">RR_rotate</span>(AVLTree T)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    AVLTree parent<span style="color:#f92672">=</span>NULL,son;<span style="color:#75715e">//son结点即为旋转中心
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    parent<span style="color:#f92672">=</span>T<span style="color:#f92672">-&gt;</span>father;<span style="color:#75715e">//获取失衡结点的父节点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    son<span style="color:#f92672">=</span>T<span style="color:#f92672">-&gt;</span>rchild;<span style="color:#75715e">//获取失衡结点的右孩子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (son<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">!=</span>NULL)<span style="color:#75715e">//设置son结点左孩子的父指针
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        son<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">-&gt;</span>father<span style="color:#f92672">=</span>T;
-</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">-&gt;</span>rchild<span style="color:#f92672">=</span>son<span style="color:#f92672">-&gt;</span>lchild;<span style="color:#75715e">//失衡结点的右孩子变更为son的左孩子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//T的子结点更新完毕
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    count_depth(T);<span style="color:#75715e">//更新失衡结点的高度信息
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    son<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">=</span>T;<span style="color:#75715e">//失衡结点变成son的右孩子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    son<span style="color:#f92672">-&gt;</span>father<span style="color:#f92672">=</span>parent;<span style="color:#75715e">//设置son的父结点为原失衡结点的父结点，连接整颗树
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//如果失衡结点不是根结点，则更新父节点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (parent<span style="color:#f92672">!=</span>NULL)
+</span></span><span style="display:flex;"><span>    AVLTree parent<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">NULL</span>,son;<span style="color:#998;font-style:italic">//son结点即为旋转中心
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    parent<span style="color:#000;font-weight:bold">=</span>T<span style="color:#000;font-weight:bold">-&gt;</span>father;<span style="color:#998;font-style:italic">//获取失衡结点的父节点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    son<span style="color:#000;font-weight:bold">=</span>T<span style="color:#000;font-weight:bold">-&gt;</span>rchild;<span style="color:#998;font-style:italic">//获取失衡结点的右孩子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">if</span> (son<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">!=</span><span style="color:#0086b3">NULL</span>)<span style="color:#998;font-style:italic">//设置son结点左孩子的父指针
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        son<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">-&gt;</span>father<span style="color:#000;font-weight:bold">=</span>T;
+</span></span><span style="display:flex;"><span>    T<span style="color:#000;font-weight:bold">-&gt;</span>rchild<span style="color:#000;font-weight:bold">=</span>son<span style="color:#000;font-weight:bold">-&gt;</span>lchild;<span style="color:#998;font-style:italic">//失衡结点的右孩子变更为son的左孩子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#998;font-style:italic">//T的子结点更新完毕
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    count_depth(T);<span style="color:#998;font-style:italic">//更新失衡结点的高度信息
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    son<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">=</span>T;<span style="color:#998;font-style:italic">//失衡结点变成son的右孩子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    son<span style="color:#000;font-weight:bold">-&gt;</span>father<span style="color:#000;font-weight:bold">=</span>parent;<span style="color:#998;font-style:italic">//设置son的父结点为原失衡结点的父结点，连接整颗树
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#998;font-style:italic">//如果失衡结点不是根结点，则更新父节点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">if</span> (parent<span style="color:#000;font-weight:bold">!=</span><span style="color:#0086b3">NULL</span>)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//如果父节点的左孩子是失衡结点，指向现在更新后的新孩子son
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (parent<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">==</span>T)
-</span></span><span style="display:flex;"><span>            parent<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">=</span>son;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> <span style="color:#75715e">//父节点的右孩子是失衡结点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            parent<span style="color:#f92672">-&gt;</span>rchild<span style="color:#f92672">=</span>son;
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">//如果父节点的左孩子是失衡结点，指向现在更新后的新孩子son
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">if</span> (parent<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">==</span>T)
+</span></span><span style="display:flex;"><span>            parent<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">=</span>son;
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">else</span> <span style="color:#998;font-style:italic">//父节点的右孩子是失衡结点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            parent<span style="color:#000;font-weight:bold">-&gt;</span>rchild<span style="color:#000;font-weight:bold">=</span>son;
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">-&gt;</span>father<span style="color:#f92672">=</span>son;<span style="color:#75715e">//设置失衡结点的父亲
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    count_depth(son);<span style="color:#75715e">//更新son结点的高度信息
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> son;
+</span></span><span style="display:flex;"><span>    T<span style="color:#000;font-weight:bold">-&gt;</span>father<span style="color:#000;font-weight:bold">=</span>son;<span style="color:#998;font-style:italic">//设置失衡结点的父亲
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    count_depth(son);<span style="color:#998;font-style:italic">//更新son结点的高度信息
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">return</span> son;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>AVLTree <span style="color:#a6e22e">LR_rotate</span>(AVLTree T)
+</span></span><span style="display:flex;"><span>AVLTree <span style="color:#900;font-weight:bold">LR_rotate</span>(AVLTree T)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    RR_rotate(T<span style="color:#f92672">-&gt;</span>lchild);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> LL_rotate(T);
+</span></span><span style="display:flex;"><span>    RR_rotate(T<span style="color:#000;font-weight:bold">-&gt;</span>lchild);
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">return</span> LL_rotate(T);
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>AVLTree <span style="color:#a6e22e">RL_rotate</span>(AVLTree T)
+</span></span><span style="display:flex;"><span>AVLTree <span style="color:#900;font-weight:bold">RL_rotate</span>(AVLTree T)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    LL_rotate(T<span style="color:#f92672">-&gt;</span>rchild);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> RR_rotate(T);
+</span></span><span style="display:flex;"><span>    LL_rotate(T<span style="color:#000;font-weight:bold">-&gt;</span>rchild);
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">return</span> RR_rotate(T);
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>AVLTree <span style="color:#a6e22e">AVLchange</span>(AVLTree <span style="color:#f92672">&amp;</span>T,AVLTree S)<span style="color:#75715e">//调整为平衡二叉树
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> balance<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;<span style="color:#75715e">//平衡因子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">while</span> (S)
+</span></span><span style="display:flex;"><span>AVLTree <span style="color:#900;font-weight:bold">AVLchange</span>(AVLTree <span style="color:#000;font-weight:bold">&amp;</span>T,AVLTree S)<span style="color:#998;font-style:italic">//调整为平衡二叉树
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#458;font-weight:bold">int</span> balance<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>;<span style="color:#998;font-style:italic">//平衡因子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">while</span> (S)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        count_depth(T);<span style="color:#75715e">//计算深度
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        balance<span style="color:#f92672">=</span>count_balance(S);<span style="color:#75715e">//计算平衡因子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span>(balance<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">||</span>balance<span style="color:#f92672">&lt;-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        count_depth(T);<span style="color:#998;font-style:italic">//计算深度
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        balance<span style="color:#000;font-weight:bold">=</span>count_balance(S);<span style="color:#998;font-style:italic">//计算平衡因子
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">if</span>(balance<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#099">1</span><span style="color:#000;font-weight:bold">||</span>balance<span style="color:#000;font-weight:bold">&lt;-</span><span style="color:#099">1</span>)
 </span></span><span style="display:flex;"><span>        {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(balance<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">1</span>)<span style="color:#75715e">//L型
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            {
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(count_balance(S<span style="color:#f92672">-&gt;</span>lchild)<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>)<span style="color:#75715e">//LL型
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                {
-</span></span><span style="display:flex;"><span>                    S<span style="color:#f92672">=</span>LL_rotate(S);
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">if</span>(balance<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#099">1</span>)<span style="color:#998;font-style:italic">//L型
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">if</span>(count_balance(S<span style="color:#000;font-weight:bold">-&gt;</span>lchild)<span style="color:#000;font-weight:bold">&gt;</span><span style="color:#099">0</span>)<span style="color:#998;font-style:italic">//LL型
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>                {
+</span></span><span style="display:flex;"><span>                    S<span style="color:#000;font-weight:bold">=</span>LL_rotate(S);
 </span></span><span style="display:flex;"><span>                }
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span>  <span style="color:#75715e">//LR型
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                {
-</span></span><span style="display:flex;"><span>                    S<span style="color:#f92672">=</span>LR_rotate(S);
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">else</span>  <span style="color:#998;font-style:italic">//LR型
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>                {
+</span></span><span style="display:flex;"><span>                    S<span style="color:#000;font-weight:bold">=</span>LR_rotate(S);
 </span></span><span style="display:flex;"><span>                }
 </span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(balance<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1</span>)<span style="color:#75715e">//R型
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            {
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (count_balance(S<span style="color:#f92672">-&gt;</span>rchild)<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>) <span style="color:#75715e">//RR型
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    S<span style="color:#f92672">=</span>RR_rotate(S);
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span> <span style="color:#75715e">//RL型
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    S<span style="color:#f92672">=</span>RL_rotate(S);
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">if</span>(balance<span style="color:#000;font-weight:bold">&lt;</span><span style="color:#099">1</span>)<span style="color:#998;font-style:italic">//R型
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">if</span> (count_balance(S<span style="color:#000;font-weight:bold">-&gt;</span>rchild)<span style="color:#000;font-weight:bold">&lt;</span><span style="color:#099">0</span>) <span style="color:#998;font-style:italic">//RR型
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>                    S<span style="color:#000;font-weight:bold">=</span>RR_rotate(S);
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">else</span> <span style="color:#998;font-style:italic">//RL型
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>                    S<span style="color:#000;font-weight:bold">=</span>RL_rotate(S);
 </span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(S<span style="color:#f92672">-&gt;</span>father<span style="color:#f92672">==</span>NULL)<span style="color:#75715e">//到达根节点，退出循环
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            {
-</span></span><span style="display:flex;"><span>                T<span style="color:#f92672">=</span>S;<span style="color:#75715e">//更新为新的根节点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">if</span>(S<span style="color:#000;font-weight:bold">-&gt;</span>father<span style="color:#000;font-weight:bold">==</span><span style="color:#0086b3">NULL</span>)<span style="color:#998;font-style:italic">//到达根节点，退出循环
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            {
+</span></span><span style="display:flex;"><span>                T<span style="color:#000;font-weight:bold">=</span>S;<span style="color:#998;font-style:italic">//更新为新的根节点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>                <span style="color:#000;font-weight:bold">break</span>;
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        S<span style="color:#f92672">=</span>S<span style="color:#f92672">-&gt;</span>father;<span style="color:#75715e">//一层一层往上调整
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> T;
+</span></span><span style="display:flex;"><span>        S<span style="color:#000;font-weight:bold">=</span>S<span style="color:#000;font-weight:bold">-&gt;</span>father;<span style="color:#998;font-style:italic">//一层一层往上调整
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">return</span> T;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>AVLTree <span style="color:#a6e22e">InsertAVL</span>(AVLTree <span style="color:#f92672">&amp;</span>T,<span style="color:#66d9ef">int</span> e,AVLTree parent)
+</span></span><span style="display:flex;"><span>AVLTree <span style="color:#900;font-weight:bold">InsertAVL</span>(AVLTree <span style="color:#000;font-weight:bold">&amp;</span>T,<span style="color:#458;font-weight:bold">int</span> e,AVLTree parent)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>T)<span style="color:#75715e">//找到结点插入位置
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    {
-</span></span><span style="display:flex;"><span>        AVLNode <span style="color:#f92672">*</span>S;
-</span></span><span style="display:flex;"><span>        S<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> AVLNode;
-</span></span><span style="display:flex;"><span>        S<span style="color:#f92672">-&gt;</span>data<span style="color:#f92672">=</span>e;
-</span></span><span style="display:flex;"><span>        S<span style="color:#f92672">-&gt;</span>father<span style="color:#f92672">=</span>parent;
-</span></span><span style="display:flex;"><span>        S<span style="color:#f92672">-&gt;</span>lchild<span style="color:#f92672">=</span>S<span style="color:#f92672">-&gt;</span>rchild<span style="color:#f92672">=</span>NULL;
-</span></span><span style="display:flex;"><span>        T<span style="color:#f92672">=</span>S;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> S;
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span>T)<span style="color:#998;font-style:italic">//找到结点插入位置
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    {
+</span></span><span style="display:flex;"><span>        AVLNode <span style="color:#000;font-weight:bold">*</span>S;
+</span></span><span style="display:flex;"><span>        S<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">new</span> AVLNode;
+</span></span><span style="display:flex;"><span>        S<span style="color:#000;font-weight:bold">-&gt;</span>data<span style="color:#000;font-weight:bold">=</span>e;
+</span></span><span style="display:flex;"><span>        S<span style="color:#000;font-weight:bold">-&gt;</span>father<span style="color:#000;font-weight:bold">=</span>parent;
+</span></span><span style="display:flex;"><span>        S<span style="color:#000;font-weight:bold">-&gt;</span>lchild<span style="color:#000;font-weight:bold">=</span>S<span style="color:#000;font-weight:bold">-&gt;</span>rchild<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">NULL</span>;
+</span></span><span style="display:flex;"><span>        T<span style="color:#000;font-weight:bold">=</span>S;
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> S;
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (e<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">-&gt;</span>data)<span style="color:#75715e">//向左搜索
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> InsertAVL(T<span style="color:#f92672">-&gt;</span>lchild,e,T);
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">else</span> <span style="color:#000;font-weight:bold">if</span> (e<span style="color:#000;font-weight:bold">&lt;</span>T<span style="color:#000;font-weight:bold">-&gt;</span>data)<span style="color:#998;font-style:italic">//向左搜索
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> InsertAVL(T<span style="color:#000;font-weight:bold">-&gt;</span>lchild,e,T);
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (e<span style="color:#f92672">&gt;</span>T<span style="color:#f92672">-&gt;</span>data)<span style="color:#75715e">//向右搜索
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> InsertAVL(T<span style="color:#f92672">-&gt;</span>rchild,e,T);
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">else</span> <span style="color:#000;font-weight:bold">if</span> (e<span style="color:#000;font-weight:bold">&gt;</span>T<span style="color:#000;font-weight:bold">-&gt;</span>data)<span style="color:#998;font-style:italic">//向右搜索
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> InsertAVL(T<span style="color:#000;font-weight:bold">-&gt;</span>rchild,e,T);
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> NULL;<span style="color:#75715e">//该结点已存在
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">return</span> <span style="color:#0086b3">NULL</span>;<span style="color:#998;font-style:italic">//该结点已存在
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>AVLTree <span style="color:#a6e22e">Insert</span>(AVLTree <span style="color:#f92672">&amp;</span>T,<span style="color:#66d9ef">int</span> e)
+</span></span><span style="display:flex;"><span>AVLTree <span style="color:#900;font-weight:bold">Insert</span>(AVLTree <span style="color:#000;font-weight:bold">&amp;</span>T,<span style="color:#458;font-weight:bold">int</span> e)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    AVLNode <span style="color:#f92672">*</span>S;
-</span></span><span style="display:flex;"><span>    S<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> AVLNode;
-</span></span><span style="display:flex;"><span>    S<span style="color:#f92672">=</span>InsertAVL(T,e,NULL);<span style="color:#75715e">//插入结点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    count_depth(T);<span style="color:#75715e">//更新深度信息
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    T<span style="color:#f92672">=</span>AVLchange(T,S);<span style="color:#75715e">//调整为平衡二叉树
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> T;
+</span></span><span style="display:flex;"><span>    AVLNode <span style="color:#000;font-weight:bold">*</span>S;
+</span></span><span style="display:flex;"><span>    S<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">new</span> AVLNode;
+</span></span><span style="display:flex;"><span>    S<span style="color:#000;font-weight:bold">=</span>InsertAVL(T,e,<span style="color:#0086b3">NULL</span>);<span style="color:#998;font-style:italic">//插入结点
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    count_depth(T);<span style="color:#998;font-style:italic">//更新深度信息
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    T<span style="color:#000;font-weight:bold">=</span>AVLchange(T,S);<span style="color:#998;font-style:italic">//调整为平衡二叉树
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">return</span> T;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">creativetree</span>(AVLTree <span style="color:#f92672">&amp;</span>T)
+</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">creativetree</span>(AVLTree <span style="color:#000;font-weight:bold">&amp;</span>T)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">=</span>NULL;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> e,n,i;
-</span></span><span style="display:flex;"><span>    scanf(<span style="color:#e6db74">&#34;%d&#34;</span>,<span style="color:#f92672">&amp;</span>n);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span>n; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>    T<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">NULL</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#458;font-weight:bold">int</span> e,n,i;
+</span></span><span style="display:flex;"><span>    scanf(<span style="color:#d14">&#34;%d&#34;</span>,<span style="color:#000;font-weight:bold">&amp;</span>n);
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">for</span> (i<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>; i<span style="color:#000;font-weight:bold">&lt;</span>n; i<span style="color:#000;font-weight:bold">++</span>)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        scanf(<span style="color:#e6db74">&#34;%d&#34;</span>,<span style="color:#f92672">&amp;</span>e);
-</span></span><span style="display:flex;"><span>        T<span style="color:#f92672">=</span>Insert(T,e);
+</span></span><span style="display:flex;"><span>        scanf(<span style="color:#d14">&#34;%d&#34;</span>,<span style="color:#000;font-weight:bold">&amp;</span>e);
+</span></span><span style="display:flex;"><span>        T<span style="color:#000;font-weight:bold">=</span>Insert(T,e);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">main</span>()
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>    AVLTree T;
-</span></span><span style="display:flex;"><span>    creativetree(T);<span style="color:#75715e">//建树
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    creativetree(T);<span style="color:#998;font-style:italic">//建树
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><blockquote>
 <p><code>平衡二叉树的删除操作和其他遍历操作与二叉排序树无异</code>，其他操作可以参考这里<a href="https://blog.csdn.net/Tree_sea/article/details/117571736"> 实现二叉排序树的各种算法</a></p>
