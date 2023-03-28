@@ -1,1 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>About on Shuhai's Blog</title><link>https://shuhai65.github.io/categories/about/</link><description>Recent content in About on Shuhai's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 01 Jan 2022 18:08:29 +0000</lastBuildDate><atom:link href="https://shuhai65.github.io/categories/about/index.xml" rel="self" type="application/rss+xml"/><item><title>关于我</title><link>https://shuhai65.github.io/posts/about/</link><pubDate>Sat, 01 Jan 2022 18:08:29 +0000</pubDate><guid>https://shuhai65.github.io/posts/about/</guid><description>🤠樹海(shuhai) 本科软件工程在读 Github: https://github.com/shuhai65 Twitter: https://twitter.com/husias65 cnblogs: https://www.cnblogs.com/shuhai165 CSDN: https://blog.csdn.net/Tree_sea 好朋友们 Xicom : https://txicom.github.io/</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>About on Shuhai&#39;s Blog</title>
+    <link>https://shuhai65.github.io/categories/about/</link>
+    <description>Recent content in About on Shuhai&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 01 Jan 2022 18:08:29 +0000</lastBuildDate><atom:link href="https://shuhai65.github.io/categories/about/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>关于我</title>
+      <link>https://shuhai65.github.io/posts/about/</link>
+      <pubDate>Sat, 01 Jan 2022 18:08:29 +0000</pubDate>
+      
+      <guid>https://shuhai65.github.io/posts/about/</guid>
+      <description>樹海(shuhai) 本科软件工程在读 Email: shuhai.stack@gamil.com Github: https://github.com/shuhai65 Twitter: https://twitter.com/husias65 cnblogs: https://www.cnblogs.com/shuhai165 CSDN: https://blog.csdn.net/Tree_sea 好朋友们 Xicom : https://txicom.github.io/ </description>
+    </item>
+    
+  </channel>
+</rss>

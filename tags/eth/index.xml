@@ -1,5 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ETH on Shuhai's Blog</title><link>https://shuhai65.github.io/tags/eth/</link><description>Recent content in ETH on Shuhai's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 16 Mar 2022 18:08:29 +0000</lastBuildDate><atom:link href="https://shuhai65.github.io/tags/eth/index.xml" rel="self" type="application/rss+xml"/><item><title>Win10使用Geth客户端搭建以太坊私有链、连接可视化钱包及挖矿</title><link>https://shuhai65.github.io/posts/win10%E4%BD%BF%E7%94%A8geth%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E6%9C%89%E9%93%BE%E8%BF%9E%E6%8E%A5%E5%8F%AF%E8%A7%86%E5%8C%96%E9%92%B1%E5%8C%85%E5%8F%8A%E6%8C%96%E7%9F%BF/</link><pubDate>Wed, 16 Mar 2022 18:08:29 +0000</pubDate><guid>https://shuhai65.github.io/posts/win10%E4%BD%BF%E7%94%A8geth%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E6%9C%89%E9%93%BE%E8%BF%9E%E6%8E%A5%E5%8F%AF%E8%A7%86%E5%8C%96%E9%92%B1%E5%8C%85%E5%8F%8A%E6%8C%96%E7%9F%BF/</guid><description>下载并安装Geth客户端 下载地址：https://geth.ethereum.org/downloads/*
-下载最新版本的geth(win10版本Stable releases)(选择自己电脑对应的版本) 选第3个，下载并安装(安装时选择一个自己方便操作的路径即可)： 下载完成后打开文件夹：
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ETH on Shuhai&#39;s Blog</title>
+    <link>https://shuhai65.github.io/tags/eth/</link>
+    <description>Recent content in ETH on Shuhai&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 16 Mar 2022 18:08:29 +0000</lastBuildDate><atom:link href="https://shuhai65.github.io/tags/eth/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Win10使用Geth客户端搭建以太坊私有链、连接可视化钱包及挖矿</title>
+      <link>https://shuhai65.github.io/posts/win10%E4%BD%BF%E7%94%A8geth%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E6%9C%89%E9%93%BE%E8%BF%9E%E6%8E%A5%E5%8F%AF%E8%A7%86%E5%8C%96%E9%92%B1%E5%8C%85%E5%8F%8A%E6%8C%96%E7%9F%BF/</link>
+      <pubDate>Wed, 16 Mar 2022 18:08:29 +0000</pubDate>
+      
+      <guid>https://shuhai65.github.io/posts/win10%E4%BD%BF%E7%94%A8geth%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E6%9C%89%E9%93%BE%E8%BF%9E%E6%8E%A5%E5%8F%AF%E8%A7%86%E5%8C%96%E9%92%B1%E5%8C%85%E5%8F%8A%E6%8C%96%E7%9F%BF/</guid>
+      <description>下载并安装Geth客户端 下载地址：https://geth.ethereum.org/downloads/*
+下载最新版本的geth(win10版本Stable releases)(选择自己电脑对应的版本) 选第3个，下载并安装(安装时选择一个自己方便操作的路径即可)：
+下载完成后打开文件夹：
 验证是否安装成功：
 打开cmd,输入以下指令(查看帮助文档)：geth -help
 出现以下内容即为安装成功
@@ -11,4 +27,8 @@ geth会自动运行同步，在一开始的提示中也有说明区块的存储�
 注意：要查看AppData,需要在查看里勾选查看隐藏的项目 创世区块配置文件 (开始搭建私链:注意关闭正在同步主网的geth) 新建创世区块文件
 在geth安装目录下新建*genesis.json*(此为文件名)文件，输入以下内容（并保存）：
 { &amp;#34;nonce&amp;#34;: &amp;#34;0x0000000000000042&amp;#34;, &amp;#34;difficulty&amp;#34;: &amp;#34;0x4&amp;#34;, &amp;#34;mixhash&amp;#34;: &amp;#34;0x0000000000000000000000000000000000000000000000000000000000000000&amp;#34;, &amp;#34;coinbase&amp;#34;: &amp;#34;0x0000000000000000000000000000000000000000&amp;#34;, &amp;#34;timestamp&amp;#34;: &amp;#34;0x00&amp;#34;, &amp;#34;parentHash&amp;#34;: &amp;#34;0x0000000000000000000000000000000000000000000000000000000000000000&amp;#34;, &amp;#34;gasLimit&amp;#34;: &amp;#34;0xffffffffffffff&amp;#34;, &amp;#34;alloc&amp;#34;: {}, &amp;#34;config&amp;#34;: { &amp;#34;chainId&amp;#34;: 666, &amp;#34;homesteadBlock&amp;#34;: 0, &amp;#34;eip150Block&amp;#34;: 0, &amp;#34;eip150Hash&amp;#34;: &amp;#34;0x0000000000000000000000000000000000000000000000000000000000000000&amp;#34;, &amp;#34;eip155Block&amp;#34;: 0, &amp;#34;eip158Block&amp;#34;: 0, &amp;#34;byzantiumBlock&amp;#34;: 0, &amp;#34;constantinopleBlock&amp;#34;: 0, &amp;#34;petersburgBlock&amp;#34;: 0, &amp;#34;istanbulBlock&amp;#34;: 0, &amp;#34;ethash&amp;#34;: {} } } 重要参数说明
-参数名 描述 chainID 指定了独立的区块链网络 ID。网络 ID 在连接到其他节点的时候会用到，以太坊公网的网络 ID 是 1，为了不与公有链网络冲突，运行私有链节点的时候要指定自己的网络 ID。不同 ID 网络的节点无法相互连接 homesteadBlock 取值为0表示正在使用homesteadBlock版本。以太坊的发展分成了四个阶段：（每个阶段进步到下一个阶段都是通过硬分叉的方式实现的）1.</description></item></channel></rss>
+参数名 描述 chainID 指定了独立的区块链网络 ID。网络 ID 在连接到其他节点的时候会用到，以太坊公网的网络 ID 是 1，为了不与公有链网络冲突，运行私有链节点的时候要指定自己的网络 ID。不同 ID 网络的节点无法相互连接 homesteadBlock 取值为0表示正在使用homesteadBlock版本。以太坊的发展分成了四个阶段：（每个阶段进步到下一个阶段都是通过硬分叉的方式实现的）1.</description>
+    </item>
+    
+  </channel>
+</rss>

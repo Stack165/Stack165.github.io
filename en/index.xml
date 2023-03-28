@@ -1,1 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Shuhai's Blog</title><link>https://shuhai65.github.io/en/</link><description>Recent content on Shuhai's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 01 Jan 2022 18:08:29 +0000</lastBuildDate><atom:link href="https://shuhai65.github.io/en/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://shuhai65.github.io/en/posts/about/</link><pubDate>Sat, 01 Jan 2022 18:08:29 +0000</pubDate><guid>https://shuhai65.github.io/en/posts/about/</guid><description>🤠Shuhai Student of Software Engineering Github: https://github.com/shuhai65 Twitter: https://twitter.com/stacks1iver cnblogs: https://www.cnblogs.com/shuhai165 CSDN: https://blog.csdn.net/Tree_sea friends Xicom : https://txicom.github.io/</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Shuhai&#39;s Blog</title>
+    <link>https://shuhai65.github.io/en/</link>
+    <description>Recent content on Shuhai&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 01 Jan 2022 18:08:29 +0000</lastBuildDate><atom:link href="https://shuhai65.github.io/en/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>https://shuhai65.github.io/en/posts/about/</link>
+      <pubDate>Sat, 01 Jan 2022 18:08:29 +0000</pubDate>
+      
+      <guid>https://shuhai65.github.io/en/posts/about/</guid>
+      <description>🤠Shuhai Student of Software Engineering Github: https://github.com/shuhai65 Twitter: https://twitter.com/stacks1iver cnblogs: https://www.cnblogs.com/shuhai165 CSDN: https://blog.csdn.net/Tree_sea friends Xicom : https://txicom.github.io/ </description>
+    </item>
+    
+  </channel>
+</rss>
