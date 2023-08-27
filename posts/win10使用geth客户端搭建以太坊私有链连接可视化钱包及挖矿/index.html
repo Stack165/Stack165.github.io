@@ -110,23 +110,23 @@
 <p><em><strong>下载地址</strong>：<a href="https://geth.ethereum.org/downloads/">https://geth.ethereum.org/downloads/*</a></em></p>
 <p><strong>下载最新版本的geth(win10版本Stable releases)(选择自己电脑对应的版本)</strong>
 选第3个，下载并安装(安装时选择一个自己方便操作的路径即可)：</p>
-<p><img src="/images/blog2/1.png" alt="1">
-<img src="/images/blog2/2.png" alt="2"></p>
+<p><img src="https://s1.ax1x.com/2023/03/28/ppcZMgf.png" alt="1">
+<img src="https://s1.ax1x.com/2023/03/28/ppckMmd.png" alt="2"></p>
 <p><strong>下载完成后打开文件夹：</strong></p>
-<p><img src="/images/blog2/3.png" alt="3"></p>
+<p><img src="https://s1.ax1x.com/2023/03/28/ppckuOH.png" alt="3"></p>
 <p><strong>验证是否安装成功：</strong></p>
 <p>打开cmd,输入以下指令(查看帮助文档)：geth -help</p>
 <p>出现以下内容即为安装成功</p>
-<p><img src="/images/blog2/4.png" alt="4"></p>
+<p><img src="https://s1.ax1x.com/2023/03/28/ppcZm4I.png" alt="4"></p>
 <p><em>至此以太坊客户端已经安装完毕</em></p>
 <p><strong>测试geth同步主网络(配置私链的话这步不做也可)</strong></p>
 <p>直接打开geth.exe</p>
 <p>geth会自动运行同步，在一开始的提示中也有说明区块的存储路径在哪里</p>
 <p>我的路径是：C:\Users\Edward\AppData\Roaming\Ethereum <em>(一般为管理员账户路径里)</em></p>
-<p><img src="/images/blog2/5.png" alt="5">
-<img src="/images/blog2/6.png" alt="6"></p>
+<p><img src="https://s1.ax1x.com/2023/03/28/ppcZm4I.png" alt="5">
+<img src="https://s1.ax1x.com/2023/03/28/ppcZuCt.png" alt="6"></p>
 <p><strong>注意：要查看AppData,需要在查看里勾选查看隐藏的项目</strong>
-<img src="/images/blog2/7.png" alt="7"></p>
+<img src="https://s1.ax1x.com/2023/03/28/ppcZeUA.png" alt="7"></p>
 <h1 id="创世区块配置文件"><strong>创世区块配置文件</strong></h1>
 <p>(开始搭建私链:注意关闭正在同步主网的geth)
 <strong>新建创世区块文件</strong></p>
@@ -215,10 +215,10 @@
 </table>
 <h1 id="初始化"><strong>初始化</strong></h1>
 <p>在<strong>genesis.json</strong>文件夹路径下打开cmd,执行命令：<strong>geth &ndash;datadir .\db init genesis.json</strong>
-<img src="/images/blog2/8.png" alt="8"></p>
+<img src="https://s1.ax1x.com/2023/03/28/ppcZ8bQ.png" alt="8"></p>
 <p>执行完这条命令后会在geth安装目录下出现一个db文件夹，<strong>其中chaindata存放区块数据，keystore存放账户数据</strong></p>
-<p><img src="/images/blog2/9.png" alt="9">
-<img src="/images/blog2/10.png" alt="10"></p>
+<p><img src="https://s1.ax1x.com/2023/03/28/ppcZ3Dg.png" alt="9">
+<img src="https://s1.ax1x.com/2023/03/28/ppcZQv8.png" alt="10"></p>
 <h1 id="启动节点"><strong>启动节点</strong></h1>
 <p>命令：<strong>geth &ndash;http &ndash;http.api db,eth,net,web3,personal &ndash;datadir .\db &ndash;networkid 666 console 2&raquo; log2020526.log</strong></p>
 <p><strong>注意：搭建过程中我的geth一直是处于未关闭状态,networkid要配置对指定为chainId（在genesis.json配置）
@@ -232,38 +232,38 @@
 <p>console：启动命令行模式</p>
 <p>2&raquo; log2020526.log：重定向，记录日志</p>
 <p>启动成功后如下图所示：
-<img src="/images/blog2/11.png" alt="11"></p>
+<img src="https://s1.ax1x.com/2023/03/28/ppcZ1KS.png" alt="11"></p>
 <p>可以验证节点信息
 命令：<strong>admin.nodeInfo</strong></p>
-<p><img src="/images/blog2/12.png" alt="12"></p>
+<p><img src="https://s1.ax1x.com/2023/03/28/ppcZJEj.png" alt="12"></p>
 <h1 id="新建账户"><strong>新建账户</strong></h1>
 <p>输入eth.accounts查看已存在账号：</p>
-<p><img src="/images/blog2/13.png" alt="13">
+<p><img src="https://s1.ax1x.com/2023/03/28/ppcZYUs.png" alt="13">
 []说明暂无账号</p>
 <p>输入以下指令创建账号：<strong>personal.newAccount()</strong></p>
 <p><strong>会提示你输入密码，需要自己记住，测试不要太复杂</strong></p>
-<p><img src="/images/blog2/14.png" alt="14"></p>
+<p><img src="https://s1.ax1x.com/2023/03/28/ppcZt5n.png" alt="14"></p>
 <p>双引号内是自己的地址</p>
 <p>执行成功后会产生账户的公钥（地址），然后在keystore文件夹下就会产生相应的账户文件：
-<img src="/images/blog2/15.png" alt="15"></p>
+<img src="https://s1.ax1x.com/2023/03/28/ppcZUCq.png" alt="15"></p>
 <p><strong>可以通过以下命令来查看对应账户的余额</strong>：</p>
 <p>eth.accounts[0]  //查看第一个账号地址</p>
 <p>eth.getBalance(eth.accounts[0])</p>
 <p>eth.getBalance(&ldquo;0x7326bc89fe5a1d593afb5fa02479974be776a081&rdquo;) //括号内也可以直接填地址
-<img src="/images/blog2/16.png" alt="16">
+<img src="https://s1.ax1x.com/2023/03/28/ppcZa80.png" alt="16">
 发现账户余额是0，因此需要通过挖矿获取以太币</p>
 <h1 id="下载钱包metamask并导入创建的账户"><strong>下载钱包MetaMask并导入创建的账户</strong></h1>
 <p>MetaMask是一个chrome插件
 下载完成之后，在右上角会出现一个小狐狸标志，点开，点击网络使其显示隐藏的网络localhost 8545(并连接)</p>
-<p><img src="/images/blog2/17.png" alt="17"></p>
-<p><img src="/images/blog2/18.png" alt="18"></p>
+<p><img src="https://s1.ax1x.com/2023/03/28/ppcZd2V.png" alt="17"></p>
+<p><img src="https://s1.ax1x.com/2023/04/11/ppOZBb8.png" alt="18"></p>
 <p>我们采取向我们本地私链导入metamask上已创建的账号</p>
 <p>参考：<a href="https://blog.csdn.net/weixin_43988498/article/details/108394012">https://blog.csdn.net/weixin_43988498/article/details/108394012</a></p>
-<p><img src="/images/blog2/19.png" alt="19"></p>
+<p><img src="https://s1.ax1x.com/2023/04/11/ppOZ0Df.png" alt="19"></p>
 <p>导出私钥</p>
-<p><img src="/images/blog2/20.png" alt="20"></p>
+<p><img src="https://s1.ax1x.com/2023/04/11/ppOZUgI.png" alt="20"></p>
 <p>复制私钥到本地一个txt文件中保存
-<img src="/images/blog2/21.png" alt="21"></p>
+<img src="https://s1.ax1x.com/2023/04/11/ppOZN8A.png" alt="21"></p>
 <p>然后输入</p>
 <blockquote>
 <p>geth account import +你的私钥文件路径</p>
@@ -275,26 +275,26 @@
 <p>geth account list</p>
 </blockquote>
 <p>找到对应账户后面的存储位置，把文件放到我们创建私链项目中的keystore文件夹中即可。
-<img src="/images/blog2/22.png" alt="22">
-<img src="/images/blog2/23.png" alt="23"></p>
+<img src="https://s1.ax1x.com/2023/04/11/ppOZwKP.png" alt="22">
+<img src="https://s1.ax1x.com/2023/04/11/ppOZavt.png" alt="23"></p>
 <p>在geth中输入eth.accounts查看新导入的账号</p>
-<p><img src="/images/blog2/24.png" alt="24"></p>
+<p><img src="https://s1.ax1x.com/2023/04/11/ppOZrVS.png" alt="24"></p>
 <h1 id="挖矿"><strong>挖矿</strong></h1>
 <p>挖矿所得的奖励会进入矿工的账户，这个账户叫做coinbase，默认情况下coinbase是本地账户中的第一个账户，如下图所示：指令：eth.coinbase</p>
-<p><img src="/images/blog2/25.png" alt="25"></p>
+<p><img src="https://imgse.com/i/ppOZsUg" alt="25"></p>
 <p>可以输入 <em><strong>miner.setEtherbase(账号)</strong></em> 设置挖矿账号</p>
 <p>我现在设置刚刚导入的账号为挖矿地址
-<img src="/images/blog2/26.png" alt="26"></p>
+<img src="https://s1.ax1x.com/2023/04/11/ppOZsUg.png" alt="26"></p>
 <p>查看余额 <em><strong>eth.getBalance(账号)</strong></em> ：
-<img src="/images/blog2/27.png" alt="27"></p>
+<img src="https://s1.ax1x.com/2023/04/11/ppOZcCj.png" alt="27"></p>
 <p>通过以下命令开启挖矿，参数是线程数，这里设置为1**（提示null不必理会）**
 miner.start(1)</p>
-<p><img src="/images/blog2/28.png" alt="28"></p>
+<p><img src="https://s1.ax1x.com/2023/04/11/ppOZg8s.png" alt="28"></p>
 <p>输入指令和打开小狐狸都可以看到账号余额在增加</p>
-<p><img src="/images/blog2/29.png" alt="29"></p>
-<p><img src="/images/blog2/30.png" alt="30"></p>
+<p><img src="https://s1.ax1x.com/2023/04/11/ppOZ22n.png" alt="29"></p>
+<p><img src="https://s1.ax1x.com/2023/04/11/ppOZRvq.png" alt="30"></p>
 <p>通过以下指令停止挖矿miner.stop()</p>
-<p><img src="/images/blog2/31.png" alt="31"></p>
+<p><img src="https://s1.ax1x.com/2023/04/11/ppOZfK0.png" alt="31"></p>
 <p>到此我们的私链搭建就大功告成啦</p>
 <h1 id="参考链接"><strong>参考链接</strong></h1>
 <p><a href="https://blog.csdn.net/cjm083121/article/details/106319518">https://blog.csdn.net/cjm083121/article/details/106319518</a></p>
@@ -302,7 +302,7 @@ miner.start(1)</p>
 <h1 id="更新">更新</h1>
 <ol>
 <li>genesis.json的chainid 666那里还有启动节点的&ndash;networkid 666要一致，再检查下metamask中localhost网络设置id是否一致，不然无法转账
-<img src="/images/blog2/32.png" alt="32"></li>
+<img src="https://s1.ax1x.com/2023/04/11/ppOZhrV.png" alt="32"></li>
 <li>本地账号导入问题</li>
 </ol>
 <blockquote>

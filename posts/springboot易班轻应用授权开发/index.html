@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.101.0" />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Shuhai" />
+  <meta property="og:url" content="https://shuhai65.github.io/posts/springboot%E6%98%93%E7%8F%AD%E8%BD%BB%E5%BA%94%E7%94%A8%E6%8E%88%E6%9D%83%E5%BC%80%E5%8F%91/" />
+  <link rel="canonical" href="https://shuhai65.github.io/posts/springboot%E6%98%93%E7%8F%AD%E8%BD%BB%E5%BA%94%E7%94%A8%E6%8E%88%E6%9D%83%E5%BC%80%E5%8F%91/" /><link rel="alternate" type="application/atom+xml" href="https://shuhai65.github.io/index.xml" title="Shuhai&#39;s Blog">
+
+  <script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "https:\/\/shuhai65.github.io\/"
+      },
+      "articleSection" : "posts",
+      "name" : "springboot易班轻应用授权开发",
+      "headline" : "springboot易班轻应用授权开发",
+      "description" : "对接springboot易班轻应用授权开发",
+      "inLanguage" : "en-US",
+      "author" : "Shuhai",
+      "creator" : "Shuhai",
+      "publisher": "Shuhai",
+      "accountablePerson" : "Shuhai",
+      "copyrightHolder" : "Shuhai",
+      "copyrightYear" : "2023",
+      "datePublished": "2023-08-11 18:08:29 \u002b0000 UTC",
+      "dateModified" : "2023-08-11 18:08:29 \u002b0000 UTC",
+      "url" : "https:\/\/shuhai65.github.io\/posts\/springboot%E6%98%93%E7%8F%AD%E8%BD%BB%E5%BA%94%E7%94%A8%E6%8E%88%E6%9D%83%E5%BC%80%E5%8F%91\/",
+      "keywords" : [ "Springboot","Java", ]
+  }
+</script>
+<title>springboot易班轻应用授权开发 - Shuhai&#39;s Blog</title>
+  <meta property="og:title" content="springboot易班轻应用授权开发 - Shuhai&#39;s Blog" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="对接springboot易班轻应用授权开发" />
+  <meta name="description" content="对接springboot易班轻应用授权开发" />
+  <meta property="og:locale" content="en-us" />
+
+  <link rel="stylesheet" href="/css/flexboxgrid-6.3.1.min.css" />
+  <link rel="stylesheet" href="/css/github-markdown.css" />
+  <link rel="stylesheet" href="/css/highlight/tomorrow.min.css" />
+  <link rel="stylesheet" href="/css/index.css">
+
+  
+
+  <link href="/index.xml" rel="alternate" type="application/rss+xml"
+    title="Shuhai&#39;s Blog">
+  
+  <link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker|Bree+Serif" rel="stylesheet">
+  
+  
+
+  
+</head>
+
+<body>
+  <article class="post Chinese" id="article">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="site-header">
+          
+<header>
+  <div class="signatures site-title">
+    <a href="/">Shuhai</a>
+  </div>
+</header>
+<div class="row end-xs">
+  
+  
+  <div class="lang-switch col-xs-3 col-xs-offset-9">
+    <a href="/en/">English</a>
+  </div>
+  
+  
+</div>
+<div class="header-line"></div>
+
+        </div>
+        <header class="post-header">
+          <h1 class="post-title">springboot易班轻应用授权开发</h1>
+          
+          <div class="row post-desc">
+            <div class="col-xs-6">
+              
+              <time class="post-date" datetime="2023-08-11 18:08:29 UTC">
+                11 Aug 2023
+              </time>
+              
+            </div>
+            <div class="col-xs-6">
+              
+              <div class="post-author">
+                <a target="_blank" href="https://shuhai65.github.io/">@Shuhai</a>
+              </div>
+              
+            </div>
+          </div>
+          
+        </header>
+
+        <div class="post-content markdown-body">
+          
+          <h1 id="易班轻应用相关设置">易班轻应用相关设置</h1>
+<p>链接：<a href="https://o.yiban.cn/manage/index">https://o.yiban.cn/manage/index</a></p>
+<h2 id="需要获取到轻应用的appid和appsecret">需要获取到轻应用的AppID和AppSecret</h2>
+<p><img src="../../images/blog3/image.png" alt="AppID和AppSecret"></p>
+<h2 id="设置回调地址">设置回调地址</h2>
+<p><img src="../../images/blog3/2.png" alt="设置回调地址"></p>
+<p>回调地址为获取易班授权信息的地址</p>
+<h1 id="相关依赖">相关依赖</h1>
+<h2 id="易班sdk">易班sdk</h2>
+<p><a href="../../images/blog3/YBOpenApi.jar">YBOpenApi.jar</a></p>
+<p>maven安装这个jar到仓库中</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mvn install:install-file <span style="color:#d14">&#34;-Dfile=地址\YBOpenApi.jar&#34;</span> <span style="color:#d14">&#34;-DgroupId=com.yiban&#34;</span> <span style="color:#d14">&#34;-DartifactId=YBOpenApi&#34;</span> <span style="color:#d14">&#34;-Dversion=1.0.0&#34;</span> <span style="color:#d14">&#34;-Dpackaging=jar&#34;</span>
+</span></span></code></pre></div><h2 id="引入依赖">引入依赖</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#000080">&lt;dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#000080">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#000080">&lt;groupId&gt;</span>com.yiban<span style="color:#000080">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#000080">&lt;artifactId&gt;</span>YBOpenApi<span style="color:#000080">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#000080">&lt;version&gt;</span>${YBOpenApi.version}<span style="color:#000080">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#000080">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#998;font-style:italic">&lt;!--易班SDK依赖的HttpClient库 --&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#998;font-style:italic">&lt;!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient --&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#000080">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#000080">&lt;groupId&gt;</span>org.apache.httpcomponents<span style="color:#000080">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#000080">&lt;artifactId&gt;</span>httpclient<span style="color:#000080">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#000080">&lt;version&gt;</span>${httpclient.version}<span style="color:#000080">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#000080">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#000080">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#000080">&lt;groupId&gt;</span>org.apache.httpcomponents<span style="color:#000080">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#000080">&lt;artifactId&gt;</span>httpmime<span style="color:#000080">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#000080">&lt;version&gt;</span>${httpclient.version}<span style="color:#000080">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#000080">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#998;font-style:italic">&lt;!--易班SDK依赖的json-lib库 --&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#998;font-style:italic">&lt;!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib --&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#000080">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#000080">&lt;groupId&gt;</span>net.sf.json-lib<span style="color:#000080">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#000080">&lt;artifactId&gt;</span>json-lib<span style="color:#000080">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#000080">&lt;version&gt;</span>${json-lib.version}<span style="color:#000080">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#000080">&lt;classifier&gt;</span>jdk15<span style="color:#000080">&lt;/classifier&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#000080">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000080">&lt;/dependencies&gt;</span>
+</span></span></code></pre></div><h1 id="接口开发">接口开发</h1>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#3c5d5d;font-weight:bold">@RestController</span>
+</span></span><span style="display:flex;"><span><span style="color:#3c5d5d;font-weight:bold">@RequestMapping</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;yiban&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#3c5d5d;font-weight:bold">@Slf4j</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">YibanController</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#3c5d5d;font-weight:bold">@Autowired</span>
+</span></span><span style="display:flex;"><span>    YiBanOauthService yiBanOauthService<span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#3c5d5d;font-weight:bold">@ApiOperation</span><span style="color:#000;font-weight:bold">(</span>value <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;登陆请求&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#3c5d5d;font-weight:bold">@GetMapping</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;/login_request&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">loginRequest</span><span style="color:#000;font-weight:bold">(</span>HttpServletRequest request<span style="color:#000;font-weight:bold">,</span> HttpServletResponse response<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">throws</span> Exception <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        yiBanOauthService<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">loginRequest</span><span style="color:#000;font-weight:bold">(</span>request<span style="color:#000;font-weight:bold">,</span> response<span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#3c5d5d;font-weight:bold">@ApiOperation</span><span style="color:#000;font-weight:bold">(</span>value <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;登陆回调&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#3c5d5d;font-weight:bold">@GetMapping</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;/callback&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">loginCallback</span><span style="color:#000;font-weight:bold">(</span>HttpServletRequest request<span style="color:#000;font-weight:bold">,</span> HttpServletResponse response<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">throws</span> Exception <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        yiBanOauthService<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">loginCallback</span><span style="color:#000;font-weight:bold">(</span>request<span style="color:#000;font-weight:bold">,</span> response<span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><h2 id="登陆请求">登陆请求</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">loginRequest</span><span style="color:#000;font-weight:bold">(</span>HttpServletRequest request<span style="color:#000;font-weight:bold">,</span> HttpServletResponse response<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">throws</span> Exception <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">//YibanAppId 易班appid YibSecret 密钥
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    Authorize au <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Authorize<span style="color:#000;font-weight:bold">(</span>systemConfig<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getYibanAppId</span><span style="color:#000;font-weight:bold">(),</span> systemConfig<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getYibSecret</span><span style="color:#000;font-weight:bold">());</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">//YibRedirectURI 回调地址
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    String url <span style="color:#000;font-weight:bold">=</span> au<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">forwardurl</span><span style="color:#000;font-weight:bold">(</span>systemConfig<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getYibRedirectURI</span><span style="color:#000;font-weight:bold">(),</span> <span style="color:#d14">&#34;QUERY&#34;</span><span style="color:#000;font-weight:bold">,</span> Authorize<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">DISPLAY_TAG_T</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">WEB</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">try</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        response<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">sendRedirect</span><span style="color:#000;font-weight:bold">(</span>url<span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">catch</span> <span style="color:#000;font-weight:bold">(</span>IOException e<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">throw</span>  e<span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><h2 id="回调">回调</h2>
+<p>解密易班传回来的verify_request即可获得用户登陆信息
+<img src="../../images/blog3/91319de1.png" alt="成功"></p>
+<p><img src="../../images/blog3/c43f106a.png" alt="失败"></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">loginCallback</span><span style="color:#000;font-weight:bold">(</span>HttpServletRequest request<span style="color:#000;font-weight:bold">,</span> HttpServletResponse response<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">throws</span> Exception <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">// 登陆易班
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        String verify_request <span style="color:#000;font-weight:bold">=</span> request<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getParameter</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;verify_request&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">// 解密
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        UserInfo userInfo <span style="color:#000;font-weight:bold">=</span> AESTransferUtil<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">jsonCode</span><span style="color:#000;font-weight:bold">(</span>verify_request<span style="color:#000;font-weight:bold">,</span> systemConfig<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getYibSecret</span><span style="color:#000;font-weight:bold">(),</span> systemConfig<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getYibanAppId</span><span style="color:#000;font-weight:bold">());</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>解密算法：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">lombok.extern.slf4j.Slf4j</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">net.sf.json.JSONObject</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">javax.crypto.Cipher</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">javax.crypto.spec.IvParameterSpec</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">javax.crypto.spec.SecretKeySpec</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">java.nio.charset.StandardCharsets</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#3c5d5d;font-weight:bold">@Slf4j</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">AESTransferUtil</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// 默认的加密算法
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">final</span> String CIPHER_ALGORITHM <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;AES/CBC/NOPadding&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// 编码
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">final</span> String ENCODING <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;UTF-8&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// 算法
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">final</span> String ALGORITHM <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;AES&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * 将hex格式转化成十进制
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">[]</span> <span style="color:#900;font-weight:bold">hexToByte</span><span style="color:#000;font-weight:bold">(</span>String hex<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#458;font-weight:bold">int</span> m <span style="color:#000;font-weight:bold">=</span> 0<span style="color:#000;font-weight:bold">,</span> n <span style="color:#000;font-weight:bold">=</span> 0<span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#458;font-weight:bold">int</span> byteLen <span style="color:#000;font-weight:bold">=</span> hex<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">length</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">/</span> 2<span style="color:#000;font-weight:bold">;</span> <span style="color:#998;font-style:italic">// 每两个字符描述一个字节
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#458;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">[]</span> ret <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">[</span>byteLen<span style="color:#000;font-weight:bold">];</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#458;font-weight:bold">int</span> i <span style="color:#000;font-weight:bold">=</span> 0<span style="color:#000;font-weight:bold">;</span> i <span style="color:#000;font-weight:bold">&lt;</span> byteLen<span style="color:#000;font-weight:bold">;</span> i<span style="color:#000;font-weight:bold">++)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>            m <span style="color:#000;font-weight:bold">=</span> i <span style="color:#000;font-weight:bold">*</span> 2 <span style="color:#000;font-weight:bold">+</span> 1<span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>            n <span style="color:#000;font-weight:bold">=</span> m <span style="color:#000;font-weight:bold">+</span> 1<span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#458;font-weight:bold">int</span> intVal <span style="color:#000;font-weight:bold">=</span> Integer<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">decode</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;0x&#34;</span> <span style="color:#000;font-weight:bold">+</span> hex<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">substring</span><span style="color:#000;font-weight:bold">(</span>i <span style="color:#000;font-weight:bold">*</span> 2<span style="color:#000;font-weight:bold">,</span> m<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">+</span> hex<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">substring</span><span style="color:#000;font-weight:bold">(</span>m<span style="color:#000;font-weight:bold">,</span> n<span style="color:#000;font-weight:bold">));</span>
+</span></span><span style="display:flex;"><span>            ret<span style="color:#000;font-weight:bold">[</span>i<span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#458;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">)</span> intVal<span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> ret<span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * AES密文解析
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @param data   要解密的内容
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @param key    密码
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @param offset 偏移量
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> String <span style="color:#900;font-weight:bold">decrypt</span><span style="color:#000;font-weight:bold">(</span>String data<span style="color:#000;font-weight:bold">,</span> String key<span style="color:#000;font-weight:bold">,</span> String offset<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">throws</span> Exception <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        Cipher cipher <span style="color:#000;font-weight:bold">=</span> Cipher<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getInstance</span><span style="color:#000;font-weight:bold">(</span>CIPHER_ALGORITHM<span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>        SecretKeySpec skeySpec <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> SecretKeySpec<span style="color:#000;font-weight:bold">(</span>key<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getBytes</span><span style="color:#000;font-weight:bold">(</span>StandardCharsets<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">US_ASCII</span><span style="color:#000;font-weight:bold">),</span> ALGORITHM<span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>        IvParameterSpec iv <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> IvParameterSpec<span style="color:#000;font-weight:bold">(</span>offset<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getBytes</span><span style="color:#000;font-weight:bold">());</span><span style="color:#998;font-style:italic">// 使用CBC模式，需要一个向量iv，可增加加密算法的强度
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        cipher<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">init</span><span style="color:#000;font-weight:bold">(</span>Cipher<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">DECRYPT_MODE</span><span style="color:#000;font-weight:bold">,</span> skeySpec<span style="color:#000;font-weight:bold">,</span> iv<span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#458;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">[]</span> buffer <span style="color:#000;font-weight:bold">=</span> hexToByte<span style="color:#000;font-weight:bold">(</span>data<span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#458;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">[]</span> encrypted <span style="color:#000;font-weight:bold">=</span> cipher<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">doFinal</span><span style="color:#000;font-weight:bold">(</span>buffer<span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> String<span style="color:#000;font-weight:bold">(</span>encrypted<span style="color:#000;font-weight:bold">,</span> ENCODING<span style="color:#000;font-weight:bold">);</span><span style="color:#998;font-style:italic">// 此处使用BASE64做转码。
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * 将易班请求参数中的密文解析出用户信息
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @param data   要解密的内容
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @param key    密码 （appSecret）
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @param offset 偏移量 (appId)
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @return 关于返回值，如果返回的对象为空，说明是非法的密文，走正常登录； 如果对象的用户id登信息为空，未授权；不为空，已授权
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> UserInfo <span style="color:#900;font-weight:bold">jsonCode</span><span style="color:#000;font-weight:bold">(</span>String data<span style="color:#000;font-weight:bold">,</span> String key<span style="color:#000;font-weight:bold">,</span> String offset<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">try</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>            String plaintext <span style="color:#000;font-weight:bold">=</span> decrypt<span style="color:#000;font-weight:bold">(</span>data<span style="color:#000;font-weight:bold">,</span> key<span style="color:#000;font-weight:bold">,</span> offset<span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>            JSONObject plainJson <span style="color:#000;font-weight:bold">=</span> JSONObject<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">fromObject</span><span style="color:#000;font-weight:bold">(</span>plaintext<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">trim</span><span style="color:#000;font-weight:bold">());</span>
+</span></span><span style="display:flex;"><span>            log<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">info</span><span style="color:#000;font-weight:bold">(</span>String<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">valueOf</span><span style="color:#000;font-weight:bold">(</span>plainJson<span style="color:#000;font-weight:bold">));</span>
+</span></span><span style="display:flex;"><span>            Object visit_oauth <span style="color:#000;font-weight:bold">=</span> plainJson<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">get</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;visit_oauth&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span>visit_oauth <span style="color:#000;font-weight:bold">instanceof</span> Boolean<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(!((</span>Boolean<span style="color:#000;font-weight:bold">)</span> visit_oauth<span style="color:#000;font-weight:bold">))</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                    log<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">error</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;未授权&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> UserInfo<span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span>visit_oauth <span style="color:#000;font-weight:bold">instanceof</span> JSONObject<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                JSONObject oauthJson <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">(</span>JSONObject<span style="color:#000;font-weight:bold">)</span> visit_oauth<span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span>oauthJson<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">get</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;access_token&#34;</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">null</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                    log<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">warn</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;已授权&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>                    JSONObject visitUser <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">(</span>JSONObject<span style="color:#000;font-weight:bold">)</span> plainJson<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">get</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;visit_user&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>                    JSONObject visitOauth <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">(</span>JSONObject<span style="color:#000;font-weight:bold">)</span> plainJson<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">get</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;visit_oauth&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>                    UserInfo userInfo <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> UserInfo<span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>                    userInfo<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">setYbUserid</span><span style="color:#000;font-weight:bold">(</span>visitUser<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getString</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;userid&#34;</span><span style="color:#000;font-weight:bold">));</span>
+</span></span><span style="display:flex;"><span>                    userInfo<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">setUsername</span><span style="color:#000;font-weight:bold">(</span>visitUser<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getString</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;username&#34;</span><span style="color:#000;font-weight:bold">));</span>
+</span></span><span style="display:flex;"><span>                    userInfo<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">setNickname</span><span style="color:#000;font-weight:bold">(</span>visitUser<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getString</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;usernick&#34;</span><span style="color:#000;font-weight:bold">));</span>
+</span></span><span style="display:flex;"><span>                    userInfo<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">setSex</span><span style="color:#000;font-weight:bold">(</span>visitUser<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getString</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;usersex&#34;</span><span style="color:#000;font-weight:bold">));</span>
+</span></span><span style="display:flex;"><span>                    userInfo<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">setAccessToken</span><span style="color:#000;font-weight:bold">(</span>visitOauth<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getString</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;access_token&#34;</span><span style="color:#000;font-weight:bold">));</span>
+</span></span><span style="display:flex;"><span>                    userInfo<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">setTokenExpires</span><span style="color:#000;font-weight:bold">(</span>visitOauth<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getString</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;token_expires&#34;</span><span style="color:#000;font-weight:bold">));</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#000;font-weight:bold">return</span> userInfo<span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">catch</span> <span style="color:#000;font-weight:bold">(</span>Exception e<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>            e<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">printStackTrace</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">null</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><h1 id="相关链接">相关链接</h1>
+<p><a href="https://www.cnblogs.com/tygtyg/p/10448781.html">java的AES对称加密和解密，有偏移量</a></p>
+<p><a href="https://blog.csdn.net/wwwwww12432/article/details/107973996">易班轻应用授权免登</a></p>
+
+        </div>
+
+        <div class="row middle-xs">
+          <div class="col-xs-12">
+            
+            <div class="post-category">
+              <a href="//categories/java/">
+                Java
+              </a>
+            </div>
+            
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            
+          </div>
+        </div>
+
+        
+        
+
+        
+        
+        <div style="height: 50px;"></div>
+        
+        
+
+        <div class="site-footer">
+  
+  <div class="site-footer-item">
+    <a href="/index.xml" target="_blank">RSS</a>
+  </div>
+  
+  <div class="site-footer-item">
+    <a href="https://shuhai65.github.io/posts/about/" target="_blank">About</a>
+  </div>
+  
+  <div class="site-footer-item">
+    <a href="https://github.com/shuhai65" target="_blank">Github</a>
+  </div>
+  
+  
+</div>
+
+      </div>
+    </div>
+  </article>
+
+  <script src="/js/highlight.pack.js"></script>
+
+
+<script>
+  hljs.initHighlightingOnLoad();
+  
+  
+  
+    
+    
+  
+</script>
+
+  
+
+</body>
+
+</html>

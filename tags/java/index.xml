@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on Shuhai&#39;s Blog</title>
+    <link>https://shuhai65.github.io/tags/java/</link>
+    <description>Recent content in Java on Shuhai&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 21 Aug 2023 18:08:29 +0000</lastBuildDate><atom:link href="https://shuhai65.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>spring-admin和knife4j版本冲突问题</title>
+      <link>https://shuhai65.github.io/posts/spring-admin%E5%92%8Cknife4j%E7%89%88%E6%9C%AC%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Mon, 21 Aug 2023 18:08:29 +0000</pubDate>
+      
+      <guid>https://shuhai65.github.io/posts/spring-admin%E5%92%8Cknife4j%E7%89%88%E6%9C%AC%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98/</guid>
+      <description>spring-admin和knife4j版本冲突问题 Spring Boot Admin本质上集成了actuator，将实时警报，此外添加一些实时警报功能等。
+我使用的spring-boot版本：
+&amp;lt;parent&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-parent&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;2.7.12&amp;lt;/version&amp;gt; &amp;lt;relativePath/&amp;gt; &amp;lt;/parent&amp;gt; knife4j
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;com.github.xiaoymin&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;knife4j-spring-boot-starter&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.3&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; spring-admin
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;de.codecentric&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-admin-starter-server&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;2.7.10&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;de.codecentric&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-admin-starter-client&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;2.7.10&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 在有spring-boot-starter-actuator依赖的情况下报错
+WARN o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext --&amp;gt; Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean &amp;#39;documentationPluginsBootstrapper&amp;#39;; nested exception is java.lang.NullPointerException org.springframework.context.ApplicationContextException: Failed to start bean &amp;#39;documentationPluginsBootstrapper&amp;#39;; nested exception is java.lang.NullPointerExceptionat org.springframework.context.support.DefaultLifecycleProcessor.doStart(DefaultLifecycleProcessor.java:181)at org.springframework.context.support.DefaultLifecycleProcessor.access$200(DefaultLifecycleProcessor.java:54)at org.springframework.context.support.DefaultLifecycleProcessor$LifecycleGroup.start(DefaultLifecycleProcessor.java:356)at java.lang.Iterable.forEach(Iterable.java:75)at org.</description>
+    </item>
+    
+    <item>
+      <title>springboot易班轻应用授权开发</title>
+      <link>https://shuhai65.github.io/posts/springboot%E6%98%93%E7%8F%AD%E8%BD%BB%E5%BA%94%E7%94%A8%E6%8E%88%E6%9D%83%E5%BC%80%E5%8F%91/</link>
+      <pubDate>Fri, 11 Aug 2023 18:08:29 +0000</pubDate>
+      
+      <guid>https://shuhai65.github.io/posts/springboot%E6%98%93%E7%8F%AD%E8%BD%BB%E5%BA%94%E7%94%A8%E6%8E%88%E6%9D%83%E5%BC%80%E5%8F%91/</guid>
+      <description>易班轻应用相关设置 链接：https://o.yiban.cn/manage/index
+需要获取到轻应用的AppID和AppSecret 设置回调地址 回调地址为获取易班授权信息的地址
+相关依赖 易班sdk YBOpenApi.jar
+maven安装这个jar到仓库中
+mvn install:install-file &amp;#34;-Dfile=地址\YBOpenApi.jar&amp;#34; &amp;#34;-DgroupId=com.yiban&amp;#34; &amp;#34;-DartifactId=YBOpenApi&amp;#34; &amp;#34;-Dversion=1.0.0&amp;#34; &amp;#34;-Dpackaging=jar&amp;#34; 引入依赖 &amp;lt;dependencies&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;com.yiban&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;YBOpenApi&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;${YBOpenApi.version}&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;!--易班SDK依赖的HttpClient库 --&amp;gt; &amp;lt;!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.apache.httpcomponents&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;httpclient&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;${httpclient.version}&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.apache.httpcomponents&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;httpmime&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;${httpclient.version}&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;!--易班SDK依赖的json-lib库 --&amp;gt; &amp;lt;!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;net.sf.json-lib&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;json-lib&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;${json-lib.version}&amp;lt;/version&amp;gt; &amp;lt;classifier&amp;gt;jdk15&amp;lt;/classifier&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;/dependencies&amp;gt; 接口开发 @RestController @RequestMapping(&amp;#34;yiban&amp;#34;) @Slf4j public class YibanController { @Autowired YiBanOauthService yiBanOauthService; @ApiOperation(value = &amp;#34;登陆请求&amp;#34;) @GetMapping(&amp;#34;/login_request&amp;#34;) public void loginRequest(HttpServletRequest request, HttpServletResponse response) throws Exception { yiBanOauthService.</description>
+    </item>
+    
+  </channel>
+</rss>

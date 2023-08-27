@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.101.0" />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Shuhai" />
+  <meta property="og:url" content="https://shuhai65.github.io/posts/spring-admin%E5%92%8Cknife4j%E7%89%88%E6%9C%AC%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98/" />
+  <link rel="canonical" href="https://shuhai65.github.io/posts/spring-admin%E5%92%8Cknife4j%E7%89%88%E6%9C%AC%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98/" /><link rel="alternate" type="application/atom+xml" href="https://shuhai65.github.io/index.xml" title="Shuhai&#39;s Blog">
+
+  <script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "https:\/\/shuhai65.github.io\/"
+      },
+      "articleSection" : "posts",
+      "name" : "spring-admin和knife4j版本冲突问题",
+      "headline" : "spring-admin和knife4j版本冲突问题",
+      "description" : "解决springboot整合sping-admin，knife4j版本冲突报错问题",
+      "inLanguage" : "en-US",
+      "author" : "Shuhai",
+      "creator" : "Shuhai",
+      "publisher": "Shuhai",
+      "accountablePerson" : "Shuhai",
+      "copyrightHolder" : "Shuhai",
+      "copyrightYear" : "2023",
+      "datePublished": "2023-08-21 18:08:29 \u002b0000 UTC",
+      "dateModified" : "2023-08-21 18:08:29 \u002b0000 UTC",
+      "url" : "https:\/\/shuhai65.github.io\/posts\/spring-admin%E5%92%8Cknife4j%E7%89%88%E6%9C%AC%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98\/",
+      "keywords" : [ "Springboot","Java", ]
+  }
+</script>
+<title>spring-admin和knife4j版本冲突问题 - Shuhai&#39;s Blog</title>
+  <meta property="og:title" content="spring-admin和knife4j版本冲突问题 - Shuhai&#39;s Blog" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="解决springboot整合sping-admin，knife4j版本冲突报错问题" />
+  <meta name="description" content="解决springboot整合sping-admin，knife4j版本冲突报错问题" />
+  <meta property="og:locale" content="en-us" />
+
+  <link rel="stylesheet" href="/css/flexboxgrid-6.3.1.min.css" />
+  <link rel="stylesheet" href="/css/github-markdown.css" />
+  <link rel="stylesheet" href="/css/highlight/tomorrow.min.css" />
+  <link rel="stylesheet" href="/css/index.css">
+
+  
+
+  <link href="/index.xml" rel="alternate" type="application/rss+xml"
+    title="Shuhai&#39;s Blog">
+  
+  <link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker|Bree+Serif" rel="stylesheet">
+  
+  
+
+  
+</head>
+
+<body>
+  <article class="post Chinese" id="article">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="site-header">
+          
+<header>
+  <div class="signatures site-title">
+    <a href="/">Shuhai</a>
+  </div>
+</header>
+<div class="row end-xs">
+  
+  
+  <div class="lang-switch col-xs-3 col-xs-offset-9">
+    <a href="/en/">English</a>
+  </div>
+  
+  
+</div>
+<div class="header-line"></div>
+
+        </div>
+        <header class="post-header">
+          <h1 class="post-title">spring-admin和knife4j版本冲突问题</h1>
+          
+          <div class="row post-desc">
+            <div class="col-xs-6">
+              
+              <time class="post-date" datetime="2023-08-21 18:08:29 UTC">
+                21 Aug 2023
+              </time>
+              
+            </div>
+            <div class="col-xs-6">
+              
+              <div class="post-author">
+                <a target="_blank" href="https://shuhai65.github.io/">@Shuhai</a>
+              </div>
+              
+            </div>
+          </div>
+          
+        </header>
+
+        <div class="post-content markdown-body">
+          
+          <h2 id="spring-admin和knife4j版本冲突问题">spring-admin和knife4j版本冲突问题</h2>
+<p>Spring Boot Admin本质上集成了actuator，将实时警报，此外添加一些实时警报功能等。</p>
+<p>我使用的spring-boot版本：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span>    <span style="color:#000080">&lt;parent&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000080">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#000080">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000080">&lt;artifactId&gt;</span>spring-boot-starter-parent<span style="color:#000080">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000080">&lt;version&gt;</span>2.7.12<span style="color:#000080">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000080">&lt;relativePath/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000080">&lt;/parent&gt;</span>
+</span></span></code></pre></div><p>knife4j</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span>    <span style="color:#000080">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000080">&lt;groupId&gt;</span>com.github.xiaoymin<span style="color:#000080">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000080">&lt;artifactId&gt;</span>knife4j-spring-boot-starter<span style="color:#000080">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000080">&lt;version&gt;</span>3.0.3<span style="color:#000080">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000080">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>spring-admin</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span>    <span style="color:#000080">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000080">&lt;groupId&gt;</span>de.codecentric<span style="color:#000080">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000080">&lt;artifactId&gt;</span>spring-boot-admin-starter-server<span style="color:#000080">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000080">&lt;version&gt;</span>2.7.10<span style="color:#000080">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000080">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000080">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000080">&lt;groupId&gt;</span>de.codecentric<span style="color:#000080">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000080">&lt;artifactId&gt;</span>spring-boot-admin-starter-client<span style="color:#000080">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000080">&lt;version&gt;</span>2.7.10<span style="color:#000080">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000080">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>在有spring-boot-starter-actuator依赖的情况下报错</p>
+<pre tabindex="0"><code class="language-log" data-lang="log">WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext 
+--&gt; Exception encountered during context initialization 
+- cancelling refresh attempt: org.springframework.context.ApplicationContextException: 
+Failed to start bean &#39;documentationPluginsBootstrapper&#39;; 
+nested exception is java.lang.NullPointerException
+</code></pre><pre tabindex="0"><code class="language-log" data-lang="log">org.springframework.context.ApplicationContextException: Failed to start bean &#39;documentationPluginsBootstrapper&#39;; nested exception is java.lang.NullPointerException
+	at org.springframework.context.support.DefaultLifecycleProcessor.doStart(DefaultLifecycleProcessor.java:181)
+	at org.springframework.context.support.DefaultLifecycleProcessor.access$200(DefaultLifecycleProcessor.java:54)
+	at org.springframework.context.support.DefaultLifecycleProcessor$LifecycleGroup.start(DefaultLifecycleProcessor.java:356)
+	at java.lang.Iterable.forEach(Iterable.java:75)
+	at org.springframework.context.support.DefaultLifecycleProcessor.startBeans(DefaultLifecycleProcessor.java:155)
+	at org.springframework.context.support.DefaultLifecycleProcessor.onRefresh(DefaultLifecycleProcessor.java:123)
+	at org.springframework.context.support.AbstractApplicationContext.finishRefresh(AbstractApplicationContext.java:937)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:586)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:731)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:307)
+	at com.examboost.api.ApiApplication.main(ApiApplication.java:21)
+Caused by: java.lang.NullPointerException: null
+	at springfox.documentation.spring.web.WebMvcPatternsRequestConditionWrapper.getPatterns(WebMvcPatternsRequestConditionWrapper.java:56)
+	at springfox.documentation.RequestHandler.sortedPaths(RequestHandler.java:113)
+	at springfox.documentation.spi.service.contexts.Orderings.lambda$byPatternsCondition$3(Orderings.java:89)
+	at java.util.Comparator.lambda$comparing$77a9974f$1(Comparator.java:469)
+	at java.util.TimSort.countRunAndMakeAscending(TimSort.java:355)
+	at java.util.TimSort.sort(TimSort.java:234)
+	at java.util.Arrays.sort(Arrays.java:1512)
+	at java.util.ArrayList.sort(ArrayList.java:1464)
+	at java.util.stream.SortedOps$RefSortingSink.end(SortedOps.java:392)
+	at java.util.stream.Sink$ChainedReference.end(Sink.java:258)
+	at java.util.stream.Sink$ChainedReference.end(Sink.java:258)
+	at java.util.stream.Sink$ChainedReference.end(Sink.java:258)
+	at java.util.stream.Sink$ChainedReference.end(Sink.java:258)
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:483)
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:472)
+	at java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:708)
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:566)
+	at springfox.documentation.spring.web.plugins.WebMvcRequestHandlerProvider.requestHandlers(WebMvcRequestHandlerProvider.java:81)
+	at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193)
+	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1384)
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:482)
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:472)
+	at java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:708)
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:566)
+	at springfox.documentation.spring.web.plugins.AbstractDocumentationPluginsBootstrapper.withDefaults(AbstractDocumentationPluginsBootstrapper.java:107)
+	at springfox.documentation.spring.web.plugins.AbstractDocumentationPluginsBootstrapper.buildContext(AbstractDocumentationPluginsBootstrapper.java:91)
+	at springfox.documentation.spring.web.plugins.AbstractDocumentationPluginsBootstrapper.bootstrapDocumentationPlugins(AbstractDocumentationPluginsBootstrapper.java:82)
+	at springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start(DocumentationPluginsBootstrapper.java:100)
+	at org.springframework.context.support.DefaultLifecycleProcessor.doStart(DefaultLifecycleProcessor.java:178)
+	... 12 common frames omitted
+</code></pre><h2 id="解决">解决</h2>
+<p>查找到相关issue:https://gitee.com/xiaoym/knife4j/issues/I4JT89</p>
+<ol>
+<li>
+<p>添加<code>spring.mvc.pathmatch.matching-strategy=ant-path-matcher</code> 配置</p>
+</li>
+<li>
+<p>添加到swagger config</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * 解决springboot升级到2.6.x之后，knife4j报错
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @param webEndpointsSupplier        the web endpoints supplier
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @param servletEndpointsSupplier    the servlet endpoints supplier
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @param controllerEndpointsSupplier the controller endpoints supplier
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @param endpointMediaTypes          the endpoint media types
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @param corsProperties              the cors properties
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @param webEndpointProperties       the web endpoint properties
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @param environment                 the environment
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @return the web mvc endpoint handler mapping
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#3c5d5d;font-weight:bold">@Bean</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">public</span> WebMvcEndpointHandlerMapping <span style="color:#900;font-weight:bold">webEndpointServletHandlerMapping</span><span style="color:#000;font-weight:bold">(</span>
+</span></span><span style="display:flex;"><span>            WebEndpointsSupplier webEndpointsSupplier<span style="color:#000;font-weight:bold">,</span> ServletEndpointsSupplier servletEndpointsSupplier<span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>            ControllerEndpointsSupplier controllerEndpointsSupplier<span style="color:#000;font-weight:bold">,</span> EndpointMediaTypes endpointMediaTypes<span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>            CorsEndpointProperties corsProperties<span style="color:#000;font-weight:bold">,</span> WebEndpointProperties webEndpointProperties<span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>            Environment environment<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        List<span style="color:#000;font-weight:bold">&lt;</span>ExposableEndpoint<span style="color:#000;font-weight:bold">&lt;?&gt;&gt;</span> allEndpoints <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> ArrayList<span style="color:#000;font-weight:bold">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span>        Collection<span style="color:#000;font-weight:bold">&lt;</span>ExposableWebEndpoint<span style="color:#000;font-weight:bold">&gt;</span> webEndpoints <span style="color:#000;font-weight:bold">=</span> webEndpointsSupplier<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getEndpoints</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>        allEndpoints<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">addAll</span><span style="color:#000;font-weight:bold">(</span>webEndpoints<span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>        allEndpoints<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">addAll</span><span style="color:#000;font-weight:bold">(</span>servletEndpointsSupplier<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getEndpoints</span><span style="color:#000;font-weight:bold">());</span>
+</span></span><span style="display:flex;"><span>        allEndpoints<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">addAll</span><span style="color:#000;font-weight:bold">(</span>controllerEndpointsSupplier<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getEndpoints</span><span style="color:#000;font-weight:bold">());</span>
+</span></span><span style="display:flex;"><span>        String basePath <span style="color:#000;font-weight:bold">=</span> webEndpointProperties<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getBasePath</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>        EndpointMapping endpointMapping <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> EndpointMapping<span style="color:#000;font-weight:bold">(</span>basePath<span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#458;font-weight:bold">boolean</span> shouldRegisterLinksMapping <span style="color:#000;font-weight:bold">=</span> shouldRegisterLinksMapping<span style="color:#000;font-weight:bold">(</span>webEndpointProperties<span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>                environment<span style="color:#000;font-weight:bold">,</span> basePath<span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> WebMvcEndpointHandlerMapping<span style="color:#000;font-weight:bold">(</span>endpointMapping<span style="color:#000;font-weight:bold">,</span> webEndpoints<span style="color:#000;font-weight:bold">,</span> endpointMediaTypes<span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>                corsProperties<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">toCorsConfiguration</span><span style="color:#000;font-weight:bold">(),</span> <span style="color:#000;font-weight:bold">new</span> EndpointLinksResolver<span style="color:#000;font-weight:bold">(</span>allEndpoints<span style="color:#000;font-weight:bold">,</span> basePath<span style="color:#000;font-weight:bold">),</span>
+</span></span><span style="display:flex;"><span>                shouldRegisterLinksMapping<span style="color:#000;font-weight:bold">,</span> <span style="color:#000;font-weight:bold">null</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * shouldRegisterLinksMapping
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @param webEndpointProperties webEndpointProperties
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @param environment           environment
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @param basePath              /
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     * @return boolean
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">boolean</span> <span style="color:#900;font-weight:bold">shouldRegisterLinksMapping</span><span style="color:#000;font-weight:bold">(</span>WebEndpointProperties webEndpointProperties<span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>                                               Environment environment<span style="color:#000;font-weight:bold">,</span> String basePath<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> webEndpointProperties<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getDiscovery</span><span style="color:#000;font-weight:bold">().</span><span style="color:#008080">isEnabled</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">&amp;&amp;</span> <span style="color:#000;font-weight:bold">(</span>StringUtils<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">hasText</span><span style="color:#000;font-weight:bold">(</span>basePath<span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">||</span> ManagementPortType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">get</span><span style="color:#000;font-weight:bold">(</span>environment<span style="color:#000;font-weight:bold">).</span><span style="color:#008080">equals</span><span style="color:#000;font-weight:bold">(</span>ManagementPortType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">DIFFERENT</span><span style="color:#000;font-weight:bold">));</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><h2 id="相关链接">相关链接：</h2>
+<p>knife4j和springboot-actuator版本冲突问题 - 飘梧的文章 - 知乎
+<a href="https://zhuanlan.zhihu.com/p/474764240">https://zhuanlan.zhihu.com/p/474764240</a></p>
+
+        </div>
+
+        <div class="row middle-xs">
+          <div class="col-xs-12">
+            
+            <div class="post-category">
+              <a href="//categories/java/">
+                Java
+              </a>
+            </div>
+            
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            
+          </div>
+        </div>
+
+        
+        
+
+<div class="releated-content">
+  <h3>Related Posts</h3>
+  <ul>
+    
+    <li><a href="/posts/springboot%E6%98%93%E7%8F%AD%E8%BD%BB%E5%BA%94%E7%94%A8%E6%8E%88%E6%9D%83%E5%BC%80%E5%8F%91/">springboot易班轻应用授权开发</a></li>
+    
+  </ul>
+</div>
+
+        
+        
+        <div style="height: 50px;"></div>
+        
+        
+
+        <div class="site-footer">
+  
+  <div class="site-footer-item">
+    <a href="/index.xml" target="_blank">RSS</a>
+  </div>
+  
+  <div class="site-footer-item">
+    <a href="https://shuhai65.github.io/posts/about/" target="_blank">About</a>
+  </div>
+  
+  <div class="site-footer-item">
+    <a href="https://github.com/shuhai65" target="_blank">Github</a>
+  </div>
+  
+  
+</div>
+
+      </div>
+    </div>
+  </article>
+
+  <script src="/js/highlight.pack.js"></script>
+
+
+<script>
+  hljs.initHighlightingOnLoad();
+  
+  
+  
+    
+    
+  
+</script>
+
+  
+
+</body>
+
+</html>
